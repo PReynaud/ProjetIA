@@ -25,10 +25,31 @@ public abstract class Firebot {
     int capacity;
 
     /**
+     * A robot is available when this parameter is true.
+     */
+    boolean availability;
+
+    /**
      * Method to compute time needed for the robot to extinguish the fire.
-     * @return time in milliseconds.
+     * @return Time to do the task, in milliseconds.
      */
     public abstract long computeTime();
 
+    /**
+     * Get robot's availability for a task.
+     * @return True if the robot is available, else returns false.
+     */
+    public boolean isAvailable() {
+        return availability;
+    }
 
+    /**
+     * Compute distance to destination node. Return this distance.
+     * @param destination destination node.
+     * @return computed distance.
+     */
+    public double computeDistance(Node destination) {
+        //TODO : call graph method to compute shortest distance to destination.
+        return 0.0;
+    }
 }
