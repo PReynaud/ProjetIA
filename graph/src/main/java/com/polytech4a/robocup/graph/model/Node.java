@@ -42,7 +42,7 @@ public class Node {
     }
 
     @Override
-    protected Node clone() throws CloneNotSupportedException {
+    protected Node clone() {
         return new Node(Integer.valueOf(parameters.get("id")).intValue());
     }
 

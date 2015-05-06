@@ -62,7 +62,7 @@ public class Edge {
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    protected Edge clone(){
         return new Edge(this.getNode1(), this.getNode2());
     }
 }
