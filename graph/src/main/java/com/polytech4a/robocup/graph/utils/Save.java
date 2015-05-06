@@ -35,8 +35,8 @@ public class Save {
     /**
      * Save method in order to save a graph in a File.
      *
-     * @param graph
-     * @param file
+     * @param graph graph to save.
+     * @param file  Fie into save.
      */
     public void saveGraph(Graph graph, File file) {
         try {
