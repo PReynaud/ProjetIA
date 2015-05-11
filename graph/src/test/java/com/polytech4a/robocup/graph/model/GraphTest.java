@@ -31,7 +31,6 @@ public class GraphTest {
         assertEquals("Test add Edge", 1, graph.getEdges().size());
         graph.removeNode(node1);
         graph.removeNode(node2);
-        graph.removeEdge(edge);
     }
 
     @Test
@@ -75,9 +74,6 @@ public class GraphTest {
         for (Node node: graph.getNodes()){
             graph.removeNode(node);
         }
-        for (Edge edge: graph.getEdges()){
-            graph.removeEdge(edge);
-        }
     }
 
     @Test
@@ -103,5 +99,34 @@ public class GraphTest {
     @Test
     public void testGetNodesFromEdge() throws Exception {
 
+    }
+
+    @Test
+    public void testEquals() throws Exception {
+        Graph graph2 = new Graph(),
+                graph3 = new Graph();
+
+        graph.addNode(new Node(0));
+        graph.addNode(new Node(1));
+        graph.addEdge(new Edge(0, 1));
+
+        graph2.addNode(new Node(1));
+        graph2.addNode(new Node(0));
+        graph2.addEdge(new Edge(0, 1));
+
+        graph3.addNode(new Node(1));
+
+        assertEquals("Test Graph equals", true, graph.equals(graph2));
+        assertEquals("Test Graph equals 2", false, graph.equals(graph3));
+    }
+
+    @Test
+    public void testClone() throws Exception {
+        graph.addNode(new Node(0));
+        graph.addNode(new Node(1));
+        graph.addEdge(new Edge(0, 1));
+        Graph graph2 = graph.clone();
+        System.out.printf(graph2.toString());
+        assertEquals("Test cloning", true, graph2.equals(graph));
     }
 }

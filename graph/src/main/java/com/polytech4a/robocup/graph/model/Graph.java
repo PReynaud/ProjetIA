@@ -3,7 +3,6 @@ package com.polytech4a.robocup.graph.model;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
@@ -37,8 +36,16 @@ public class Graph {
      * Constructor for the Graph class
      */
     public Graph() {
-        this.edges=new ArrayList<Edge>();
-        this.nodes=new ArrayList<Node>();
+        this.edges=new ArrayList<>();
+        this.nodes=new ArrayList<>();
+    }
+
+    /**
+     * Constructor for the Graph class
+     */
+    public Graph(ArrayList<Node> nodes, ArrayList<Edge> edges) {
+        this.edges= edges;
+        this.nodes= nodes;
     }
 
     /**
@@ -58,6 +65,14 @@ public class Graph {
      * @param node Node to remove
      */
     public void removeNode(Node node){
+        try {
+            ArrayList<Edge> edgesToRemove = getEdgesFromNode(node);
+            for (Edge edge : edgesToRemove){
+                removeEdge(edge);
+            }
+        }catch (NoSuchElementException e){
+            //List of edges empty
+        }
         nodes.remove(node);
     }
 
@@ -145,8 +160,8 @@ public class Graph {
      * Get the edges of the graph
      * @return list of edges
      */
-    public List<Edge> getEdges (){
-        return edges.stream().map(Edge::clone).collect(Collectors.toList());
+    public ArrayList<Edge> getEdges (){
+        return (ArrayList<Edge>)edges.stream().map(Edge::clone).collect(Collectors.toList());
     }
 
     /**
@@ -193,5 +208,57 @@ public class Graph {
      */
     public int getNumberOfNodes(){
         return nodes.size();
+    }
+
+    public boolean equals(Graph obj) {
+        if (obj.getEdges().size()==getEdges().size() && obj.getNodes().size()==getNodes().size()){
+            for (Edge edge:edges){
+                try{
+                    if(!edge.equals(obj.getEdge(obj.getNode(edge.getNode1()),obj.getNode(edge.getNode2())))){
+                        return false;
+                    }
+                }catch (NoSuchElementException e){
+                    return false;
+                }
+            }
+            for (Node node : nodes){
+                try{
+                    if(!node.equals(obj.getNode(node.getId()))){
+                        return false;
+                    }
+                }catch (NoSuchElementException e){
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    protected Graph clone(){
+        ArrayList<Node> clonedNodes = new ArrayList<>();
+        ArrayList<Edge> clonedEdges = new ArrayList<>();
+
+        for (Node node : nodes){
+            clonedNodes.add(node.clone());
+        }
+        for (Edge edge : edges){
+            clonedEdges.add(edge.clone());
+        }
+        return new Graph(clonedNodes, clonedEdges);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder("Graph [").append("\n");
+        for (Node node : nodes){
+            result.append(node.toString()).append("\n");
+        }
+        result.append("\n");
+        for (Edge edge : edges){
+            result.append(edge.toString()).append("\n");
+        }
+        return result.append("]").toString();
     }
 }
