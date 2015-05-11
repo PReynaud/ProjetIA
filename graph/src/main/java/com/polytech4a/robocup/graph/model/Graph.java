@@ -156,13 +156,34 @@ public class Graph {
      */
     public ArrayList<Node> getNeighboursFromNode (Node node){
         ArrayList<Node> result = new ArrayList<>();
-        List<Edge> linkedEdges = edges.parallelStream().filter(e->e.hasNode(getNode(node.getId()).getId())).collect(Collectors.toList());
+        ArrayList<Edge> linkedEdges = getEdgesFromNode(node);
         for (Edge edge: linkedEdges){
             int i = edge.getSecondNode(node.getId());
             if (i>=0){
                 result.add(getNode(i));
             }
         }
+        return result;
+    }
+
+    /**
+     * Get the Edges linked to a Node
+     * @param node Center of the Edge
+     * @return List of the linked Edges
+     */
+    public ArrayList<Edge> getEdgesFromNode (Node node){
+        return (ArrayList<Edge>) edges.parallelStream().filter(e->e.hasNode(getNode(node.getId()).getId())).collect(Collectors.toList());
+    }
+
+    /**
+     * Get the list of nodes linked to an edge
+     * @param edge link between the nodes
+     * @return List of the linked nodes
+     */
+    public ArrayList<Node> getNodesFromEdge (Edge edge){
+        ArrayList<Node> result = new ArrayList<>();
+        result.add(getNode(edge.getNode1()));
+        result.add(getNode(edge.getNode2()));
         return result;
     }
 }
