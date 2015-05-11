@@ -1,4 +1,4 @@
-package com.polytech4a.robocup.firebot.ui.filepanel;
+package com.polytech4a.robocup.firebot.ui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,14 +7,14 @@ import java.awt.*;
  * Created by Pierre on 06/05/2015.
  */
 public class FilePanel extends JPanel {
-    private LoadGraphButton loadGraphButton;
-    private LoadImageButton loadImageButton;
-    private SaveGraphButton saveGraphButton;
+    private InterfaceButton loadGraphButton;
+    private InterfaceButton loadImageButton;
+    private InterfaceButton saveGraphButton;
 
     public FilePanel(){
-        this.loadGraphButton = new LoadGraphButton();
-        this.loadImageButton = new LoadImageButton();
-        this.saveGraphButton = new SaveGraphButton();
+        this.loadGraphButton = new InterfaceButton("Charger graphique");
+        this.loadImageButton = new InterfaceButton("Charger image");
+        this.saveGraphButton = new InterfaceButton("Sauvegarder graphique");
 
         this.add(loadImageButton);
         this.add(loadGraphButton);
@@ -25,15 +25,15 @@ public class FilePanel extends JPanel {
 
     }
 
-    public LoadGraphButton getLoadGraphButton() {
+    public InterfaceButton getLoadGraphButton() {
         return loadGraphButton;
     }
 
-    public LoadImageButton getLoadImageButton() {
+    public InterfaceButton getLoadImageButton() {
         return loadImageButton;
     }
 
-    public SaveGraphButton getSaveGraphButton() {
+    public InterfaceButton getSaveGraphButton() {
         return saveGraphButton;
     }
 

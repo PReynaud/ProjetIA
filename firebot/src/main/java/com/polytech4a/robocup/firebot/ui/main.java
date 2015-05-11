@@ -1,5 +1,7 @@
 package com.polytech4a.robocup.firebot.ui;
 
+import com.polytech4a.robocup.firebot.controller.MainController;
+
 import javax.swing.*;
 
 /**
@@ -11,6 +13,7 @@ public class main {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 MainForm window = new MainForm();
+                MainController controller = new MainController(window);
                 window.setVisible(true);
             }
         });

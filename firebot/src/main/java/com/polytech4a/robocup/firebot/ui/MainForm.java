@@ -1,10 +1,5 @@
 package com.polytech4a.robocup.firebot.ui;
 
-import com.polytech4a.robocup.firebot.ui.filepanel.FilePanel;
-import com.polytech4a.robocup.firebot.ui.graphiccontrolpanel.GraphicControlPanel;
-import com.polytech4a.robocup.firebot.ui.graphicviewpanel.GraphicViewPanel;
-import com.polytech4a.robocup.firebot.ui.simulationpanel.SimulationPanel;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -50,5 +45,21 @@ public class MainForm extends JFrame{
         mainPanel.add(graphicViewPanel, BorderLayout.NORTH);
         mainPanel.add(graphicControlPanel, BorderLayout.EAST);
         this.add(mainPanel);
+    }
+
+    public JPanel getFilePanel() {
+        return filePanel;
+    }
+
+    public JPanel getGraphicControlPanel() {
+        return graphicControlPanel;
+    }
+
+    public JPanel getSimulationPanel() {
+        return simulationPanel;
+    }
+
+    public JPanel getGraphicViewPanel() {
+        return graphicViewPanel;
     }
 }
