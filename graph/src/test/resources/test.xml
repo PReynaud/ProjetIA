@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm>
+    <node id="0"/>
+    <node id="1"/>
+    <node id="2"/>
+    <node id="3"/>
+    <node id="4"/>
+    <node id="5"/>
+    <node id="6"/>
+    <node id="7"/>
+    <node id="8"/>
+    <edge nd1="0" nd2="1"/>
+    <edge nd1="0" nd2="2"/>
+    <edge nd1="1" nd2="3"/>
+    <edge nd1="2" nd2="3"/>
+    <edge nd1="4" nd2="3"/>
+    <edge nd1="5" nd2="4"/>
+    <edge nd1="3" nd2="6"/>
+    <edge nd1="5" nd2="6"/>
+    <edge nd1="6" nd2="7"/>
+</osm>

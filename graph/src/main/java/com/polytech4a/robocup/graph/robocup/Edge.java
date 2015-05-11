@@ -24,13 +24,14 @@ public class Edge extends com.polytech4a.robocup.graph.model.Edge {
 
     public EdgeType getType() throws NotFoundTypeException {
         String s = getParameters().get("type");
+        NotFoundTypeException ex = new NotFoundTypeException("Type '" + s + "' not declared in EdgeType.");
         if (!s.isEmpty()) {
             for (EdgeType e : EdgeType.values()) {
-                if (e.equals(s)) {
+                if (e.name().equals(s)) {
                     return e;
                 }
             }
-        }
-        throw new NotFoundTypeException("Type '" + s + "' not declared in EdgeType.");
+            throw ex;
+        } else throw ex;
     }
 }

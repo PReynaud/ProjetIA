@@ -29,7 +29,7 @@ public class Node extends com.polytech4a.robocup.graph.model.Node {
         String s = getParameters().get("type");
         if (!s.isEmpty()) {
             for (NodeType e : NodeType.values()) {
-                if (e.equals(s)) {
+                if (e.name().equals(s)) {
                     return e;
                 }
             }
