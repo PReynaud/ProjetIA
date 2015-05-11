@@ -2,10 +2,7 @@ package com.polytech4a.robocup.graph.utils;
 
 import com.polytech4a.robocup.graph.model.Edge;
 import com.polytech4a.robocup.graph.model.Graph;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -13,6 +10,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * Created by Antoine CARON on 06/05/2015.
@@ -33,28 +31,45 @@ public class Load {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public Graph loadGraph(File file) throws IOException, ParserConfigurationException, SAXException {
+    public Graph loadGraph(File file) throws IOException, ParserConfigurationException, SAXException, MalformGraphException {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.parse(file);
         doc.getDocumentElement().normalize();
         //getting Nodes
-        NodeList nodes = doc.getElementsByTagName("node");
-        NodeList edges = doc.getElementsByTagName("edge");
+
+        NodeList nodes = doc.getDocumentElement().getElementsByTagName("node");
+        NodeList edges = doc.getDocumentElement().getElementsByTagName("edge");
 
         Graph graph = new Graph();
         for (int i = 0; i < nodes.getLength(); i++) {
             Node xmlNode = nodes.item(i);
             Element el = (Element) xmlNode;
-            com.polytech4a.robocup.graph.model.Node graphNode =
-                    new com.polytech4a.robocup.graph.model.Node(Integer.valueOf(el.getAttribute("id")));
-            graph.addNode(graphNode);
+            NamedNodeMap attr = el.getAttributes();
+            HashMap<String, String> map = new HashMap<>();
+            if (!el.getAttribute("id").isEmpty()) {
+                for (int j = 0; j < attr.getLength(); j++) {
+                    Node attribut = attr.item(j);
+                    map.put(attribut.getNodeName(), attribut.getNodeValue());
+                }
+                com.polytech4a.robocup.graph.model.Node graphNode =
+                        new com.polytech4a.robocup.graph.model.Node(map);
+                graph.addNode(graphNode);
+            } else throw new MalformGraphException("One Node does not contain an id.");
         }
         for (int i = 0; i < edges.getLength(); i++) {
-            Node xmlNode = nodes.item(i);
+            Node xmlNode = edges.item(i);
             Element el = (Element) xmlNode;
-            Edge graphEdge = new Edge(Integer.valueOf(el.getAttribute("nb1")), Integer.valueOf(el.getAttribute("nb2")));
-            graph.addEdge(graphEdge);
+            NamedNodeMap attr = el.getAttributes();
+            if (!el.getAttribute("nd1").isEmpty() && !el.getAttribute("nd2").isEmpty()) {
+                HashMap<String, String> map = new HashMap<>();
+                for (int j = 0; j < attr.getLength(); j++) {
+                    Node attribut = attr.item(j);
+                    map.put(attribut.getNodeName(), attribut.getNodeValue());
+                }
+                Edge graphEdge = new Edge(map);
+                graph.addEdge(graphEdge);
+            } else throw new MalformGraphException("One Edge does not contain aan id.");
         }
         return graph;
     }
