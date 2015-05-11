@@ -1,5 +1,8 @@
 package com.polytech4a.robocup.firebot;
 
+import com.polytech4a.robocup.graph.model.Graph;
+import com.polytech4a.robocup.graph.model.Node;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,9 +24,9 @@ public class RobotManager {
     /**
      * Current graph of the situation
      */
-    private RobotGraph graph;
+    private Graph graph;
 
-    public RobotManager(ArrayList<Firebot> robotTeam, RobotGraph graph) {
+    public RobotManager(ArrayList<Firebot> robotTeam, Graph graph) {
         this.robotTeam = robotTeam;
         this.graph = graph;
     }

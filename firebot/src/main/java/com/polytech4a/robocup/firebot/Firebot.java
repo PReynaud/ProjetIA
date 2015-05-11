@@ -1,5 +1,8 @@
 package com.polytech4a.robocup.firebot;
 
+import com.polytech4a.robocup.graph.model.Graph;
+import com.polytech4a.robocup.graph.model.Node;
+
 /**
  * Created by Adrien CHAUSSENDE on 06/05/2015.
  *
@@ -12,7 +15,7 @@ public abstract class Firebot {
     /**
      * Current graph of the situation.
      */
-    private RobotGraph graph;
+    private Graph graph;
 
     /**
      * Current node where the robot is.
@@ -42,11 +45,11 @@ public abstract class Firebot {
         this.availability = availability;
     }
 
-    public Firebot(RobotGraph graph, Node currentNode, Node destinationNode, int capacity) {
+    public Firebot(Graph graph, Node currentNode, Node destinationNode, int capacity) {
         this.graph = graph;
         this.currentNode = currentNode;
         this.destinationNode = destinationNode;
-        this.capacity = capacity
+        this.capacity = capacity;
         this.availability = true;
     }
 

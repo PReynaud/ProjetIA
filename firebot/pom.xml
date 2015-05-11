@@ -11,5 +11,12 @@
 
     <artifactId>firebot</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.polytech4a.robocup</groupId>
+            <artifactId>graph</artifactId>
+        </dependency>
+    </dependencies>
+
 
 </project>
