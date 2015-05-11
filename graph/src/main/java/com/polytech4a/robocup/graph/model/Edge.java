@@ -74,4 +74,28 @@ public class Edge {
     protected Edge clone(){
         return new Edge(this.getNode1(), this.getNode2());
     }
+
+    /**
+     * Test if the edge contains an certain node
+     * @param idNode id of the node
+     * @return true if the edge contains the node
+     */
+    public boolean hasNode (int idNode){
+        return getNode1()==idNode||getNode2()==idNode;
+    }
+
+    /**
+     * Get the second Node linked by the Edge
+     * @param node id of the first node
+     * @return id of the second node or -1 if the first node is not known
+     */
+    public int getSecondNode (int node){
+        if (getNode1()==node){
+            return getNode1();
+        }
+        else if(getNode2()==node){
+            return  getNode2();
+        }
+        return -1;
+    }
 }

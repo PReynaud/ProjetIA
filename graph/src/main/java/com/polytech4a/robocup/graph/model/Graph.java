@@ -1,7 +1,12 @@
 package com.polytech4a.robocup.graph.model;
 
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
+
 
 /**
  * Created by Antoine CARON on 06/05/2015.
@@ -12,6 +17,11 @@ import java.util.NoSuchElementException;
  * Simple Graph Model.
  */
 public class Graph {
+
+    /**
+     * Logger.
+     */
+    private static final Logger logger = Logger.getLogger(Graph.class);
 
     /**
      * Nodes of the graph.
@@ -86,14 +96,29 @@ public class Graph {
     }
 
     /**
+     * Remove the edge between the two nodes if exists
+     * @param node1 First node of the edge
+     * @param node2 Second node of the edge
+     */
+    public void removeEdge (Node node1, Node node2){
+        edges.remove(getEdge(node1, node2));
+    }
+
+    /**
      * Get the idNode node of the graph
      * @param idNode id of the Node
      * @return idNode Node
      */
     public Node getNode (int idNode){
-        return nodes.parallelStream().filter(n->n.getId()==idNode).findAny().get();
+        return nodes.parallelStream().filter(n -> n.getId() == idNode).findAny().get();
     }
 
+    /**
+     * Get the edge between the two nodes
+     * @param node1 First node of the edge
+     * @param node2 Second node of the edge
+     * @return Edge if exists
+     */
     public Edge getEdge (Node node1, Node node2){
         int idN1 =  node1.getId(), idN2= node2.getId();
         return edges.parallelStream()
@@ -104,6 +129,10 @@ public class Graph {
                 .get();
     }
 
+    /**
+     * Get the nodes of the graph
+     * @return List of nodes
+     */
     public ArrayList<Node> getNodes (){
         ArrayList<Node> clonedNodes = new ArrayList<Node>();
         for (Node node : nodes){
@@ -112,11 +141,28 @@ public class Graph {
         return clonedNodes;
     }
 
-    public ArrayList<Edge> getEdges (){
-        ArrayList<Edge> clonedEdges = new ArrayList<Edge>();
-        for (Edge edge : edges){
-            clonedEdges.add(edge.clone());
+    /**
+     * Get the edges of the graph
+     * @return list of edges
+     */
+    public List<Edge> getEdges (){
+        return edges.stream().map(Edge::clone).collect(Collectors.toList());
+    }
+
+    /**
+     * Get the List of Nodes in the closed area of an input node
+     * @param node center of the linked nodes
+     * @return Linked Nodes
+     */
+    public ArrayList<Node> getNeighboursFromNode (Node node){
+        ArrayList<Node> result = new ArrayList<>();
+        List<Edge> linkedEdges = edges.parallelStream().filter(e->e.hasNode(getNode(node.getId()).getId())).collect(Collectors.toList());
+        for (Edge edge: linkedEdges){
+            int i = edge.getSecondNode(node.getId());
+            if (i>=0){
+                result.add(getNode(i));
+            }
         }
-        return clonedEdges;
+        return result;
     }
 }
