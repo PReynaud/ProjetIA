@@ -72,7 +72,11 @@ public class Edge {
 
     @Override
     protected Edge clone(){
-        return new Edge(this.getNode1(), this.getNode2());
+        HashMap<String,String> clonedParameters = new HashMap<>();
+        for (String parameter : parameters.keySet()){
+            clonedParameters.put(parameter, parameters.get(parameter));
+        }
+        return new Edge(clonedParameters);
     }
 
     /**
