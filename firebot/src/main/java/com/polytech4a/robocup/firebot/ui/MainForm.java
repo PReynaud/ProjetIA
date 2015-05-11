@@ -1,9 +1,9 @@
-package com.polytech4a.firebot.ui;
+package com.polytech4a.robocup.firebot.ui;
 
-import com.polytech4a.firebot.ui.filepanel.FilePanel;
-import com.polytech4a.firebot.ui.graphiccontrolpanel.GraphicControlPanel;
-import com.polytech4a.firebot.ui.graphicviewpanel.GraphicViewPanel;
-import com.polytech4a.firebot.ui.simulationpanel.SimulationPanel;
+import com.polytech4a.robocup.firebot.ui.filepanel.FilePanel;
+import com.polytech4a.robocup.firebot.ui.graphiccontrolpanel.GraphicControlPanel;
+import com.polytech4a.robocup.firebot.ui.graphicviewpanel.GraphicViewPanel;
+import com.polytech4a.robocup.firebot.ui.simulationpanel.SimulationPanel;
 
 import javax.swing.*;
 import java.awt.*;

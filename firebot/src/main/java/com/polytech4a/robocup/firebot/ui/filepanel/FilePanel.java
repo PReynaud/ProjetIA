@@ -1,4 +1,4 @@
-package com.polytech4a.firebot.ui.filepanel;
+package com.polytech4a.robocup.firebot.ui.filepanel;
 
 import javax.swing.*;
 import java.awt.*;

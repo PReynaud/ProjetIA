@@ -1,4 +1,4 @@
-package com.polytech4a.firebot.ui.graphicviewpanel;
+package com.polytech4a.robocup.firebot.ui.graphicviewpanel;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,4 +1,4 @@
-package com.polytech4a.firebot.ui;
+package com.polytech4a.robocup.firebot.ui;
 
 import javax.swing.*;
 
