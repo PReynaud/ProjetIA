@@ -6,4 +6,8 @@ import javax.swing.*;
  * Created by Pierre on 06/05/2015.
  */
 public class PauseButton extends JButton {
+    public PauseButton(){
+        super();
+        this.setText("Pause");
+    }
 }

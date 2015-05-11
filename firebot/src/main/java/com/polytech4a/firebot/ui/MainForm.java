@@ -6,6 +6,7 @@ import com.polytech4a.firebot.ui.graphicviewpanel.GraphicViewPanel;
 import com.polytech4a.firebot.ui.simulationpanel.SimulationPanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -21,7 +22,8 @@ public class MainForm extends JFrame{
 
     public MainForm(){
         super("FireBots");
-        this.setSize(600, 400);
+        this.setSize(1000, 600);
+        this.setResizable(false);
         initComponents();
         setVisible(true);
 
@@ -43,7 +45,10 @@ public class MainForm extends JFrame{
         this.simulationPanel = new SimulationPanel();
         this.graphicViewPanel = new GraphicViewPanel();
 
-        mainPanel.add(filePanel);
+        mainPanel.add(filePanel, BorderLayout.NORTH);
+        mainPanel.add(simulationPanel, BorderLayout.NORTH);
+        mainPanel.add(graphicViewPanel, BorderLayout.NORTH);
+        mainPanel.add(graphicControlPanel, BorderLayout.EAST);
         this.add(mainPanel);
     }
 }

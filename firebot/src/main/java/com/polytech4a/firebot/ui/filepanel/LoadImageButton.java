@@ -9,11 +9,5 @@ public class LoadImageButton extends JButton {
     public LoadImageButton(){
         super();
         this.setText("Charger une image");
-        this.setVisible(true);
     }
-
-    public void addAction(Action a){
-        this.setAction(a);
-    }
-
 }

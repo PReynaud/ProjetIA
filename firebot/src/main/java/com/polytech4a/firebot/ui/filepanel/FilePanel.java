@@ -1,6 +1,7 @@
 package com.polytech4a.firebot.ui.filepanel;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by Pierre on 06/05/2015.
@@ -19,7 +20,9 @@ public class FilePanel extends JPanel {
         this.add(loadGraphButton);
         this.add(saveGraphButton);
 
-        this.setVisible(true);
+        this.setSize(700, 150);
+        this.setLocation(0, 0);
+
     }
 
     public LoadGraphButton getLoadGraphButton() {
@@ -32,5 +35,11 @@ public class FilePanel extends JPanel {
 
     public SaveGraphButton getSaveGraphButton() {
         return saveGraphButton;
+    }
+
+    public Insets getInsets() {
+        Insets normal = super.getInsets();
+        return new Insets(normal.top + 10, normal.left + 10,
+                normal.bottom + 10, normal.right + 200);
     }
 }

@@ -9,10 +9,5 @@ public class SaveGraphButton extends JButton {
     public SaveGraphButton(){
         super();
         this.setText("Sauvegarder graphique");
-        this.setVisible(true);
-    }
-
-    public void addAction(Action a){
-        this.setAction(a);
     }
 }

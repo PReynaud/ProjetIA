@@ -10,4 +10,28 @@ public class SimulationPanel extends JPanel {
     private PauseButton pauseButton;
     private StopButton stopButton;
 
+    public SimulationPanel(){
+        playButton = new PlayButton();
+        pauseButton = new PauseButton();
+        stopButton = new StopButton();
+
+        this.add(playButton);
+        this.add(pauseButton);
+        this.add(stopButton);
+
+        this.setSize(300, 150);
+        this.setLocation(0, 0);
+    }
+
+    public PlayButton getPlayButton() {
+        return playButton;
+    }
+
+    public PauseButton getPauseButton() {
+        return pauseButton;
+    }
+
+    public StopButton getStopButton() {
+        return stopButton;
+    }
 }

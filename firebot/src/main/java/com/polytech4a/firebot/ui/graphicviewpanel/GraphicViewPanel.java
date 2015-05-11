@@ -7,6 +7,13 @@ import java.awt.*;
  * Created by Pierre on 06/05/2015.
  */
 public class GraphicViewPanel extends JPanel {
+    public GraphicViewPanel(){
+        super();
+        Dimension dimension = new Dimension(700, 400);
+        this.setSize(dimension);
+        this.setPreferredSize(dimension);
+        this.setBackground(Color.white);
+    }
 
     @Override
     public void paintComponent(Graphics g) {

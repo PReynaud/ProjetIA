@@ -9,10 +9,5 @@ public class LoadGraphButton extends JButton {
     public LoadGraphButton(){
         super();
         this.setText("Charger un graphique");
-        this.setVisible(true);
-    }
-
-    public void addAction(Action a){
-        this.setAction(a);
     }
 }
