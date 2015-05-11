@@ -37,6 +37,18 @@ public abstract class Firebot {
      */
     boolean availability;
 
+    public Node getCurrentNode() {
+        return currentNode;
+    }
+
+    public void setCurrentNode(Node currentNode) {
+        this.currentNode = currentNode;
+    }
+
+    public Node getDestinationNode() {
+        return destinationNode;
+    }
+
     public void setDestinationNode(Node destinationNode) {
         this.destinationNode = destinationNode;
     }

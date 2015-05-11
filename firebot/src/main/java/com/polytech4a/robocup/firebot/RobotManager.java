@@ -36,7 +36,7 @@ public class RobotManager {
      *
      * @return ArrayList of Firebots that are available to do a task.
      */
-    private ArrayList<Firebot> askAvailability() {
+    public ArrayList<Firebot> askAvailability() {
         ArrayList<Firebot> availableRobots = new ArrayList<>();
         for (Firebot f : robotTeam) {
             if (f.isAvailable())
