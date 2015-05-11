@@ -47,7 +47,11 @@ public class Node {
 
     @Override
     protected Node clone() {
-        return new Node(Integer.valueOf(parameters.get("id")).intValue());
+        HashMap<String,String> clonedParameters = new HashMap<>();
+        for (String parameter : parameters.keySet()){
+            clonedParameters.put(parameter, parameters.get(parameter));
+        }
+        return new Node(clonedParameters);
     }
 
     public boolean equals(Node node) {
