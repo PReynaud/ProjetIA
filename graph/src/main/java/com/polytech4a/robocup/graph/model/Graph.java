@@ -186,4 +186,12 @@ public class Graph {
         result.add(getNode(edge.getNode2()));
         return result;
     }
+
+    /**
+     * Get the number of nodes of the graph
+     * @return
+     */
+    public int getNumberOfNodes(){
+        return nodes.size();
+    }
 }
