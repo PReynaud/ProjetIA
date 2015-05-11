@@ -20,6 +20,11 @@ public abstract class Firebot {
     private Node currentNode;
 
     /**
+     * Task node where the robot has to go.
+     */
+    private Node destinationNode;
+
+    /**
      * Capacity of the robot to fight fire.
      */
     int capacity;
@@ -28,6 +33,22 @@ public abstract class Firebot {
      * A robot is available when this parameter is true.
      */
     boolean availability;
+
+    public void setDestinationNode(Node destinationNode) {
+        this.destinationNode = destinationNode;
+    }
+
+    public void setAvailability(boolean availability) {
+        this.availability = availability;
+    }
+
+    public Firebot(RobotGraph graph, Node currentNode, Node destinationNode, int capacity) {
+        this.graph = graph;
+        this.currentNode = currentNode;
+        this.destinationNode = destinationNode;
+        this.capacity = capacity
+        this.availability = true;
+    }
 
     /**
      * Method to compute time needed for the robot to extinguish the fire.
@@ -52,4 +73,5 @@ public abstract class Firebot {
         //TODO : call graph method to compute shortest distance to destination.
         return 0.0;
     }
+
 }
