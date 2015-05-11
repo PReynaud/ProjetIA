@@ -4,6 +4,8 @@ import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.robocup.exceptions.MissingParameterException;
 import com.polytech4a.robocup.graph.robocup.exceptions.NotFoundTypeException;
 
+import java.util.HashMap;
+
 /**
  * Created by Antoine CARON on 11/05/2015.
  *
@@ -12,8 +14,15 @@ import com.polytech4a.robocup.graph.robocup.exceptions.NotFoundTypeException;
  */
 public class Node extends com.polytech4a.robocup.graph.model.Node {
 
-    public Node(int id) {
+    public Node(int id, double x, double y, NodeType type) {
         super(id);
+        getParameters().put("x", String.valueOf(x));
+        getParameters().put("y", String.valueOf(y));
+        getParameters().put("type", String.valueOf(type));
+    }
+
+    public Node(HashMap<String, String> parameters) {
+        super(parameters);
     }
 
     public NodeType getType() throws NotFoundTypeException {

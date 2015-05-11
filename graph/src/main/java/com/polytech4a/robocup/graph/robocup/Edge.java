@@ -13,8 +13,9 @@ import java.util.HashMap;
  */
 public class Edge extends com.polytech4a.robocup.graph.model.Edge {
 
-    public Edge(int n1, int n2) {
+    public Edge(int n1, int n2, EdgeType type) {
         super(n1, n2);
+        getParameters().put("type", type.name());
     }
 
     public Edge(HashMap<String, String> parameters) {
