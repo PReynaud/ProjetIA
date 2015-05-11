@@ -24,6 +24,15 @@ public class Edge {
     }
 
     /**
+     * Constructor of a Edge.
+     *
+     * @param parameters Hashmap of parameters.
+     */
+    public Edge(HashMap<String, String> parameters) {
+        this.parameters = parameters;
+    }
+
+    /**
      * Getter of the first node
      * @return
      */

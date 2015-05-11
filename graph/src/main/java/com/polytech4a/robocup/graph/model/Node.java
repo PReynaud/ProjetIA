@@ -17,17 +17,21 @@ public class Node {
      */
     private HashMap<String,String> parameters;
 
+    public Node(int id) {
+        this.parameters = new HashMap<String, String>();
+        parameters.put("id", String.valueOf(id));
+    }
+
+    public Node(HashMap<String, String> parameters) {
+        this.parameters = parameters;
+    }
+
     public HashMap<String, String> getParameters() {
         return parameters;
     }
 
-    public int getId(){
+    public int getId() {
         return Integer.valueOf(parameters.get("id")).intValue();
-    }
-
-    public Node(int id) {
-        this.parameters =new HashMap<String, String>();
-        parameters.put("id", String.valueOf(id));
     }
 
     @Override
