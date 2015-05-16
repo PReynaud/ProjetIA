@@ -1,6 +1,8 @@
 package com.polytech4a.robocup.graph.model;
 
 import com.polytech4a.robocup.graph.enums.EdgeType;
+import com.polytech4a.robocup.graph.enums.NodeType;
+import com.polytech4a.robocup.graph.model.exceptions.NotFoundTypeException;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -195,6 +197,40 @@ public class Graph {
     }
 
     /**
+     * Get the List of Nodes with an input parameter in the closed area of an input node
+     *
+     * @param node center of the linked nodes
+     * @param type parameter of the nodes
+     * @return Linked Nodes
+     */
+    public ArrayList<Node> getNeighboursFromNodeWithParam(Node node, NodeType type) {
+        return (ArrayList<Node>)getNeighboursFromNode(node).parallelStream().filter(s -> {
+            try {
+                return s.getType().equals(type);
+            } catch (NotFoundTypeException e) {
+                return false;
+            }
+        }).collect(Collectors.toList());
+    }
+
+    /**
+     * Get the List of Nodes without an input parameter in the closed area of an input node
+     *
+     * @param node center of the linked nodes
+     * @param type parameter of the nodes
+     * @return Linked Nodes
+     */
+    public ArrayList<Node> getNeighboursFromNodeWithoutParam(Node node, NodeType type) {
+        return (ArrayList<Node>)getNeighboursFromNode(node).parallelStream().filter(s -> {
+            try {
+                return !s.getType().equals(type);
+            } catch (NotFoundTypeException e) {
+                return false;
+            }
+        }).collect(Collectors.toList());
+    }
+
+    /**
      * Get the Edges linked to a Node
      *
      * @param node Center of the Edge
@@ -202,6 +238,39 @@ public class Graph {
      */
     public ArrayList<Edge> getEdgesFromNode(Node node) {
         return (ArrayList<Edge>) edges.parallelStream().filter(e -> e.hasNode(getNode(node.getId()).getId())).collect(Collectors.toList());
+    }
+
+    /**
+     * Get the Edges with an input parameter linked to a Node
+     *
+     * @param node Center of the Edge
+     * @return List of the linked Edges
+     */
+    public ArrayList<Edge> getEdgesFromNodeWithParam(Node node, EdgeType type) {
+        return (ArrayList<Edge>) getEdgesFromNode(node).parallelStream().filter(s -> {
+            try {
+                return s.getType().equals(type);
+            } catch (NotFoundTypeException e) {
+                return false;
+            }
+        }).collect(Collectors.toList());
+    }
+
+    /**
+     * Get the Edges without an input parameter linked to a Node
+     *
+     * @param node Center of the Edge
+     * @param type parameter of the nodes
+     * @return List of the linked Edges
+     */
+    public ArrayList<Edge> getEdgesFromNodeWithoutParam(Node node, EdgeType type) {
+        return (ArrayList<Edge>) getEdgesFromNode(node).parallelStream().filter(s -> {
+            try {
+                return !s.getType().equals(type);
+            } catch (NotFoundTypeException e) {
+                return false;
+            }
+        }).collect(Collectors.toList());
     }
 
     /**
@@ -215,6 +284,40 @@ public class Graph {
         result.add(getNode(edge.getNode1()));
         result.add(getNode(edge.getNode2()));
         return result;
+    }
+
+    /**
+     * Get the list of nodes with an input param linked to an edge
+     *
+     * @param edge link between the nodes
+     * @param type parameter of the nodes
+     * @return List of the linked nodes
+     */
+    public ArrayList<Node> getNodesFromEdgeWithParam(Edge edge, NodeType type) {
+        return (ArrayList<Node>) getNodesFromEdge(edge).parallelStream().filter(s -> {
+            try {
+                return s.getType().equals(type);
+            } catch (NotFoundTypeException e) {
+                return false;
+            }
+        }).collect(Collectors.toList());
+    }
+
+    /**
+     * Get the list of nodes without an input param linked to an edge
+     *
+     * @param edge link between the nodes
+     * @param type parameter of the nodes
+     * @return List of the linked nodes
+     */
+    public ArrayList<Node> getNodesFromEdgeWithoutParam(Edge edge, NodeType type) {
+        return (ArrayList<Node>) getNodesFromEdge(edge).parallelStream().filter(s -> {
+            try {
+                return !s.getType().equals(type);
+            } catch (NotFoundTypeException e) {
+                return false;
+            }
+        }).collect(Collectors.toList());
     }
 
     /**
