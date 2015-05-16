@@ -12,6 +12,9 @@ public class MainController {
     private FileController fileController;
     private GraphicControlController graphicControlController;
     private SimulationController simulationController;
+    private MouseController mouseController;
+
+    private EnumSelection selectionMode;
 
     public MainController(){
     }
@@ -23,10 +26,20 @@ public class MainController {
         this.fileController = new FileController(this);
         this.graphicControlController = new GraphicControlController(this);
         this.simulationController = new SimulationController(this);
-
+        this.mouseController = new MouseController(this);
+        this.view.getGraphicViewPanel().addMouseListener(this.mouseController);
+        this.selectionMode = EnumSelection.NOTHING;
     }
 
     public MainForm getView() {
         return view;
     }
+    public EnumSelection getSelectionMode() {return selectionMode;}
+    public void setSelectionMode(EnumSelection newMode){this.selectionMode = newMode;}
+}
+
+enum EnumSelection {
+    NOTHING,
+    ADD_NODE,
+    ADD_EDGE
 }

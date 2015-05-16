@@ -1,6 +1,7 @@
 package com.polytech4a.robocup.firebot.controller;
 
 import com.polytech4a.robocup.firebot.ui.GraphicControlPanel;
+import com.polytech4a.robocup.firebot.ui.GraphicViewPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,7 +16,7 @@ public class GraphicControlController {
         this.mainController = mainController;
 
         GraphicControlPanel graphicControlPanel = (GraphicControlPanel) mainController.getView().getGraphicControlPanel();
-        graphicControlPanel.getAddNodeButton().addAction(new AddNodeAction());
+        graphicControlPanel.getAddNodeButton().addAction(new AddNodeAction(mainController));
         graphicControlPanel.getAddEdgeButton().addAction(new AddEdgeAction());
         graphicControlPanel.getAddRobotButton().addAction(new AddRobotAction());
         graphicControlPanel.getAddFireButton().addAction(new AddFireAction());
@@ -23,10 +24,15 @@ public class GraphicControlController {
 }
 
 class AddNodeAction extends AbstractAction{
-    public AddNodeAction(){}
+    private MainController mainController;
+
+    public AddNodeAction(MainController mainController){
+        this.mainController = mainController;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        mainController.setSelectionMode(EnumSelection.ADD_NODE);
     }
 }
 
