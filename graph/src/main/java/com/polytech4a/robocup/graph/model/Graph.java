@@ -2,6 +2,7 @@ package com.polytech4a.robocup.graph.model;
 
 import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.enums.NodeType;
+import com.polytech4a.robocup.graph.model.exceptions.MissingParameterException;
 import com.polytech4a.robocup.graph.model.exceptions.NotFoundTypeException;
 import org.apache.log4j.Logger;
 
@@ -58,7 +59,8 @@ public class Graph {
      */
     public void addNode(Node node) {
         try {
-            getNode(node.getId());
+            Node n=getNode(node.getId());
+            n.getParameters().putAll(node.getParameters());
         } catch (NoSuchElementException e) {
             nodes.add(node);
         }
@@ -88,27 +90,13 @@ public class Graph {
      */
     public void addEdge(Edge edge) {
         try {
-            getEdge(getNode(edge.getNode1()), getNode(edge.getNode2()));
+            Edge e= getEdge(getNode(edge.getNode1()), getNode(edge.getNode2()));
+            e.getParameters().putAll(edge.getParameters());
         } catch (NoSuchElementException e) {
             edges.add(edge);
         }
     }
 
-    /**
-     * Add edge to the graph between the two nodes if the
-     * edge doesn't exist yet
-     *
-     * @param node1 First node of the edge
-     * @param node2 Second node of the edge
-     * @param type  type of the edge
-     */
-    public void addEdge(Node node1, Node node2, EdgeType type) {
-        try {
-            getEdge(node1, node2);
-        } catch (NoSuchElementException e) {
-            edges.add(new Edge(node1.getId(), node2.getId(), type));
-        }
-    }
 
     /**
      * Remove edge from the graph
@@ -209,6 +197,8 @@ public class Graph {
                 return s.getType().equals(type);
             } catch (NotFoundTypeException e) {
                 return false;
+            } catch (MissingParameterException e) {
+               return false;
             }
         }).collect(Collectors.toList());
     }
@@ -225,6 +215,8 @@ public class Graph {
             try {
                 return !s.getType().equals(type);
             } catch (NotFoundTypeException e) {
+                return false;
+            } catch (MissingParameterException e) {
                 return false;
             }
         }).collect(Collectors.toList());
@@ -299,6 +291,8 @@ public class Graph {
                 return s.getType().equals(type);
             } catch (NotFoundTypeException e) {
                 return false;
+            } catch (MissingParameterException e) {
+                return false;
             }
         }).collect(Collectors.toList());
     }
@@ -316,17 +310,10 @@ public class Graph {
                 return !s.getType().equals(type);
             } catch (NotFoundTypeException e) {
                 return false;
+            } catch (MissingParameterException e) {
+                return false;
             }
         }).collect(Collectors.toList());
-    }
-
-    /**
-     * Get the number of nodes of the graph
-     *
-     * @return
-     */
-    public int getNumberOfNodes() {
-        return nodes.size();
     }
 
     public boolean equals(Graph obj) {

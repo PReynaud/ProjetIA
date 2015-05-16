@@ -66,23 +66,27 @@ public class Node {
         return this.getId() == node.getId();
     }
 
-    public NodeType getType() throws NotFoundTypeException {
+    public NodeType getType() throws NotFoundTypeException, MissingParameterException {
         String s = getParameters().get("type");
-        if (!s.isEmpty()) {
-            for (NodeType e : NodeType.values()) {
-                if (e.name().equals(s)) {
-                    return e;
+        if (s != null) {
+            if (!s.isEmpty()) {
+                for (NodeType e : NodeType.values()) {
+                    if (e.name().equals(s)) {
+                        return e;
+                    }
                 }
             }
-        }
-        throw new NotFoundTypeException("Type '" + s + "' not declared in NodeType.");
+            throw new NotFoundTypeException("Type '" + s + "' not declared in NodeType.");
+        }throw new MissingParameterException("Type is missing");
     }
 
     public double getX() throws MissingParameterException {
         try {
             return Double.valueOf(getParameters().get("x"));
         } catch (NumberFormatException e) {
-            throw new MissingParameterException("X value is missing or not a number", e);
+            throw new MissingParameterException("X value is not a number", e);
+        } catch (NullPointerException e) {
+            throw new MissingParameterException("X value is missing", e);
         }
     }
 
@@ -90,7 +94,9 @@ public class Node {
         try {
             return Double.valueOf(getParameters().get("y"));
         } catch (NumberFormatException e) {
-            throw new MissingParameterException("y value is missing or not a number", e);
+            throw new MissingParameterException("Y value is missing or not a number", e);
+        } catch (NullPointerException e) {
+            throw new MissingParameterException("Y value is missing", e);
         }
     }
 }

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <osm>
-    <node id="0"/>
-    <node id="1"/>
-    <node id="2"/>
-    <node id="3"/>
-    <node id="4"/>
-    <node id="5"/>
-    <node id="6"/>
-    <node id="7"/>
-    <node id="8"/>
-    <edge nd1="0" nd2="1"/>
-    <edge nd1="0" nd2="2"/>
-    <edge nd1="1" nd2="3"/>
-    <edge nd1="2" nd2="3"/>
-    <edge nd1="4" nd2="3"/>
-    <edge nd1="5" nd2="4"/>
-    <edge nd1="3" nd2="6"/>
-    <edge nd1="5" nd2="6"/>
-    <edge nd1="6" nd2="7"/>
+    <node id="0" x="227.0" y="105.0" type="NORMAL"/>
+    <node id="1" x="189.0" y="184.0" type="NORMAL"/>
+    <node id="2" x="103.0" y="278.0" type="NORMAL"/>
+    <node id="3" x="233.0" y="148.0" type="NORMAL"/>
+    <node id="4" x="378.0" y="192.0" type="INCENDIE"/>
+    <node id="5" x="230.0" y="125.0" type="NORMAL"/>
+    <node id="6" x="134.0" y="190.0" type="NORMAL"/>
+    <node id="7" x="125.0" y="120.0" type="NORMAL"/>
+    <node id="8" x="201.0" y="263.0" type="NORMAL"/>
+    <edge nd1="0" nd2="1" type="PLAT"/>
+    <edge nd1="0" nd2="2" type="PLAT"/>
+    <edge nd1="1" nd2="3" type="PLAT"/>
+    <edge nd1="2" nd2="3" type="ESCARPE"/>
+    <edge nd1="4" nd2="3" type="PLAT"/>
+    <edge nd1="5" nd2="4" type="PLAT"/>
+    <edge nd1="3" nd2="6" type="PLAT"/>
+    <edge nd1="5" nd2="6" type="INONDEE"/>
+    <edge nd1="6" nd2="7" type="PLAT"/>
 </osm>

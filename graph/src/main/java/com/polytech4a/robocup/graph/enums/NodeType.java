@@ -7,6 +7,6 @@ package com.polytech4a.robocup.graph.enums;
  * @version 1.0
  */
 public enum NodeType {
-    PLAT,
+    NORMAL,
     INCENDIE
 }
