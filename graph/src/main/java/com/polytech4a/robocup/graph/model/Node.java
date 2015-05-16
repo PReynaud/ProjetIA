@@ -1,5 +1,9 @@
 package com.polytech4a.robocup.graph.model;
 
+import com.polytech4a.robocup.graph.enums.NodeType;
+import com.polytech4a.robocup.graph.model.exceptions.MissingParameterException;
+import com.polytech4a.robocup.graph.model.exceptions.NotFoundTypeException;
+
 import java.util.HashMap;
 
 /**
@@ -7,20 +11,24 @@ import java.util.HashMap;
  *
  * @author Antoine CARON
  * @version 1.0
- *
- * Node object of a Graph.
+ *          <p/>
+ *          Node object of a Graph.
  */
 public class Node {
 
     /**
      * Parameters of a Node.
      */
-    private HashMap<String,String> parameters;
+    private HashMap<String, String> parameters;
 
-    public Node(int id) {
+    public Node(int id, double x, double y, NodeType type) {
         this.parameters = new HashMap<String, String>();
         parameters.put("id", String.valueOf(id));
+        parameters.put("x", String.valueOf(x));
+        parameters.put("y", String.valueOf(y));
+        parameters.put("type", String.valueOf(type));
     }
+
 
     public Node(HashMap<String, String> parameters) {
         this.parameters = parameters;
@@ -36,9 +44,9 @@ public class Node {
 
     @Override
     public String toString() {
-        StringBuffer stbf=new StringBuffer();
+        StringBuffer stbf = new StringBuffer();
         stbf.append("Node{");
-        for(String key:parameters.keySet()){
+        for (String key : parameters.keySet()) {
             stbf.append(key).append("=").append(parameters.get(key)).append(",");
         }
         stbf.append("}");
@@ -47,14 +55,42 @@ public class Node {
 
     @Override
     protected Node clone() {
-        HashMap<String,String> clonedParameters = new HashMap<>();
-        for (String parameter : parameters.keySet()){
+        HashMap<String, String> clonedParameters = new HashMap<>();
+        for (String parameter : parameters.keySet()) {
             clonedParameters.put(parameter, parameters.get(parameter));
         }
         return new Node(clonedParameters);
     }
 
     public boolean equals(Node node) {
-        return this.getId()==node.getId();
+        return this.getId() == node.getId();
+    }
+
+    public NodeType getType() throws NotFoundTypeException {
+        String s = getParameters().get("type");
+        if (!s.isEmpty()) {
+            for (NodeType e : NodeType.values()) {
+                if (e.name().equals(s)) {
+                    return e;
+                }
+            }
+        }
+        throw new NotFoundTypeException("Type '" + s + "' not declared in NodeType.");
+    }
+
+    public double getX() throws MissingParameterException {
+        try {
+            return Double.valueOf(getParameters().get("x"));
+        } catch (NumberFormatException e) {
+            throw new MissingParameterException("X value is missing or not a number", e);
+        }
+    }
+
+    public double getY() throws MissingParameterException {
+        try {
+            return Double.valueOf(getParameters().get("y"));
+        } catch (NumberFormatException e) {
+            throw new MissingParameterException("y value is missing or not a number", e);
+        }
     }
 }
