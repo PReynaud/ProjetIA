@@ -18,6 +18,7 @@ public class GraphicViewPanel extends JPanel {
         this.setSize(dimension);
         this.setPreferredSize(dimension);
         this.setBackground(Color.white);
+        this.setDoubleBuffered(true);
         this.graph = new Graph();
     }
 
@@ -27,11 +28,24 @@ public class GraphicViewPanel extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
+        g.setColor(Color.white);
         Dimension dim = getSize();
         g.fillRect(0, 0, dim.width, dim.height);
-        g.setColor(Color.white);
-        super.paintComponent(g);
+        //super.paintComponent(g);
 
         graph.drawGraph(g);
+    }
+
+    /**
+     * Call the paint component and draw a line between the points passed in the parameters
+     * @param g
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     */
+    public void paintComponentWithCustomEdge(Graphics g, int x1, int y1, int x2, int y2){
+        this.paintComponent(g);
+        g.drawLine(x1, y1, x2, y2);
     }
 }

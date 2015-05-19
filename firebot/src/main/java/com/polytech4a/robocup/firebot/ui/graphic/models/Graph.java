@@ -25,7 +25,16 @@ public class Graph {
         }
     }
 
+    //TODO rajouter sécurité pour ne pas avoir deux noeuds qui se chevauchent
     public void addNode(int x, int y){
         this.nodes.add(new Node(x, y));
+    }
+
+    public void addEdge(Node n1, Node n2){
+        this.edges.add(new Edge(n1, n2));
+    }
+
+    public ArrayList<Node> getNodes() {
+        return nodes;
     }
 }

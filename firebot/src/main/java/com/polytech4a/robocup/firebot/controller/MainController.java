@@ -1,13 +1,14 @@
 package com.polytech4a.robocup.firebot.controller;
 
 import com.polytech4a.robocup.firebot.ui.MainForm;
+import com.polytech4a.robocup.firebot.ui.graphic.models.Node;
 
 /**
  * Created by Pierre on 11/05/2015.
  */
 public class MainController {
     private MainForm view;
-    //TODO Modèle avec ses getters
+    //TODO Modï¿½le avec ses getters
 
     private FileController fileController;
     private GraphicControlController graphicControlController;
@@ -16,10 +17,12 @@ public class MainController {
 
     private EnumSelection selectionMode;
 
+    private Node lastClickedNode;
+
     public MainController(){
     }
 
-    //TODO Constructeur avec en passage le modèle en plus
+    //TODO Constructeur avec en passage le modï¿½le en plus
     public  MainController(MainForm mainForm){
         this.view = mainForm;
 
@@ -28,6 +31,7 @@ public class MainController {
         this.simulationController = new SimulationController(this);
         this.mouseController = new MouseController(this);
         this.view.getGraphicViewPanel().addMouseListener(this.mouseController);
+        this.view.getGraphicViewPanel().addMouseMotionListener(this.mouseController);
         this.selectionMode = EnumSelection.NOTHING;
     }
 
@@ -35,6 +39,12 @@ public class MainController {
         return view;
     }
     public EnumSelection getSelectionMode() {return selectionMode;}
+    public Node getLastClickedNode() {
+        return lastClickedNode;
+    }
+    public void setLastClickedNode(Node lastClickedNode) {
+        this.lastClickedNode = lastClickedNode;
+    }
     public void setSelectionMode(EnumSelection newMode){this.selectionMode = newMode;}
 }
 
