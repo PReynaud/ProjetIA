@@ -58,7 +58,7 @@ public class AStar extends SearchAlgorithm {
                     .collect(Collectors.toList()));
 
         }
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
@@ -93,7 +93,7 @@ public class AStar extends SearchAlgorithm {
                     .collect(Collectors.toList()));
 
         }
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
