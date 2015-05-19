@@ -79,7 +79,7 @@ public class AStar extends SearchAlgorithm {
                     .filter(n -> (!coveredNodes.contains(n)
                             && !n.isNodeFromType(nodeTypes)
                             && !graph.getEdge(currentNode, n).isEdgeFromType(edgeTypes)))
-                    .map(s -> parentNodes.put(currentNode, s))
+                    .map(s -> parentNodes.put(s, currentNode))
                     .sorted((s1, s2) -> {
                         try {
                             if (getFitnessValue(currentNode, s2) - getFitnessValue(currentNode, s1) >= 0) return 1;
@@ -125,7 +125,7 @@ public class AStar extends SearchAlgorithm {
                 throw new SearchException("AStar.getCostValue : The node " + node.toString() + " has no parameter type : \n" + e.getMessage());
             }
         }
-        throw new SearchException("AStar.getCostValue : The node " + node.toString() + " should have a parent");
+        return 0.0;
     }
 
     @Override

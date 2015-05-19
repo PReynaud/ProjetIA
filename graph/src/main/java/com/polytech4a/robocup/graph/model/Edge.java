@@ -85,7 +85,7 @@ public class Edge {
      * @return id of the second node or -1 if the first node is not known
      */
     public int getSecondNode(int node) {
-        if (getNode1() == node) {
+        if (getNode1() != node) {
             return getNode1();
         } else if (getNode2() == node) {
             return getNode2();
