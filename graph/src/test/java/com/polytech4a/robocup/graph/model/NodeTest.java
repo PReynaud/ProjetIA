@@ -80,4 +80,12 @@ public class NodeTest {
         n2.getParameters().replace("y","test");
         n2.getY();
     }
+
+    @Test
+    public void testGetEuclidianSpace() throws Exception {
+        double dist=n1.getEuclidianSpace(n2);
+        double diffx=Math.pow(n2.getX() - n1.getX(), 2);
+        double diffy=Math.pow(n2.getY() -n1.getY(),2);
+        assertEquals(Math.sqrt(diffx+diffy),dist,0.0001);
+    }
 }
