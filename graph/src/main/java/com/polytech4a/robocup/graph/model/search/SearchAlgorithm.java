@@ -17,11 +17,6 @@ import java.util.HashMap;
 public abstract class SearchAlgorithm implements ISearch {
 
     /**
-     * Graph for the search
-     */
-    protected Graph graph;
-
-    /**
      * Nodes covered by the algorithm so far
      */
     protected ArrayList<Node> coveredNodes;
@@ -42,16 +37,20 @@ public abstract class SearchAlgorithm implements ISearch {
     protected HashMap<Node, Double> costs;
 
     /**
+     * Graph.
+     */
+    protected Graph graph;
+
+    /**
      * Constructor for the search algorithm
      *
-     * @param graph Graph to test
      */
     public SearchAlgorithm(Graph graph) {
-        this.graph = graph;
         this.openNodes = new ArrayList<>();
         this.coveredNodes = new ArrayList<>();
         this.parentNodes = new HashMap<>();
         this.costs = new HashMap<>();
+        this.graph = graph;
     }
 
 
@@ -100,70 +99,6 @@ public abstract class SearchAlgorithm implements ISearch {
      * @throws SearchException
      */
     protected abstract double getFitnessValue(Node node, Node neighbour) throws MissingParameterException, SearchException;
-
-    /**
-     * Check if the node has all the required parameters
-     *
-     * @param node       node to test
-     * @param parameters parameters the node should have
-     * @return true if the node has every parameter required
-     */
-    protected boolean hasNodeParams(Node node, ArrayList<NodeType> parameters) {
-        for (NodeType parameter : parameters) {
-            if (!node.getParameters().get("type").equals(parameter.name())) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Check if the node has none of the parameters
-     *
-     * @param node       node to test
-     * @param parameters parameters the node should not have
-     * @return true if the node has none of the parameters
-     */
-    protected boolean hasNotNodeParams(Node node, ArrayList<NodeType> parameters) {
-        for (NodeType parameter : parameters) {
-            if (node.getParameters().get("type").equals(parameter.name())) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Check if the edge has all the required parameters
-     *
-     * @param edge       edge to test
-     * @param parameters parameters the edge should have
-     * @return true if the edge has every parameter required
-     */
-    protected boolean hasEdgeParams(Edge edge, ArrayList<EdgeType> parameters) {
-        for (EdgeType parameter : parameters) {
-            if (!edge.getParameters().get("type").equals(parameter.name())) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Check if the edge has none of the parameters
-     *
-     * @param edge       edge to test
-     * @param parameters parameters the edge should not have
-     * @return true if the edge has none of the parameters
-     */
-    protected boolean hasNotEdgeParams(Edge edge, ArrayList<EdgeType> parameters) {
-        for (EdgeType parameter : parameters) {
-            if (edge.getParameters().get("type").equals(parameter.name())) {
-                return false;
-            }
-        }
-        return true;
-    }
 
     /**
      * Get the path from the source node to the input node

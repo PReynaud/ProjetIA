@@ -42,8 +42,8 @@ public class AStar extends SearchAlgorithm {
             openNodes.addAll(graph.getNeighboursFromNode(currentNode)
                     .parallelStream()
                     .filter(n -> (!coveredNodes.contains(n)
-                            && hasNodeParams(n, nodeTypes)
-                            && hasEdgeParams(graph.getEdge(currentNode, n), edgeTypes)))
+                            && n.isNodeFromType(nodeTypes)
+                            && graph.getEdge(currentNode, n).isEdgeFromType(edgeTypes)))
                     .map(s -> parentNodes.put(currentNode, s))
                     .sorted((s1, s2) -> {
                         try {
@@ -77,8 +77,8 @@ public class AStar extends SearchAlgorithm {
             openNodes.addAll(graph.getNeighboursFromNode(currentNode)
                     .parallelStream()
                     .filter(n -> (!coveredNodes.contains(n)
-                            && hasNotNodeParams(n, nodeTypes)
-                            && hasNotEdgeParams(graph.getEdge(currentNode, n), edgeTypes)))
+                            && !n.isNodeFromType(nodeTypes)
+                            && !graph.getEdge(currentNode, n).isEdgeFromType(edgeTypes)))
                     .map(s -> parentNodes.put(currentNode, s))
                     .sorted((s1, s2) -> {
                         try {

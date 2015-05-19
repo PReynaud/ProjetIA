@@ -4,6 +4,7 @@ import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.exceptions.MissingParameterException;
 import com.polytech4a.robocup.graph.model.exceptions.NotFoundTypeException;
+import com.polytech4a.robocup.graph.model.search.ISearch;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class Graph {
      * Edge of the graph.
      */
     private ArrayList<Edge> edges;
+
 
     /**
      * Constructor for the Graph class

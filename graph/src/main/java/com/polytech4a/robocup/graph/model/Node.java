@@ -3,7 +3,9 @@ package com.polytech4a.robocup.graph.model;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.exceptions.MissingParameterException;
 import com.polytech4a.robocup.graph.model.exceptions.NotFoundTypeException;
+import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -16,6 +18,7 @@ import java.util.HashMap;
  */
 public class Node {
 
+    private static final Logger logger=Logger.getLogger(Node.class);
     /**
      * Parameters of a Node.
      */
@@ -40,26 +43,6 @@ public class Node {
 
     public int getId() {
         return Integer.valueOf(parameters.get("id")).intValue();
-    }
-
-    @Override
-    public String toString() {
-        StringBuffer stbf = new StringBuffer();
-        stbf.append("Node{");
-        for (String key : parameters.keySet()) {
-            stbf.append(key).append("=").append(parameters.get(key)).append(",");
-        }
-        stbf.append("}");
-        return stbf.toString();
-    }
-
-    @Override
-    protected Node clone() {
-        HashMap<String, String> clonedParameters = new HashMap<>();
-        for (String parameter : parameters.keySet()) {
-            clonedParameters.put(parameter, parameters.get(parameter));
-        }
-        return new Node(clonedParameters);
     }
 
     public boolean equals(Node node) {
@@ -100,6 +83,7 @@ public class Node {
         }
     }
 
+
     /**
      * Get Euclidian space between two nodes
      *
@@ -111,5 +95,36 @@ public class Node {
         double deltaX = node.getX() - getX(),
                 deltaY = node.getY() - getY();
         return Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+    }
+
+    public boolean isNodeFromType(ArrayList<NodeType> types){
+        try {
+            return types.contains(this.getType());
+        } catch (NotFoundTypeException e) {
+            logger.error(e.getMessage(),e);
+        } catch (MissingParameterException e) {
+            logger.error(e.getMessage(),e);
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer stbf = new StringBuffer();
+        stbf.append("Node{");
+        for (String key : parameters.keySet()) {
+            stbf.append(key).append("=").append(parameters.get(key)).append(",");
+        }
+        stbf.append("}");
+        return stbf.toString();
+    }
+
+    @Override
+    protected Node clone() {
+        HashMap<String, String> clonedParameters = new HashMap<>();
+        for (String parameter : parameters.keySet()) {
+            clonedParameters.put(parameter, parameters.get(parameter));
+        }
+        return new Node(clonedParameters);
     }
 }

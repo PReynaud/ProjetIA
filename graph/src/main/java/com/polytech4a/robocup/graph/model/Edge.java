@@ -2,7 +2,9 @@ package com.polytech4a.robocup.graph.model;
 
 import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.model.exceptions.NotFoundTypeException;
+import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,8 +15,10 @@ import java.util.Map;
  * @version 1.0
  */
 public class Edge {
-    private Map<String, String> parameters;
 
+    private final static Logger logger= Logger.getLogger(Edge.class);
+
+    private Map<String, String> parameters;
 
     public Edge(int n1, int n2, EdgeType type) {
         this.parameters = new HashMap<String, String>();
@@ -63,24 +67,6 @@ public class Edge {
         return obj.getNode1() == this.getNode1() && obj.getNode2() == this.getNode2();
     }
 
-    @Override
-    public String toString() {
-        StringBuilder str = new StringBuilder("Edge [").append(this.getNode1()).append(";")
-                .append(this.getNode2()).append("] : Parameters [");
-        for (String key : parameters.keySet()) {
-            str.append("[").append(key).append(";").append(parameters.get(key)).append("]");
-        }
-        return str.append("]").toString();
-    }
-
-    @Override
-    protected Edge clone() {
-        HashMap<String, String> clonedParameters = new HashMap<>();
-        for (String parameter : parameters.keySet()) {
-            clonedParameters.put(parameter, parameters.get(parameter));
-        }
-        return new Edge(clonedParameters);
-    }
 
     /**
      * Test if the edge contains an certain node
@@ -118,5 +104,38 @@ public class Edge {
             }
             throw ex;
         } else throw ex;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder("Edge [").append(this.getNode1()).append(";")
+                .append(this.getNode2()).append("] : Parameters [");
+        for (String key : parameters.keySet()) {
+            str.append("[").append(key).append(";").append(parameters.get(key)).append("]");
+        }
+        return str.append("]").toString();
+    }
+
+    /**
+     * Function to know if this node has one of the type in the list in parameters.
+     * @param types list of types.
+     * @return true/false
+     */
+    public boolean isEdgeFromType(ArrayList<EdgeType> types){
+        try {
+            return  types.contains(this.getType());
+        } catch (NotFoundTypeException e) {
+            logger.error(e.getMessage(),e);
+            return false;
+        }
+    }
+
+    @Override
+    protected Edge clone() {
+        HashMap<String, String> clonedParameters = new HashMap<>();
+        for (String parameter : parameters.keySet()) {
+            clonedParameters.put(parameter, parameters.get(parameter));
+        }
+        return new Edge(clonedParameters);
     }
 }
