@@ -99,4 +99,17 @@ public class Node {
             throw new MissingParameterException("Y value is missing", e);
         }
     }
+
+    /**
+     * Get Euclidian space between two nodes
+     *
+     * @param node target node
+     * @return space between the two nodes
+     * @throws MissingParameterException
+     */
+    public double getEuclidianSpace(Node node) throws MissingParameterException {
+        double deltaX = node.getX() - getX(),
+                deltaY = node.getY() - getY();
+        return Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+    }
 }
