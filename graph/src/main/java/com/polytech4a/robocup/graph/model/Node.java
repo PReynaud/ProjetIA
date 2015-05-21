@@ -92,6 +92,9 @@ public class Node {
      * @throws MissingParameterException
      */
     public double getEuclidianSpace(Node node) throws MissingParameterException {
+        if (node == null) {
+            throw new MissingParameterException("The second node is not initialized");
+        }
         double deltaX = node.getX() - getX(),
                 deltaY = node.getY() - getY();
         return Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));

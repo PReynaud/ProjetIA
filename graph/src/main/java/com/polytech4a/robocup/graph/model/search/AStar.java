@@ -27,72 +27,94 @@ public class AStar extends SearchAlgorithm {
     }
 
     @Override
-    public ArrayList<Node> wayToNodeWithParam(Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) {
+    public ArrayList<Node> wayToNodeWithParam(Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException {
         openNodes.add(begin);
         costs.put(begin, 0.0);
 
 
         while (!this.openNodes.isEmpty()) {
             Node currentNode = openNodes.remove(0);
+
+            //End test
             if (currentNode.equals(end)) {
-                return recoverPath(currentNode);
+                ArrayList<Node> resultPath = recoverPath(currentNode);
+                clearAll();
+                return resultPath;
             }
             coveredNodes.add(currentNode);
 
-            openNodes.addAll(graph.getNeighboursFromNode(currentNode)
+            //Get the neighbours
+            openNodes.addAll(graph.getNeighboursFromNodeWithParam(currentNode, nodeTypes, edgeTypes)
                     .parallelStream()
-                    .filter(n -> (!coveredNodes.contains(n)
-                            && n.isNodeFromType(nodeTypes)
-                            && graph.getEdge(currentNode, n).isEdgeFromType(edgeTypes)))
-                    .map(s -> parentNodes.put(currentNode, s))
-                    .sorted((s1, s2) -> {
-                        try {
-                            if (getFitnessValue(currentNode, s2) - getFitnessValue(currentNode, s1) >= 0) return 1;
-                            return -1;
-                        } catch (SearchException e) {
-                            //TODO : Catch error
-                            return 1;
-                        }
-                    })
-                    .distinct()
+                    .filter(n -> !coveredNodes.contains(n))
                     .collect(Collectors.toList()));
 
+            //Update Costs and Parents
+            for (Node node : openNodes) {
+                if (costs.get(node) == null) {
+                    parentNodes.put(node, currentNode);
+                    updateCosts(node);
+                }
+            }
+
+            //Sort new openList
+            //TODO : Add distinct function
+            openNodes.sort((s1, s2) -> {
+                try {
+                    return Double.compare(getFitnessValue(currentNode, s2), getFitnessValue(currentNode, s1));
+                } catch (SearchException e) {
+                    //TODO : Catch error
+                    return 1;
+                }
+            });
         }
+        clearAll();
         return new ArrayList<>();
     }
 
     @Override
-    public ArrayList<Node> wayToNodeWithoutParam(Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) {
+    public ArrayList<Node> wayToNodeWithoutParam(Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException {
         openNodes.add(begin);
         costs.put(begin, 0.0);
 
 
         while (!this.openNodes.isEmpty()) {
             Node currentNode = openNodes.remove(0);
+
+            //End test
             if (currentNode.equals(end)) {
-                return recoverPath(currentNode);
+                ArrayList<Node> resultPath = recoverPath(currentNode);
+                clearAll();
+                return resultPath;
             }
             coveredNodes.add(currentNode);
 
-            openNodes.addAll(graph.getNeighboursFromNode(currentNode)
+            //Get the neighbours
+            openNodes.addAll(graph.getNeighboursFromNodeWithoutParam(currentNode, nodeTypes, edgeTypes)
                     .parallelStream()
-                    .filter(n -> (!coveredNodes.contains(n)
-                            && !n.isNodeFromType(nodeTypes)
-                            && !graph.getEdge(currentNode, n).isEdgeFromType(edgeTypes)))
-                    .map(s -> parentNodes.put(s, currentNode))
-                    .sorted((s1, s2) -> {
-                        try {
-                            if (getFitnessValue(currentNode, s2) - getFitnessValue(currentNode, s1) >= 0) return 1;
-                            return -1;
-                        } catch (SearchException e) {
-                            //TODO : Catch error
-                            return 1;
-                        }
-                    })
-                    .distinct()
+                    .filter(n -> !coveredNodes.contains(n))
                     .collect(Collectors.toList()));
 
+            //Update Costs and Parents
+            for (Node node : openNodes) {
+                if (costs.get(node) == null) {
+                    parentNodes.put(node, currentNode);
+                    updateCosts(node);
+                }
+            }
+
+            //Sort new openList
+            //TODO : Add distinct function
+            openNodes.sort((s1, s2) -> {
+                try {
+                    return Double.compare(getFitnessValue(currentNode, s2), getFitnessValue(currentNode, s1));
+                } catch (SearchException e) {
+                    //TODO : Catch error
+                    return 1;
+                }
+            });
         }
+        clearAll();
         return new ArrayList<>();
     }
 
@@ -111,12 +133,11 @@ public class AStar extends SearchAlgorithm {
         return 1;
     }
 
-    @Override
-    protected double getCostValue(Node node) throws SearchException {
+    private void updateCosts(Node node) throws SearchException {
         Node parent = parentNodes.get(node);
         if (parent != null) {
             try {
-                return costs.put(node, costs.get(parent) + getCostSwitchTypes(graph.getEdge(node, parent).getType(), node.getType()));
+                costs.put(node, costs.get(parent) + getCostSwitchTypes(graph.getEdge(node, parent).getType(), node.getType()));
             } catch (NoSuchElementException e) {
                 e.printStackTrace();
             } catch (NotFoundTypeException e) {
@@ -125,7 +146,11 @@ public class AStar extends SearchAlgorithm {
                 throw new SearchException("AStar.getCostValue : The node " + node.toString() + " has no parameter type : \n" + e.getMessage());
             }
         }
-        return 0.0;
+    }
+
+    @Override
+    protected double getCostValue(Node node) throws SearchException {
+        return costs.get(node);
     }
 
     @Override

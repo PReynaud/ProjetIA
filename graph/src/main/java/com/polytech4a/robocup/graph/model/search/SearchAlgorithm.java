@@ -2,7 +2,6 @@ package com.polytech4a.robocup.graph.model.search;
 
 import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.enums.NodeType;
-import com.polytech4a.robocup.graph.model.Edge;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.model.Node;
 import com.polytech4a.robocup.graph.model.exceptions.MissingParameterException;
@@ -54,9 +53,9 @@ public abstract class SearchAlgorithm implements ISearch {
     }
 
 
-    public abstract ArrayList<Node> wayToNodeWithParam(Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes);
+    public abstract ArrayList<Node> wayToNodeWithParam(Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException;
 
-    public abstract ArrayList<Node> wayToNodeWithoutParam(Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes);
+    public abstract ArrayList<Node> wayToNodeWithoutParam(Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException;
 
     /**
      * Heuristic function for graph search
@@ -115,5 +114,15 @@ public abstract class SearchAlgorithm implements ISearch {
             currentNode = parentNodes.get(currentNode);
         }
         return result;
+    }
+
+    /**
+     * Clear all the array attributes of the search
+     */
+    protected void clearAll() {
+        openNodes.clear();
+        coveredNodes.clear();
+        parentNodes.clear();
+        costs.clear();
     }
 }
