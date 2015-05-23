@@ -9,28 +9,45 @@ import com.polytech4a.robocup.graph.model.exceptions.NotFoundTypeException;
 import com.polytech4a.robocup.graph.model.exceptions.SearchException;
 
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
+import java.util.HashMap;
 
 /**
- * Created by Dimitri on 16/05/2015.
+ * @author Dimitri on 16/05/2015.
+ * @version 1.0
+ *
+ * Astar path finder
  */
 public class AStar extends SearchAlgorithm {
 
     /**
-     * Constructor for the AStar class
-     *
-     * @param graph Graph to test
+     * Associate a node to its cost
      */
-    public AStar(Graph graph) {
-        super(graph);
+    protected HashMap<Node, Double> costs;
+
+    /**
+     * Associate a node to its fitness
+     */
+    protected HashMap<Node, Double> fitness;
+
+    /**
+     * Constructor for the AStar class
+     */
+    public AStar() {
+        super();
+        this.fitness = new HashMap<>();
+        this.costs = new HashMap<>();
     }
 
     @Override
-    public ArrayList<Node> wayToNodeWithParam(Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException {
+    public ArrayList<Node> wayToNodeWithParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException {
+        //Initialisation
         openNodes.add(begin);
         costs.put(begin, 0.0);
-
+        try {
+            fitness.put(begin, begin.getEuclidianSpace(end));
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        }
 
         while (!this.openNodes.isEmpty()) {
             Node currentNode = openNodes.remove(0);
@@ -43,40 +60,30 @@ public class AStar extends SearchAlgorithm {
             }
             coveredNodes.add(currentNode);
 
-            //Get the neighbours
-            openNodes.addAll(graph.getNeighboursFromNodeWithParam(currentNode, nodeTypes, edgeTypes)
-                    .parallelStream()
-                    .filter(n -> !coveredNodes.contains(n))
-                    .collect(Collectors.toList()));
-
-            //Update Costs and Parents
-            for (Node node : openNodes) {
-                if (costs.get(node) == null) {
-                    parentNodes.put(node, currentNode);
-                    updateCosts(node);
+            //Get the neighbours, update Costs, Fitness and Parents
+            for (Node node : graph.getNeighboursFromNodeWithParam(currentNode, nodeTypes, edgeTypes)) {
+                if (!coveredNodes.contains(node)) {
+                    updateFitness(node, currentNode, end, graph);
                 }
             }
 
             //Sort new openList
-            //TODO : Add distinct function
-            openNodes.sort((s1, s2) -> {
-                try {
-                    return Double.compare(getFitnessValue(currentNode, s2), getFitnessValue(currentNode, s1));
-                } catch (SearchException e) {
-                    //TODO : Catch error
-                    return 1;
-                }
-            });
+            openNodes.sort((s1, s2) -> Double.compare(getFitnessValue(s1), getFitnessValue(s2)));
         }
         clearAll();
         return new ArrayList<>();
     }
 
     @Override
-    public ArrayList<Node> wayToNodeWithoutParam(Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException {
+    public ArrayList<Node> wayToNodeWithoutParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException {
+        //Initialisation
         openNodes.add(begin);
         costs.put(begin, 0.0);
-
+        try {
+            fitness.put(begin, begin.getEuclidianSpace(end));
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        }
 
         while (!this.openNodes.isEmpty()) {
             Node currentNode = openNodes.remove(0);
@@ -89,30 +96,15 @@ public class AStar extends SearchAlgorithm {
             }
             coveredNodes.add(currentNode);
 
-            //Get the neighbours
-            openNodes.addAll(graph.getNeighboursFromNodeWithoutParam(currentNode, nodeTypes, edgeTypes)
-                    .parallelStream()
-                    .filter(n -> !coveredNodes.contains(n))
-                    .collect(Collectors.toList()));
-
-            //Update Costs and Parents
-            for (Node node : openNodes) {
-                if (costs.get(node) == null) {
-                    parentNodes.put(node, currentNode);
-                    updateCosts(node);
+            //Get the neighbours, update Costs, Fitness and Parents
+            for (Node node : graph.getNeighboursFromNodeWithoutParam(currentNode, nodeTypes, edgeTypes)) {
+                if (!coveredNodes.contains(node)) {
+                    updateFitness(node, currentNode, end, graph);
                 }
             }
 
             //Sort new openList
-            //TODO : Add distinct function
-            openNodes.sort((s1, s2) -> {
-                try {
-                    return Double.compare(getFitnessValue(currentNode, s2), getFitnessValue(currentNode, s1));
-                } catch (SearchException e) {
-                    //TODO : Catch error
-                    return 1;
-                }
-            });
+            openNodes.sort((s1, s2) -> Double.compare(getFitnessValue(s1), getFitnessValue(s2)));
         }
         clearAll();
         return new ArrayList<>();
@@ -130,31 +122,43 @@ public class AStar extends SearchAlgorithm {
     @Override
     protected double getCostSwitchTypes(EdgeType edgeType, NodeType nodeType) {
         //TODO : definir le cout de passage d un noeud a l autre en fonction des types.
-        return 1;
-    }
-
-    private void updateCosts(Node node) throws SearchException {
-        Node parent = parentNodes.get(node);
-        if (parent != null) {
-            try {
-                costs.put(node, costs.get(parent) + getCostSwitchTypes(graph.getEdge(node, parent).getType(), node.getType()));
-            } catch (NoSuchElementException e) {
-                e.printStackTrace();
-            } catch (NotFoundTypeException e) {
-                throw new SearchException("AStar.getCostValue : The node " + node.toString() + " has an unhandledParameter : \n" + e.getMessage());
-            } catch (MissingParameterException e) {
-                throw new SearchException("AStar.getCostValue : The node " + node.toString() + " has no parameter type : \n" + e.getMessage());
-            }
-        }
+        return 0;
     }
 
     @Override
-    protected double getCostValue(Node node) throws SearchException {
+    protected double getCostValue(Node node) {
         return costs.get(node);
     }
 
     @Override
-    protected double getFitnessValue(Node node, Node neighbour) throws SearchException {
-        return getCostValue(node) + getHeuristicValue(node, neighbour) + getHeuristicValue(node, neighbour);
+    protected double getFitnessValue(Node node) {
+        return fitness.get(node);
+    }
+
+    @Override
+    protected void clearAll() {
+        super.clearAll();
+        fitness.clear();
+        costs.clear();
+    }
+
+    private void updateFitness(Node node, Node currentNode, Node end, Graph graph) throws SearchException {
+        Node parent = parentNodes.get(node);
+        Double oldCost = costs.get(node), newCost;
+        try {
+            newCost = costs.get(currentNode) + getCostSwitchTypes(graph.getEdge(node, currentNode).getType(), node.getType()) + currentNode.getEuclidianSpace(node);
+        } catch (NotFoundTypeException e) {
+            throw new SearchException("AStar.updateFitness : The node " + node.toString() + " has an unhandledParameter : \n" + e.getMessage());
+        } catch (MissingParameterException e) {
+            throw new SearchException("AStar.updateFitness : The node " + node.toString() + " has no parameter type : \n" + e.getMessage());
+        }
+        if (!openNodes.contains(node) || (parent != null && oldCost != null && oldCost > newCost)) {
+            parentNodes.put(node, currentNode);
+            costs.put(node, newCost);
+            fitness.put(node, getCostValue(node) + getHeuristicValue(node, end));
+            if (!openNodes.contains(node)) {
+                openNodes.add(node);
+            }
+        }
     }
 }

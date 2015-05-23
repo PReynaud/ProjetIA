@@ -1,5 +1,7 @@
 package com.polytech4a.robocup.graph.model.search;
 
+import com.polytech4a.robocup.graph.enums.EdgeType;
+import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.model.Node;
 import com.polytech4a.robocup.graph.utils.Load;
@@ -14,7 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Antoine CARON on 19/05/2015.
@@ -46,18 +48,50 @@ public class AStarTest {
 
     @Before
     public void setUp() throws Exception {
-        this.aStar=new AStar(graph);
+        this.aStar = new AStar();
         setGraph();
     }
 
     @Test
     public void testWayToNodeWithParam() throws Exception {
+        ArrayList<NodeType> restrictedNodes = new ArrayList<>();
+        ArrayList<EdgeType> restrictedEdges = new ArrayList<>();
+        restrictedNodes.add(NodeType.NORMAL);
+        restrictedEdges.add(EdgeType.PLAT);
 
+        ArrayList<Node> path = new ArrayList<>();
+        path.add(graph.getNode(11));
+        path.add(graph.getNode(10));
+        path.add(graph.getNode(18));
+        path.add(graph.getNode(21));
+        path.add(graph.getNode(22));
+        path.add(graph.getNode(24));
+        path.add(graph.getNode(23));
+        path.add(graph.getNode(20));
+        path.add(graph.getNode(17));
+
+        assertEquals("Test AStar with params", path, aStar.wayToNodeWithParam(graph, graph.getNode(11), graph.getNode(17), restrictedNodes, restrictedEdges));
     }
 
     @Test
     public void testWayToNodeWithoutParam() throws Exception {
+        ArrayList<NodeType> restrictedNodes = new ArrayList<>();
+        ArrayList<EdgeType> restrictedEdges = new ArrayList<>();
+        restrictedNodes.add(NodeType.INCENDIE);
+        restrictedEdges.add(EdgeType.ESCARPE);
 
+        ArrayList<Node> path = new ArrayList<>();
+        path.add(graph.getNode(11));
+        path.add(graph.getNode(10));
+        path.add(graph.getNode(18));
+        path.add(graph.getNode(21));
+        path.add(graph.getNode(22));
+        path.add(graph.getNode(24));
+        path.add(graph.getNode(23));
+        path.add(graph.getNode(20));
+        path.add(graph.getNode(17));
+
+        assertEquals("Test AStar without params", path, aStar.wayToNodeWithoutParam(graph, graph.getNode(11), graph.getNode(17), restrictedNodes, restrictedEdges));
     }
 
     @Test

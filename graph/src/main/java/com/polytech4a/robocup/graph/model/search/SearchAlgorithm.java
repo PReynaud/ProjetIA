@@ -4,14 +4,16 @@ import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.model.Node;
-import com.polytech4a.robocup.graph.model.exceptions.MissingParameterException;
 import com.polytech4a.robocup.graph.model.exceptions.SearchException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by Dimitri on 16/05/2015.
+ * @author Dimitri on 16/05/2015.
+ * @version 1.0
+ *
+ * Path finding abstract class
  */
 public abstract class SearchAlgorithm implements ISearch {
 
@@ -30,32 +32,21 @@ public abstract class SearchAlgorithm implements ISearch {
      */
     protected HashMap<Node, Node> parentNodes;
 
-    /**
-     * Associate a node to its cost
-     */
-    protected HashMap<Node, Double> costs;
-
-    /**
-     * Graph.
-     */
-    protected Graph graph;
 
     /**
      * Constructor for the search algorithm
      *
      */
-    public SearchAlgorithm(Graph graph) {
+    public SearchAlgorithm() {
         this.openNodes = new ArrayList<>();
         this.coveredNodes = new ArrayList<>();
         this.parentNodes = new HashMap<>();
-        this.costs = new HashMap<>();
-        this.graph = graph;
     }
 
 
-    public abstract ArrayList<Node> wayToNodeWithParam(Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException;
+    public abstract ArrayList<Node> wayToNodeWithParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException;
 
-    public abstract ArrayList<Node> wayToNodeWithoutParam(Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException;
+    public abstract ArrayList<Node> wayToNodeWithoutParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException;
 
     /**
      * Heuristic function for graph search
@@ -63,10 +54,9 @@ public abstract class SearchAlgorithm implements ISearch {
      * @param node   current node
      * @param target objective node
      * @return value of the heuristic function
-     * @throws MissingParameterException
      * @throws SearchException
      */
-    protected abstract double getHeuristicValue(Node node, Node target) throws MissingParameterException, SearchException;
+    protected abstract double getHeuristicValue(Node node, Node target) throws SearchException;
 
     /**
      * Get the cost associate with the type a node and its incoming edge
@@ -82,22 +72,17 @@ public abstract class SearchAlgorithm implements ISearch {
      *
      * @param node node to test
      * @return cost of going to the node
-     * @throws MissingParameterException
-     * @throws SearchException
      */
-    protected abstract double getCostValue(Node node) throws MissingParameterException, SearchException;
+    protected abstract double getCostValue(Node node);
 
     /**
      * Get the cost of moving from a node to its neighbour
      * Function that depends on the heuristic and cost functions
      *
      * @param node      current node
-     * @param neighbour objective node
      * @return cost of the move
-     * @throws MissingParameterException
-     * @throws SearchException
      */
-    protected abstract double getFitnessValue(Node node, Node neighbour) throws MissingParameterException, SearchException;
+    protected abstract double getFitnessValue(Node node);
 
     /**
      * Get the path from the source node to the input node
@@ -107,10 +92,10 @@ public abstract class SearchAlgorithm implements ISearch {
      */
     protected ArrayList<Node> recoverPath(Node node) {
         ArrayList<Node> result = new ArrayList<>();
-        Node currentNode = parentNodes.get(node);
         result.add(node);
+        Node currentNode = parentNodes.get(node);
         while (currentNode != null) {
-            result.add(currentNode);
+            result.add(0, currentNode);
             currentNode = parentNodes.get(currentNode);
         }
         return result;
@@ -123,6 +108,5 @@ public abstract class SearchAlgorithm implements ISearch {
         openNodes.clear();
         coveredNodes.clear();
         parentNodes.clear();
-        costs.clear();
     }
 }
