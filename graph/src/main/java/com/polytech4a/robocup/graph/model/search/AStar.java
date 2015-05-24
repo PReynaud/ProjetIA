@@ -10,6 +10,7 @@ import com.polytech4a.robocup.graph.model.exceptions.SearchException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Dimitri on 16/05/2015.
@@ -39,7 +40,7 @@ public class AStar extends SearchAlgorithm {
     }
 
     @Override
-    public ArrayList<Node> wayToNodeWithParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException {
+    public Way wayToNodeWithParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException {
         //Initialisation
         openNodes.add(begin);
         costs.put(begin, 0.0);
@@ -54,7 +55,7 @@ public class AStar extends SearchAlgorithm {
 
             //End test
             if (currentNode.equals(end)) {
-                ArrayList<Node> resultPath = recoverPath(currentNode);
+                Way resultPath = recoverPath(currentNode);
                 clearAll();
                 return resultPath;
             }
@@ -71,11 +72,11 @@ public class AStar extends SearchAlgorithm {
             openNodes.sort((s1, s2) -> Double.compare(getFitnessValue(s1), getFitnessValue(s2)));
         }
         clearAll();
-        return new ArrayList<>();
+        return new Way();
     }
 
     @Override
-    public ArrayList<Node> wayToNodeWithoutParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException {
+    public Way wayToNodeWithoutParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException {
         //Initialisation
         openNodes.add(begin);
         costs.put(begin, 0.0);
@@ -90,7 +91,7 @@ public class AStar extends SearchAlgorithm {
 
             //End test
             if (currentNode.equals(end)) {
-                ArrayList<Node> resultPath = recoverPath(currentNode);
+                Way resultPath = recoverPath(currentNode);
                 clearAll();
                 return resultPath;
             }
@@ -107,7 +108,7 @@ public class AStar extends SearchAlgorithm {
             openNodes.sort((s1, s2) -> Double.compare(getFitnessValue(s1), getFitnessValue(s2)));
         }
         clearAll();
-        return new ArrayList<>();
+        return new Way();
     }
 
     @Override

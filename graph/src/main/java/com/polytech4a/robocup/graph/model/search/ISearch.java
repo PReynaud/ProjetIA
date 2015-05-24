@@ -7,6 +7,7 @@ import com.polytech4a.robocup.graph.model.Node;
 import com.polytech4a.robocup.graph.model.exceptions.SearchException;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by Dimitri on 19/05/2015.
@@ -24,7 +25,7 @@ public interface ISearch {
      * @param edgeTypes parameters for the edges
      * @return the way found or null
      */
-    ArrayList<Node> wayToNodeWithParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException;
+    Way wayToNodeWithParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException;
 
     /**
      * Search the way from the node begin to the node end not matching any parameters
@@ -35,5 +36,5 @@ public interface ISearch {
      * @param edgeTypes parameters for the edges
      * @return the way found or null
      */
-    ArrayList<Node> wayToNodeWithoutParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException;
+    Way wayToNodeWithoutParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException;
 }

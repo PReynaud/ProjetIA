@@ -60,7 +60,7 @@ public class Graph {
      */
     public void addNode(Node node) {
         try {
-            Node n=getNode(node.getId());
+            Node n = getNode(node.getId());
             n.getParameters().putAll(node.getParameters());
         } catch (NoSuchElementException e) {
             nodes.add(node);
@@ -91,7 +91,7 @@ public class Graph {
      */
     public void addEdge(Edge edge) {
         try {
-            Edge e= getEdge(getNode(edge.getNode1()), getNode(edge.getNode2()));
+            Edge e = getEdge(getNode(edge.getNode1()), getNode(edge.getNode2()));
             e.getParameters().putAll(edge.getParameters());
         } catch (NoSuchElementException e) {
             edges.add(edge);
@@ -188,7 +188,7 @@ public class Graph {
     /**
      * Get the List of Nodes with corresponding parameters in the closed area of an input node
      *
-     * @param node center of the linked nodes
+     * @param node      center of the linked nodes
      * @param nodeTypes parameters of the nodes
      * @param edgeTypes parameters of the edges
      * @return Linked Nodes
@@ -196,15 +196,15 @@ public class Graph {
     public ArrayList<Node> getNeighboursFromNodeWithParam(Node node, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) {
         return (ArrayList<Node>) getNeighboursFromNode(node)
                 .parallelStream()
-                .filter(s -> s.isNodeFromType(nodeTypes)
-                        && getEdge(node, s).isEdgeFromType(edgeTypes))
+                .filter(s -> (nodeTypes == null || s.isNodeFromType(nodeTypes))
+                        && (edgeTypes == null || getEdge(node, s).isEdgeFromType(edgeTypes)))
                 .collect(Collectors.toList());
     }
 
     /**
      * Get the List of Nodes without corresponding parameters  in the closed area of an input node
      *
-     * @param node center of the linked nodes
+     * @param node      center of the linked nodes
      * @param nodeTypes parameters of the nodes
      * @param edgeTypes parameters of the edges
      * @return Linked Nodes
@@ -212,8 +212,8 @@ public class Graph {
     public ArrayList<Node> getNeighboursFromNodeWithoutParam(Node node, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) {
         return (ArrayList<Node>) getNeighboursFromNode(node)
                 .parallelStream()
-                .filter(s -> !s.isNodeFromType(nodeTypes)
-                        && !getEdge(node, s).isEdgeFromType(edgeTypes))
+                .filter(s -> (nodeTypes == null || !s.isNodeFromType(nodeTypes))
+                        && (edgeTypes == null || !getEdge(node, s).isEdgeFromType(edgeTypes)))
                 .collect(Collectors.toList());
     }
 

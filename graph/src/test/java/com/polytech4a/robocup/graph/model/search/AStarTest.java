@@ -15,8 +15,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Antoine CARON on 19/05/2015.
@@ -29,7 +32,7 @@ public class AStarTest {
     private static Graph graph;
 
     public static void setGraph() {
-        File file = FileUtils.getFile("src", "test", "resources", "mapsixieme.xml");
+        File file = FileUtils.getFile("src", "test", "resources", "test.xml");
         Load l = new Load();
         try {
             AStarTest.graph =l.loadGraph(file);
@@ -58,20 +61,40 @@ public class AStarTest {
         ArrayList<EdgeType> restrictedEdges = new ArrayList<>();
         restrictedNodes.add(NodeType.NORMAL);
         restrictedEdges.add(EdgeType.PLAT);
-
-        ArrayList<Node> path = new ArrayList<>();
-        path.add(graph.getNode(11));
-        path.add(graph.getNode(10));
-        path.add(graph.getNode(18));
-        path.add(graph.getNode(21));
-        path.add(graph.getNode(22));
-        path.add(graph.getNode(24));
-        path.add(graph.getNode(23));
-        path.add(graph.getNode(20));
-        path.add(graph.getNode(17));
-
-        assertEquals("Test AStar with params", path, aStar.wayToNodeWithParam(graph, graph.getNode(11), graph.getNode(17), restrictedNodes, restrictedEdges));
+        Way path= aStar.wayToNodeWithParam(graph,graph.getNode(2),graph.getNode(3),restrictedNodes,restrictedEdges);
+        assertEquals(9, path.getDistance(), 0.001);
+        assertEquals(4, path.getNodes().size());
     }
+
+    @Test
+    public void testWayToNotAcceptableNode() throws Exception {
+        ArrayList<NodeType> restrictedNodes = new ArrayList<>();
+        ArrayList<EdgeType> restrictedEdges = new ArrayList<>();
+        restrictedNodes.add(NodeType.NORMAL);
+        restrictedEdges.add(EdgeType.PLAT);
+        Way path= aStar.wayToNodeWithParam(graph,graph.getNode(2),graph.getNode(4),restrictedNodes,restrictedEdges);
+        assertEquals(0,path.getDistance(),0.001);
+        assertEquals(0,path.getNodes().size());
+    }
+
+    @Test
+    public void testNotFoundWay() throws Exception {
+        ArrayList<NodeType> restrictedNodes = new ArrayList<>();
+        ArrayList<EdgeType> restrictedEdges = new ArrayList<>();
+        restrictedNodes.add(NodeType.NORMAL);
+        restrictedEdges.add(EdgeType.PLAT);
+        Way path= aStar.wayToNodeWithParam(graph,graph.getNode(7),graph.getNode(8),restrictedNodes,restrictedEdges);
+        assertEquals(0,path.getDistance(),0.001);
+        assertEquals(0,path.getNodes().size());
+    }
+
+    @Test
+    public void testNullWhiteList() throws Exception {
+        Way path= aStar.wayToNodeWithParam(graph,graph.getNode(2),graph.getNode(0),null,null);
+        assertEquals(3, path.getDistance(), 0.001);
+        assertEquals(2, path.getNodes().size());
+    }
+
 
     @Test
     public void testWayToNodeWithoutParam() throws Exception {
@@ -79,38 +102,15 @@ public class AStarTest {
         ArrayList<EdgeType> restrictedEdges = new ArrayList<>();
         restrictedNodes.add(NodeType.INCENDIE);
         restrictedEdges.add(EdgeType.ESCARPE);
-
-        ArrayList<Node> path = new ArrayList<>();
-        path.add(graph.getNode(11));
-        path.add(graph.getNode(10));
-        path.add(graph.getNode(18));
-        path.add(graph.getNode(21));
-        path.add(graph.getNode(22));
-        path.add(graph.getNode(24));
-        path.add(graph.getNode(23));
-        path.add(graph.getNode(20));
-        path.add(graph.getNode(17));
-
-        assertEquals("Test AStar without params", path, aStar.wayToNodeWithoutParam(graph, graph.getNode(11), graph.getNode(17), restrictedNodes, restrictedEdges));
+        Way path= aStar.wayToNodeWithoutParam(graph,graph.getNode(5),graph.getNode(3),restrictedNodes,restrictedEdges);
+        assertEquals(3,path.getNodes().size());
+        assertFalse(path.getNodes().contains(graph.getNode(4)));
     }
 
     @Test
-    public void testGetHeuristicValue() throws Exception {
-
-    }
-
-    @Test
-    public void testGetCostSwitchTypes() throws Exception {
-
-    }
-
-    @Test
-    public void testGetCostValue() throws Exception {
-
-    }
-
-    @Test
-    public void testGetFitnessValue() throws Exception {
-
+    public void testNoWay() throws Exception {
+        Way path= aStar.wayToNodeWithParam(graph,graph.getNode(7),graph.getNode(8),null,null);
+        assertEquals(0,path.getDistance(),0.001);
+        assertEquals(0,path.getNodes().size());
     }
 }

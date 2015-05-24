@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <osm>
-    <node id="0" x="227.0" y="105.0" type="NORMAL"/>
-    <node id="1" x="189.0" y="184.0" type="NORMAL"/>
-    <node id="2" x="103.0" y="278.0" type="NORMAL"/>
-    <node id="3" x="233.0" y="148.0" type="NORMAL"/>
-    <node id="4" x="378.0" y="192.0" type="INCENDIE"/>
-    <node id="5" x="230.0" y="125.0" type="NORMAL"/>
-    <node id="6" x="134.0" y="190.0" type="NORMAL"/>
-    <node id="7" x="125.0" y="120.0" type="NORMAL"/>
-    <node id="8" x="201.0" y="263.0" type="NORMAL"/>
+    <node id="0" x="0" y="0" type="NORMAL"/>
+    <node id="1" x="3" y="0" type="NORMAL"/>
+    <node id="2" x="0" y="3" type="NORMAL"/>
+    <node id="3" x="6" y="0" type="NORMAL"/>
+    <node id="4" x="11" y="0" type="INCENDIE"/>
+    <node id="5" x="8" y="2" type="NORMAL"/>
+    <node id="6" x="11" y="2" type="NORMAL"/>
+    <node id="7" x="11" y="4" type="NORMAL"/>
+    <node id="8" x="8" y="0" type="NORMAL"/>
     <edge nd1="0" nd2="1" type="PLAT"/>
     <edge nd1="0" nd2="2" type="PLAT"/>
     <edge nd1="1" nd2="3" type="PLAT"/>

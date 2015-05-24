@@ -4,19 +4,23 @@ import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.model.Node;
+import com.polytech4a.robocup.graph.model.exceptions.MissingParameterException;
 import com.polytech4a.robocup.graph.model.exceptions.SearchException;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Dimitri on 16/05/2015.
  * @version 1.0
- *
- * Path finding abstract class
+ *          <p/>
+ *          Path finding abstract class
  */
 public abstract class SearchAlgorithm implements ISearch {
 
+    private static final Logger logger = Logger.getLogger(SearchAlgorithm.class);
     /**
      * Nodes covered by the algorithm so far
      */
@@ -35,7 +39,6 @@ public abstract class SearchAlgorithm implements ISearch {
 
     /**
      * Constructor for the search algorithm
-     *
      */
     public SearchAlgorithm() {
         this.openNodes = new ArrayList<>();
@@ -44,9 +47,9 @@ public abstract class SearchAlgorithm implements ISearch {
     }
 
 
-    public abstract ArrayList<Node> wayToNodeWithParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException;
+    public abstract Way wayToNodeWithParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException;
 
-    public abstract ArrayList<Node> wayToNodeWithoutParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException;
+    public abstract Way wayToNodeWithoutParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException;
 
     /**
      * Heuristic function for graph search
@@ -79,7 +82,7 @@ public abstract class SearchAlgorithm implements ISearch {
      * Get the cost of moving from a node to its neighbour
      * Function that depends on the heuristic and cost functions
      *
-     * @param node      current node
+     * @param node current node
      * @return cost of the move
      */
     protected abstract double getFitnessValue(Node node);
@@ -90,15 +93,27 @@ public abstract class SearchAlgorithm implements ISearch {
      * @param node node to get the path to
      * @return the path to the input node
      */
-    protected ArrayList<Node> recoverPath(Node node) {
+    protected Way recoverPath(Node node) {
         ArrayList<Node> result = new ArrayList<>();
+        Double distance = new Double(0);
         result.add(node);
         Node currentNode = parentNodes.get(node);
-        while (currentNode != null) {
-            result.add(0, currentNode);
-            currentNode = parentNodes.get(currentNode);
+        try {
+            distance += node.getEuclidianSpace(currentNode);
+            while (currentNode != null) {
+                Node temp= parentNodes.get(currentNode);
+                result.add(0, currentNode);
+                if(temp!=null){
+                    distance = distance + temp.getEuclidianSpace(currentNode);
+                }
+                currentNode =temp;
+            }
+        } catch (MissingParameterException e) {
+            logger.trace("Euclidian Space Failed", e);
         }
-        return result;
+
+        Way way=new Way(distance,result);
+        return way;
     }
 
     /**
