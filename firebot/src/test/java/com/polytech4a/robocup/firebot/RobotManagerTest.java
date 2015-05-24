@@ -1,5 +1,6 @@
 package com.polytech4a.robocup.firebot;
 
+import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.model.Node;
 import junit.framework.TestCase;
@@ -34,7 +35,7 @@ public class RobotManagerTest extends TestCase {
         for(int i = 0 ; i < 3; i++) {
             Firebot robot = Mockito.mock(Firebot.class);
             managerTeam.add(robot);
-            Mockito.when(robot.getCurrentNode()).thenReturn(new Node(i));
+            Mockito.when(robot.getCurrentNode()).thenReturn(new Node(i, (double) i, (double) i, NodeType.INCENDIE));
             Mockito.when(robot.computeDistance(destinationNode)).thenReturn((double) 100 * (i + 1));
             Mockito.when(robot.isAvailable()).thenReturn(true && i%2 == 0);
         }

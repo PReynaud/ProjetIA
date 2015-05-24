@@ -1,7 +1,11 @@
 package com.polytech4a.robocup.firebot;
 
+import com.polytech4a.robocup.graph.enums.EdgeType;
+import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.model.Node;
+
+import java.util.ArrayList;
 
 /**
  * Created by Adrien CHAUSSENDE on 06/05/2015.
@@ -28,14 +32,29 @@ public abstract class Firebot {
     private Node destinationNode;
 
     /**
+     * Way to the destination node.
+     */
+    private ArrayList<Node> wayToDestination = new ArrayList<Node>();
+
+    /**
      * Capacity of the robot to fight fire.
      */
-    int capacity;
+    private int capacity;
 
     /**
      * A robot is available when this parameter is true.
      */
-    boolean availability;
+    private boolean availability;
+
+    /**
+     * Constraints on edges of the graph for the Firebot where he can't go by.
+     */
+    private ArrayList<EdgeType> edgeConstraints = new ArrayList<EdgeType>();
+
+    /**
+     * Constraints on the nodes of the graph for the Firebot where he can't go by.
+     */
+    private ArrayList<NodeType> nodeConstraints = new ArrayList<NodeType>();
 
     public Node getCurrentNode() {
         return currentNode;
@@ -57,12 +76,23 @@ public abstract class Firebot {
         this.availability = availability;
     }
 
-    public Firebot(Graph graph, Node currentNode, Node destinationNode, int capacity) {
+    public ArrayList<EdgeType> getEdgeConstraints() {
+        return edgeConstraints;
+    }
+
+    public ArrayList<NodeType> getNodeConstraints() {
+        return nodeConstraints;
+    }
+
+    public Firebot(Graph graph, int capacity, ArrayList<EdgeType> edgeConstraints, ArrayList<NodeType> nodeConstraints) {
         this.graph = graph;
-        this.currentNode = currentNode;
-        this.destinationNode = destinationNode;
         this.capacity = capacity;
+        this.edgeConstraints = edgeConstraints;
+        this.nodeConstraints = nodeConstraints;
         this.availability = true;
+        this.edgeConstraints = new ArrayList<EdgeType>();
+        this.nodeConstraints = new ArrayList<NodeType>();
+
     }
 
     /**
@@ -87,6 +117,13 @@ public abstract class Firebot {
     public double computeDistance(Node destination) {
         //TODO : call graph method to compute shortest distance to destination.
         return 0.0;
+    }
+
+    public void goToNextNode() {
+        if(wayToDestination.size() > 0) {
+            currentNode = wayToDestination.get(0);
+            wayToDestination.remove(0);
+        }
     }
 
 }
