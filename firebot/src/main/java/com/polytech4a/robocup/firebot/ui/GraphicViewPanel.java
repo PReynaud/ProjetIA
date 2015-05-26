@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
 public class GraphicViewPanel extends JPanel {
     private Graph graph;
     private BufferedImage canvas;
-    private ImageIcon basicImage;
+    private Image basicImage;
 
     public GraphicViewPanel(){
         super();
@@ -24,14 +24,14 @@ public class GraphicViewPanel extends JPanel {
         this.setDoubleBuffered(true);
         this.graph = new Graph();
 
-        canvas = new BufferedImage(700,400,BufferedImage.TYPE_INT_RGB);
+        canvas = new BufferedImage(this.getWidth(),this.getHeight(),BufferedImage.TYPE_INT_RGB);
     }
 
     public Graph getGraph() {
         return graph;
     }
 
-    public void setBasicImage(ImageIcon image) {
+    public void setBasicImage(Image image) {
         this.basicImage = image;
     }
 
@@ -43,8 +43,7 @@ public class GraphicViewPanel extends JPanel {
             g2d.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         }
         else{
-            basicImage.paintIcon(null, g2d, 0, 0);
-            //g2d.drawImage(basicImage, 0, 0, 700, 400, null);
+            g2d.drawImage(basicImage, 0, 0, this.getWidth(), this.getHeight(), null);
         }
 
         graph.drawGraph(g2d);

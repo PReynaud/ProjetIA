@@ -6,6 +6,7 @@ import com.polytech4a.robocup.firebot.ui.GraphicViewPanel;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -74,10 +75,15 @@ class LoadImageAction extends AbstractAction{
 
         if(fileChooser.showOpenDialog(null)== JFileChooser.APPROVE_OPTION) {
             file = fileChooser.getSelectedFile();
-            ImageIcon img = new ImageIcon(file.getAbsolutePath());
-            GraphicViewPanel graphicViewPanel = (GraphicViewPanel) mainController.getView().getGraphicViewPanel();
-            graphicViewPanel.setBasicImage(img);
-            graphicViewPanel.paintComponent(graphicViewPanel.getGraphics());
+            Image img = null;
+            try {
+                img = ImageIO.read(file);
+                GraphicViewPanel graphicViewPanel = (GraphicViewPanel) mainController.getView().getGraphicViewPanel();
+                graphicViewPanel.setBasicImage(img);
+                graphicViewPanel.paintComponent(graphicViewPanel.getGraphics());
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 }
