@@ -1,5 +1,6 @@
 package com.polytech4a.robocup.firebot;
 
+import com.polytech4a.robocup.firebot.robots.LeggedFirebot;
 import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.enums.NodeType;
 

@@ -1,10 +1,11 @@
 package com.polytech4a.robocup.firebot;
 
+import com.polytech4a.robocup.firebot.robots.Firebot;
+import com.polytech4a.robocup.firebot.robots.RobotManager;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.model.Node;
 import junit.framework.TestCase;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 

@@ -1,11 +1,14 @@
-package com.polytech4a.robocup.firebot;
+package com.polytech4a.robocup.firebot.robots;
 
+import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.model.Node;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Adrien CHAUSSENDE on 06/05/2015.
@@ -66,9 +69,9 @@ public class RobotManager {
      */
     public void distributeTasks() {
         ArrayList<Firebot> availableRobots = askAvailability();
-        ArrayList<Node> destinationNodes = new ArrayList<>();
-        //destinationNodes = graph.getDestinationNodes();
-        ArrayList<Node> leftoverNodes = new ArrayList<>();
+        ArrayList<NodeType> types = new ArrayList<>();
+        types.add(NodeType.INCENDIE);
+        List<Node> destinationNodes = graph.getNodes().stream().filter(n -> n.isNodeFromType(types)).collect(Collectors.toList());
         if(destinationNodes.size() > 0) {
             for(Node n : destinationNodes) {
                 Firebot assignedBot = askDistancesToNode(availableRobots, n);

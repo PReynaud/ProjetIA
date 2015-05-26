@@ -1,21 +1,33 @@
-package com.polytech4a.robocup.firebot;
+package com.polytech4a.robocup.firebot.robots;
 
 import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.model.Node;
+import com.polytech4a.robocup.graph.model.exceptions.SearchException;
+import com.polytech4a.robocup.graph.model.search.AStar;
+import com.polytech4a.robocup.graph.model.search.ISearch;
+import com.polytech4a.robocup.graph.model.search.Way;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Queue;
 
 /**
  * Created by Adrien CHAUSSENDE on 06/05/2015.
  *
  * @author Adrien CHAUSSENDE
  * @version 1.0
- *          <p/>
+ *          <p>
  *          Abstract class representing a firefighter robot.
  */
 public abstract class Firebot {
+
+    /**
+     * Logger.
+     */
+    private static final Logger logger = Logger.getLogger(Firebot.class);
+
     /**
      * Current graph of the situation.
      */
@@ -34,7 +46,7 @@ public abstract class Firebot {
     /**
      * Way to the destination node.
      */
-    private ArrayList<Node> wayToDestination = new ArrayList<Node>();
+    private Way wayToDestination = new Way();
 
     /**
      * Capacity of the robot to fight fire.
@@ -55,6 +67,22 @@ public abstract class Firebot {
      * Constraints on the nodes of the graph for the Firebot where he can't go by.
      */
     private ArrayList<NodeType> nodeConstraints = new ArrayList<NodeType>();
+
+    /**
+     * Search Algorithm for finding way to a node and
+     */
+    private ISearch searchAlgorithm;
+
+    public Firebot(Graph graph, int capacity, ArrayList<EdgeType> edgeConstraints, ArrayList<NodeType> nodeConstraints) {
+        this.graph = graph;
+        this.capacity = capacity;
+        this.edgeConstraints = edgeConstraints;
+        this.nodeConstraints = nodeConstraints;
+        this.availability = true;
+        this.edgeConstraints = new ArrayList<EdgeType>();
+        this.nodeConstraints = new ArrayList<NodeType>();
+        this.searchAlgorithm = new AStar();
+    }
 
     public Node getCurrentNode() {
         return currentNode;
@@ -84,25 +112,16 @@ public abstract class Firebot {
         return nodeConstraints;
     }
 
-    public Firebot(Graph graph, int capacity, ArrayList<EdgeType> edgeConstraints, ArrayList<NodeType> nodeConstraints) {
-        this.graph = graph;
-        this.capacity = capacity;
-        this.edgeConstraints = edgeConstraints;
-        this.nodeConstraints = nodeConstraints;
-        this.availability = true;
-        this.edgeConstraints = new ArrayList<EdgeType>();
-        this.nodeConstraints = new ArrayList<NodeType>();
-
-    }
-
     /**
      * Method to compute time needed for the robot to extinguish the fire.
+     *
      * @return Time to do the task, in milliseconds.
      */
     public abstract long computeTime();
 
     /**
      * Get robot's availability for a task.
+     *
      * @return True if the robot is available, else returns false.
      */
     public boolean isAvailable() {
@@ -111,18 +130,30 @@ public abstract class Firebot {
 
     /**
      * Compute distance to destination node. Return this distance.
+     *
      * @param destination destination node.
      * @return computed distance.
      */
     public double computeDistance(Node destination) {
-        //TODO : call graph method to compute shortest distance to destination.
+        if (currentNode != null && destination != null) {
+            try {
+                wayToDestination = searchAlgorithm.wayToNodeWithoutParam(graph, currentNode, destination, nodeConstraints, edgeConstraints);
+                return wayToDestination.getDistance();
+            } catch (SearchException e) {
+                logger.trace("Error within algorithm execution", e);
+            }
+        }
         return 0.0;
     }
 
+    /**
+     * Move this to next node depending on wayToDestination calculate.
+     */
     public void goToNextNode() {
-        if(wayToDestination.size() > 0) {
-            currentNode = wayToDestination.get(0);
-            wayToDestination.remove(0);
+        Queue<Node> queueNodeList = (Queue<Node>) wayToDestination.getNodes();
+        Node n = queueNodeList.poll();
+        if (n != null) {
+            currentNode = n;
         }
     }
 

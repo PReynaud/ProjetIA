@@ -1,9 +1,8 @@
-package com.polytech4a.robocup.firebot;
+package com.polytech4a.robocup.firebot.robots;
 
 import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
-import com.polytech4a.robocup.graph.model.Node;
 
 import java.util.ArrayList;
 
@@ -13,11 +12,11 @@ import java.util.ArrayList;
  * @author Adrien CHAUSSENDE
  * @version 1.0
  *          <p/>
- *          Class representing a robot using legs to move.
+ *          Class representing a cross country firebot.
  */
-public class LeggedFirebot extends Firebot {
+public class CrossCountryFirebot extends Firebot {
 
-    public LeggedFirebot(Graph graph, int capacity, ArrayList<EdgeType> edgeConstraints, ArrayList<NodeType> nodeConstraints) {
+    public CrossCountryFirebot(Graph graph, int capacity, ArrayList<EdgeType> edgeConstraints, ArrayList<NodeType> nodeConstraints) {
         super(graph, capacity, edgeConstraints, nodeConstraints);
     }
 
