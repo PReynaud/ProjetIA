@@ -1,7 +1,6 @@
 package com.polytech4a.robocup.firebot.controller;
 
 import com.polytech4a.robocup.firebot.ui.GraphicControlPanel;
-import com.polytech4a.robocup.firebot.ui.GraphicViewPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -23,6 +22,7 @@ public class GraphicControlController {
         graphicControlPanel.getAddEdgeButton().addAction(new AddEdgeAction(mainController));
         graphicControlPanel.getAddRobotButton().addAction(new AddRobotAction());
         graphicControlPanel.getAddFireButton().addAction(new AddFireAction());
+        graphicControlPanel.getAddEscarpeEdge().addAction(new AddEdgeEscarpeAction());
     }
 }
 
@@ -75,6 +75,17 @@ class AddRobotAction extends AbstractAction{
  */
 class AddFireAction extends AbstractAction{
     public AddFireAction(){}
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
+}
+
+/**
+ * Action launch to add an Edge escarpé.
+ */
+class AddEdgeEscarpeAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
