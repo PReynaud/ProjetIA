@@ -16,12 +16,19 @@ import java.util.ArrayList;
  */
 public class TrackedFirebot extends Firebot {
 
-    public TrackedFirebot(Graph graph, int capacity, ArrayList<EdgeType> edgeConstraints, ArrayList<NodeType> nodeConstraints) {
-        super(graph, capacity, edgeConstraints, nodeConstraints);
+    public TrackedFirebot(Graph graph, int capacity) {
+        super(graph, capacity, constructEdgeConstraints(), new ArrayList<NodeType>());
     }
 
-    @Override
-    public long computeTime() {
-        return 0;
+    /**
+     * Method to construct the array list containing the type of edges where the robot can't go by.
+     *
+     * @return ArrayList of Edge Type
+     */
+    private static ArrayList<EdgeType> constructEdgeConstraints() {
+        ArrayList<EdgeType> result = new ArrayList<>();
+        result.add(EdgeType.INONDEE);
+        return result;
     }
+
 }

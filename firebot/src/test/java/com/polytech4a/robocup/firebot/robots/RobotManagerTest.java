@@ -1,4 +1,4 @@
-package com.polytech4a.robocup.firebot;
+package com.polytech4a.robocup.firebot.robots;
 
 import com.polytech4a.robocup.firebot.robots.Firebot;
 import com.polytech4a.robocup.firebot.robots.RobotManager;
