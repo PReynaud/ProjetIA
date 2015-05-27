@@ -7,7 +7,6 @@ import com.polytech4a.robocup.graph.model.Node;
 import com.polytech4a.robocup.graph.model.exceptions.SearchException;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Created by Dimitri on 19/05/2015.
@@ -19,6 +18,7 @@ public interface ISearch {
     /**
      * Search the way from the node begin to the node end matching the parameters
      *
+     * @param graph     graph of the search
      * @param begin     start node
      * @param end       objective node
      * @param nodeTypes parameters for the nodes
@@ -30,6 +30,7 @@ public interface ISearch {
     /**
      * Search the way from the node begin to the node end not matching any parameters
      *
+     * @param graph     graph of the search
      * @param begin     start node
      * @param end       objective node
      * @param nodeTypes parameters for the nodes

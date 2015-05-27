@@ -10,7 +10,6 @@ import com.polytech4a.robocup.graph.model.exceptions.SearchException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Dimitri on 16/05/2015.
@@ -18,7 +17,7 @@ import java.util.Map;
  *
  * Astar path finder
  */
-public class AStar extends SearchAlgorithm {
+public class AStar extends HeuristicCostSearch {
 
     /**
      * Associate a node to its cost
@@ -47,7 +46,7 @@ public class AStar extends SearchAlgorithm {
         try {
             fitness.put(begin, begin.getEuclidianSpace(end));
         } catch (MissingParameterException e) {
-            e.printStackTrace();
+            throw new SearchException("AStar.wayToNodeWithParam : error with the begin and end nodes :" + e.getMessage());
         }
 
         while (!this.openNodes.isEmpty()) {
@@ -83,7 +82,7 @@ public class AStar extends SearchAlgorithm {
         try {
             fitness.put(begin, begin.getEuclidianSpace(end));
         } catch (MissingParameterException e) {
-            e.printStackTrace();
+            throw new SearchException("AStar.wayToNodeWithParam : error with the begin and end nodes :" + e.getMessage());
         }
 
         while (!this.openNodes.isEmpty()) {
@@ -122,7 +121,7 @@ public class AStar extends SearchAlgorithm {
 
     @Override
     protected double getCostSwitchTypes(EdgeType edgeType, NodeType nodeType) {
-        //TODO : definir le cout de passage d un noeud a l autre en fonction des types.
+        //To define with the cost passage through the node and the edge
         return 0;
     }
 
@@ -143,20 +142,31 @@ public class AStar extends SearchAlgorithm {
         costs.clear();
     }
 
-    private void updateFitness(Node node, Node currentNode, Node end, Graph graph) throws SearchException {
+    /**
+     * Update the fitness value of a node.
+     * Corresponds to the sum of the heuristic value and
+     * the cost of going to the node from its parent
+     *
+     * @param node       current node
+     * @param parentNode parent node
+     * @param targetNode objective node
+     * @param graph      graph of the search
+     * @throws SearchException
+     */
+    private void updateFitness(Node node, Node parentNode, Node targetNode, Graph graph) throws SearchException {
         Node parent = parentNodes.get(node);
         Double oldCost = costs.get(node), newCost;
         try {
-            newCost = costs.get(currentNode) + getCostSwitchTypes(graph.getEdge(node, currentNode).getType(), node.getType()) + currentNode.getEuclidianSpace(node);
+            newCost = costs.get(parentNode) + getCostSwitchTypes(graph.getEdge(node, parentNode).getType(), node.getType()) + parentNode.getEuclidianSpace(node);
         } catch (NotFoundTypeException e) {
             throw new SearchException("AStar.updateFitness : The node " + node.toString() + " has an unhandledParameter : \n" + e.getMessage());
         } catch (MissingParameterException e) {
             throw new SearchException("AStar.updateFitness : The node " + node.toString() + " has no parameter type : \n" + e.getMessage());
         }
         if (!openNodes.contains(node) || (parent != null && oldCost != null && oldCost > newCost)) {
-            parentNodes.put(node, currentNode);
+            parentNodes.put(node, parentNode);
             costs.put(node, newCost);
-            fitness.put(node, getCostValue(node) + getHeuristicValue(node, end));
+            fitness.put(node, getCostValue(node) + getHeuristicValue(node, targetNode));
             if (!openNodes.contains(node)) {
                 openNodes.add(node);
             }

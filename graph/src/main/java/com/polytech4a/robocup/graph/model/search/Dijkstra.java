@@ -75,23 +75,8 @@ public final class Dijkstra extends SearchAlgorithm {
     }
 
     @Override
-    protected double getHeuristicValue(Node node, Node target) throws SearchException {
-        return 0;
-    }
-
-
-    @Override
     protected double getCostSwitchTypes(EdgeType edgeType, NodeType nodeType) {
-        return 0;
-    }
-
-    @Override
-    protected double getCostValue(Node node) {
-        return 0;
-    }
-
-    @Override
-    protected double getFitnessValue(Node node) {
+        //To define with the cost passage through the node and the edge
         return 0;
     }
 }
