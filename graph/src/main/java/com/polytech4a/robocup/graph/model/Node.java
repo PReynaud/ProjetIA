@@ -45,10 +45,6 @@ public class Node {
         return Integer.valueOf(parameters.get("id")).intValue();
     }
 
-    public boolean equals(Node node) {
-        return this.getId() == node.getId();
-    }
-
     public NodeType getType() throws NotFoundTypeException, MissingParameterException {
         String s = getParameters().get("type");
         if (s != null) {
@@ -129,5 +125,13 @@ public class Node {
             clonedParameters.put(parameter, parameters.get(parameter));
         }
         return new Node(clonedParameters);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Node) {
+            return ((Node) obj).getId() == getId();
+        }
+        return false;
     }
 }

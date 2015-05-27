@@ -2,7 +2,6 @@ package com.polytech4a.robocup.graph.model;
 
 import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.enums.NodeType;
-import com.polytech4a.robocup.graph.model.exceptions.MissingParameterException;
 import com.polytech4a.robocup.graph.model.exceptions.NotFoundTypeException;
 import org.apache.log4j.Logger;
 
@@ -115,7 +114,11 @@ public class Graph {
      * @param node2 Second node of the edge
      */
     public void removeEdge(Node node1, Node node2) {
-        edges.remove(getEdge(node1, node2));
+        try {
+            edges.remove(getEdge(node1, node2));
+        }catch (NoSuchElementException e){
+            //The edge does not exist
+        }
     }
 
     /**
@@ -271,44 +274,6 @@ public class Graph {
         result.add(getNode(edge.getNode1()));
         result.add(getNode(edge.getNode2()));
         return result;
-    }
-
-    /**
-     * Get the list of nodes with an input param linked to an edge
-     *
-     * @param edge link between the nodes
-     * @param type parameter of the nodes
-     * @return List of the linked nodes
-     */
-    public ArrayList<Node> getNodesFromEdgeWithParam(Edge edge, NodeType type) {
-        return (ArrayList<Node>) getNodesFromEdge(edge).parallelStream().filter(s -> {
-            try {
-                return s.getType().equals(type);
-            } catch (NotFoundTypeException e) {
-                return false;
-            } catch (MissingParameterException e) {
-                return false;
-            }
-        }).collect(Collectors.toList());
-    }
-
-    /**
-     * Get the list of nodes without an input param linked to an edge
-     *
-     * @param edge link between the nodes
-     * @param type parameter of the nodes
-     * @return List of the linked nodes
-     */
-    public ArrayList<Node> getNodesFromEdgeWithoutParam(Edge edge, NodeType type) {
-        return (ArrayList<Node>) getNodesFromEdge(edge).parallelStream().filter(s -> {
-            try {
-                return !s.getType().equals(type);
-            } catch (NotFoundTypeException e) {
-                return false;
-            } catch (MissingParameterException e) {
-                return false;
-            }
-        }).collect(Collectors.toList());
     }
 
     public boolean equals(Graph obj) {

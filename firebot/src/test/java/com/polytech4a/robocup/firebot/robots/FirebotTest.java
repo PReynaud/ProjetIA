@@ -1,11 +1,19 @@
-package com.polytech4a.robocup.firebot;
+package com.polytech4a.robocup.firebot.robots;
 
 import com.polytech4a.robocup.firebot.robots.Firebot;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.model.Node;
+import com.polytech4a.robocup.graph.utils.Load;
+import com.polytech4a.robocup.graph.utils.MalformGraphException;
 import junit.framework.TestCase;
+import org.apache.commons.io.FileUtils;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by Adrien CHAUSSENDE on 11/05/2015.
@@ -44,12 +52,13 @@ public abstract class FirebotTest extends TestCase {
     }
 
     @Override
-    public void setUp() {
+    public void setUp() throws ParserConfigurationException, MalformGraphException, SAXException, IOException {
         MockitoAnnotations.initMocks(this);
-        graph = Mockito.mock(Graph.class);
+        File file = FileUtils.getFile("src", "test", "resources", "test.xml");
+        Load l = new Load();
+        graph = l.loadGraph(file);
         currentNode = Mockito.mock(Node.class);
         destinationNode = Mockito.mock(Node.class);
-        firebot = Mockito.mock(Firebot.class);
     }
 
     @Override
@@ -68,7 +77,5 @@ public abstract class FirebotTest extends TestCase {
 
     public abstract void testComputeTime();
 
-    public void testComputeDistance() {
-        assertEquals(0.0, firebot.computeDistance(destinationNode));
-    }
+    public abstract void testComputeDistance();
 }

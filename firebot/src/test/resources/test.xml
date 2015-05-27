@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm>
+    <node id="0" x="0" y="0" type="NORMAL"/>
+    <node id="1" x="3" y="0" type="NORMAL"/>
+    <node id="2" x="0" y="3" type="NORMAL"/>
+    <node id="3" x="6" y="0" type="NORMAL"/>
+    <node id="4" x="11" y="0" type="INCENDIE"/>
+    <node id="5" x="8" y="2" type="NORMAL"/>
+    <node id="6" x="11" y="2" type="NORMAL"/>
+    <node id="7" x="11" y="4" type="NORMAL"/>
+    <node id="8" x="8" y="0" type="NORMAL"/>
+    <edge nd1="0" nd2="1" type="PLAT"/>
+    <edge nd1="0" nd2="2" type="PLAT"/>
+    <edge nd1="1" nd2="3" type="PLAT"/>
+    <edge nd1="2" nd2="3" type="ESCARPE"/>
+    <edge nd1="4" nd2="3" type="PLAT"/>
+    <edge nd1="5" nd2="4" type="PLAT"/>
+    <edge nd1="3" nd2="6" type="PLAT"/>
+    <edge nd1="5" nd2="6" type="INONDEE"/>
+    <edge nd1="6" nd2="7" type="PLAT"/>
+</osm>

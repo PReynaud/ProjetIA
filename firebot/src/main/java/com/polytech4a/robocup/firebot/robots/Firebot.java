@@ -18,7 +18,7 @@ import java.util.Queue;
  *
  * @author Adrien CHAUSSENDE
  * @version 1.0
- *          <p>
+ *          <p/>
  *          Abstract class representing a firefighter robot.
  */
 public abstract class Firebot {
@@ -79,8 +79,8 @@ public abstract class Firebot {
         this.edgeConstraints = edgeConstraints;
         this.nodeConstraints = nodeConstraints;
         this.availability = true;
-        this.edgeConstraints = new ArrayList<EdgeType>();
-        this.nodeConstraints = new ArrayList<NodeType>();
+        this.edgeConstraints = edgeConstraints;
+        this.nodeConstraints = nodeConstraints;
         this.searchAlgorithm = new AStar();
     }
 
@@ -117,7 +117,9 @@ public abstract class Firebot {
      *
      * @return Time to do the task, in milliseconds.
      */
-    public abstract long computeTime();
+    public long computeTime() {
+        return (long) 1000 * capacity / 100;
+    }
 
     /**
      * Get robot's availability for a task.

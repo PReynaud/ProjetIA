@@ -11,7 +11,8 @@ import org.junit.Test;
 import java.io.File;
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Dimitri on 11/05/2015.
@@ -173,9 +174,61 @@ public class GraphTest {
 
     @Test
     public void testUpdateEdge() throws Exception {
-        Edge e=loadedGraph.getEdge(loadedGraph.getNode(0),loadedGraph.getNode(1)).clone();
+        Edge e = loadedGraph.getEdge(loadedGraph.getNode(0), loadedGraph.getNode(1)).clone();
         Edge e1=new Edge(0,1,EdgeType.INONDEE);
         loadedGraph.addEdge(e1);
         assertEquals(EdgeType.INONDEE,e1.getType());
+    }
+
+    @Test
+    public void testRemoveNode() throws Exception {
+        loadedGraph.removeNode(loadedGraph.getNode(1));
+        assertEquals(8, loadedGraph.getNodes().size());
+        assertEquals(7, loadedGraph.getEdges().size());
+        Node errorNode1 = new Node(1, 0, 0, NodeType.INCENDIE),
+                errorNode2 = new Node(-1, 0, 0, NodeType.INCENDIE);
+        loadedGraph.removeNode(errorNode1);
+        loadedGraph.removeNode(errorNode2);
+
+        assertEquals(8, loadedGraph.getNodes().size());
+        assertEquals(7, loadedGraph.getEdges().size());
+    }
+
+    @Test
+    public void testRemoveEdge() throws Exception {
+        loadedGraph.removeEdge(loadedGraph.getEdge(loadedGraph.getNode(0), loadedGraph.getNode(1)));
+        assertEquals(8, loadedGraph.getEdges().size());
+
+        Edge errorEdge = new Edge(0, 0, EdgeType.INONDEE),
+                errorEdge2 = new Edge(0, 1, EdgeType.PLAT);
+        loadedGraph.removeEdge(errorEdge);
+        loadedGraph.removeEdge(errorEdge2);
+        loadedGraph.removeEdge(loadedGraph.getNode(1), new Node(-1, 0, 0, NodeType.INCENDIE));
+        loadedGraph.removeEdge(loadedGraph.getNode(1), loadedGraph.getNode(0));
+        loadedGraph.removeEdge(loadedGraph.getNode(1), loadedGraph.getNode(2));
+        assertEquals(8, loadedGraph.getEdges().size());
+    }
+
+    @Test
+    public void testGetEdgeFromNodeWithParam() throws Exception {
+        ArrayList<Edge> expectedEdges = new ArrayList<>();
+        expectedEdges.add(new Edge(1, 3, EdgeType.PLAT));
+        expectedEdges.add(new Edge(4, 3, EdgeType.PLAT));
+        expectedEdges.add(new Edge(3, 6, EdgeType.PLAT));
+        for (int i = 0; i < expectedEdges.size(); i++) {
+            assertTrue(expectedEdges.get(i).equals(loadedGraph.getEdgesFromNodeWithParam(loadedGraph.getNode(3), EdgeType.PLAT).get(i)));
+        }
+
+    }
+
+    @Test
+    public void testGetEdgeFromNodeWithoutParam() throws Exception {
+        ArrayList<Edge> expectedEdges = new ArrayList<>();
+        expectedEdges.add(new Edge(1, 3, EdgeType.PLAT));
+        expectedEdges.add(new Edge(4, 3, EdgeType.PLAT));
+        expectedEdges.add(new Edge(3, 6, EdgeType.PLAT));
+        for (int i = 0; i < expectedEdges.size(); i++) {
+            assertTrue(expectedEdges.get(i).equals(loadedGraph.getEdgesFromNodeWithoutParam(loadedGraph.getNode(3), EdgeType.ESCARPE).get(i)));
+        }
     }
 }

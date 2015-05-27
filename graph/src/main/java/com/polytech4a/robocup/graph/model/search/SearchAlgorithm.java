@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Dimitri on 16/05/2015.
@@ -52,16 +51,6 @@ public abstract class SearchAlgorithm implements ISearch {
     public abstract Way wayToNodeWithoutParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException;
 
     /**
-     * Heuristic function for graph search
-     *
-     * @param node   current node
-     * @param target objective node
-     * @return value of the heuristic function
-     * @throws SearchException
-     */
-    protected abstract double getHeuristicValue(Node node, Node target) throws SearchException;
-
-    /**
      * Get the cost associate with the type a node and its incoming edge
      *
      * @param edgeType type of the edge
@@ -69,23 +58,6 @@ public abstract class SearchAlgorithm implements ISearch {
      * @return cost of going to the node
      */
     protected abstract double getCostSwitchTypes(EdgeType edgeType, NodeType nodeType);
-
-    /**
-     * Cost function for the graph search
-     *
-     * @param node node to test
-     * @return cost of going to the node
-     */
-    protected abstract double getCostValue(Node node);
-
-    /**
-     * Get the cost of moving from a node to its neighbour
-     * Function that depends on the heuristic and cost functions
-     *
-     * @param node current node
-     * @return cost of the move
-     */
-    protected abstract double getFitnessValue(Node node);
 
     /**
      * Get the path from the source node to the input node
@@ -100,13 +72,12 @@ public abstract class SearchAlgorithm implements ISearch {
         Node currentNode = parentNodes.get(node);
         try {
             distance += node.getEuclidianSpace(currentNode);
-            while (currentNode != null) {
-                Node temp= parentNodes.get(currentNode);
+            Node temp = parentNodes.get(currentNode);
+            while (temp != null) {
                 result.add(0, currentNode);
-                if(temp!=null){
-                    distance = distance + temp.getEuclidianSpace(currentNode);
-                }
+                distance = distance + temp.getEuclidianSpace(currentNode);
                 currentNode =temp;
+                temp = parentNodes.get(currentNode);
             }
         } catch (MissingParameterException e) {
             logger.trace("Euclidian Space Failed", e);
