@@ -24,6 +24,7 @@ public class MouseController implements MouseListener, MouseMotionListener {
         GraphicViewPanel graphicViewPanel = (GraphicViewPanel) mainController.getView().getGraphicViewPanel();
         GraphView graph = graphicViewPanel.getGraph();
         if(mainController.getSelectionMode().equals(EnumSelection.ADD_NODE)){
+            //TODO ajouter au modele
             graph.addNode(e.getX(), e.getY());
             graphicViewPanel.paintComponent(graphicViewPanel.getGraphics());
         }
@@ -35,6 +36,7 @@ public class MouseController implements MouseListener, MouseMotionListener {
                     mainController.setLastClickedNode(clickedNode);
                 }
                 else{
+                    //TODO ajouter au modele
                     graph.addEdge(mainController.getLastClickedNode(), clickedNode);
                     mainController.setLastClickedNode(null);
                 }

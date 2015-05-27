@@ -9,6 +9,7 @@ import java.awt.*;
  *          Class for displaying the node in the graphic panel
  */
 public class NodeView {
+    private int id;
     private int x;
     private int y;
 
@@ -23,6 +24,17 @@ public class NodeView {
     protected Color color;
 
     public NodeView(int x, int y){
+        //TODO: changer pour avoir un id automatique
+        this.id = 0;
+        this.x = x;
+        this.y = y;
+
+        this.size = 20;
+        this.color = Color.MAGENTA;
+    }
+
+    public NodeView(int x, int y, int id){
+        this.id = id;
         this.x = x;
         this.y = y;
 
@@ -40,6 +52,10 @@ public class NodeView {
 
     public int getSize() {
         return size;
+    }
+
+    public int getId() {
+        return id;
     }
 
     /**

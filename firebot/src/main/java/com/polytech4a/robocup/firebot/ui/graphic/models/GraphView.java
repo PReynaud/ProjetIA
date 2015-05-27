@@ -1,5 +1,7 @@
 package com.polytech4a.robocup.firebot.ui.graphic.models;
 
+import org.apache.log4j.Logger;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -28,6 +30,10 @@ public class GraphView {
     //TODO rajouter sécurité pour ne pas avoir deux noeuds qui se chevauchent
     public void addNode(int x, int y){
         this.nodes.add(new NodeView(x, y));
+    }
+
+    public void addNode(int x, int y, int id){
+        this.nodes.add(new NodeView(x, y, id));
     }
 
     public void addEdge(NodeView n1, NodeView n2){

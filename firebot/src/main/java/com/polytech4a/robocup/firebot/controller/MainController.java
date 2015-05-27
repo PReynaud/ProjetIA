@@ -7,11 +7,16 @@ import com.polytech4a.robocup.graph.model.Edge;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.model.Node;
 import com.polytech4a.robocup.graph.model.exceptions.MissingParameterException;
+import org.apache.log4j.Logger;
+
+import java.util.Optional;
 
 /**
  * Created by Pierre on 11/05/2015.
  */
 public class MainController {
+    private static final Logger logger = Logger.getLogger(MainController.class);
+
     private MainForm view;
     private Graph model;
     private Graph graph;
@@ -22,13 +27,9 @@ public class MainController {
     private MouseController mouseController;
 
     private EnumSelection selectionMode;
-
     private NodeView lastClickedNode;
 
-    public MainController(){
-    }
 
-    //TODO Constructeur avec en passage le modele en plus
     public  MainController(MainForm mainForm){
         this.view = mainForm;
 
@@ -65,18 +66,29 @@ public class MainController {
     }
     public void setSelectionMode(EnumSelection newMode){this.selectionMode = newMode;}
 
+
+    /**
+     * Transform the model in objects that can be used in the view
+     * Call when we have to load a graph from a file
+     */
     public void transformModelGraphToView(){
         GraphicViewPanel graphicViewPanel = (GraphicViewPanel) view.getGraphicViewPanel();
         for(Node node: graph.getNodes()){
             try {
-                graphicViewPanel.getGraph().addNode((int)node.getX(), (int)node.getY());
+                graphicViewPanel.getGraph().addNode((int)node.getX(), (int)node.getY(), node.getId());
             } catch (MissingParameterException e) {
-                //TODO exception
+                logger.error("Error for getting the model");
             }
         }
         for(Edge edge: graph.getEdges()){
-
-            //graphicViewPanel.getGraph().
+            Optional<NodeView> n1 = graphicViewPanel.getGraph().getNodes().stream().filter(o -> o.getId() == edge.getNode1()).findFirst();
+            Optional<NodeView> n2 = graphicViewPanel.getGraph().getNodes().stream().filter(o -> o.getId() == edge.getNode2()).findFirst();
+            if(n1.isPresent() && n2.isPresent()){
+                graphicViewPanel.getGraph().addEdge(n1.get(), n2.get());
+            }
+            else{
+                logger.error("Error for getting the model");
+            }
         }
     }
 }

@@ -5,6 +5,8 @@ import com.polytech4a.robocup.firebot.ui.GraphicViewPanel;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.utils.Load;
 import com.polytech4a.robocup.graph.utils.MalformGraphException;
+import com.polytech4a.robocup.graph.utils.Save;
+import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
 import javax.imageio.ImageIO;
@@ -21,6 +23,8 @@ import java.io.IOException;
  * Created by Pierre on 11/05/2015.
  */
 public class FileController {
+    private static final Logger logger = Logger.getLogger(FileController.class);
+
     private MainController mainController;
 
     public FileController(MainController mainController){
@@ -29,12 +33,16 @@ public class FileController {
         FilePanel filePanel = (FilePanel) mainController.getView().getFilePanel();
         filePanel.getLoadGraphButton().addAction(new LoadGraphAction(mainController));
         filePanel.getLoadImageButton().addAction(new LoadImageAction(mainController));
-        filePanel.getSaveGraphButton().addAction(new SaveGraphAction());
+        filePanel.getSaveGraphButton().addAction(new SaveGraphAction(mainController));
     }
 }
 
-
+/**
+ * Action of showing a file chooser dialog and loading a graph from a xml file
+ */
 class LoadGraphAction extends AbstractAction{
+    private static final Logger logger = Logger.getLogger(FileController.class);
+
     MainController mainController;
     public LoadGraphAction(MainController mainController){
         this.mainController = mainController;
@@ -52,21 +60,25 @@ class LoadGraphAction extends AbstractAction{
                 mainController.setGraph(loadedGraph);
                 mainController.transformModelGraphToView();
             } catch (IOException e1) {
-                //TODO rajouter logs
-                e1.printStackTrace();
+                logger.error("Error in the loading of the graph");
             } catch (ParserConfigurationException e1) {
-                e1.printStackTrace();
+                logger.error("Error in the loading of the graph: " + e1.getMessage());
             } catch (SAXException e1) {
-                e1.printStackTrace();
+                logger.error("Error in the loading of the graph: " + e1.getMessage());
             } catch (MalformGraphException e1) {
-                e1.printStackTrace();
+                logger.error("Error in the loading of the graph: " + e1.getMessage());
             }
         }
     }
 }
 
-
+/**
+ * Acttion of showing a file chooser dialog and load an image in the background
+ * If the image is smaller, it will be not resized, otherwise it will be adjusted to the window
+ */
 class LoadImageAction extends AbstractAction{
+    private static final Logger logger = Logger.getLogger(FileController.class);
+
     MainController mainController;
     public LoadImageAction(MainController mainController){
         this.mainController = mainController;
@@ -94,27 +106,38 @@ class LoadImageAction extends AbstractAction{
 
         if(fileChooser.showOpenDialog(null)== JFileChooser.APPROVE_OPTION) {
             file = fileChooser.getSelectedFile();
-            Image img = null;
+            Image img;
             try {
                 img = ImageIO.read(file);
                 GraphicViewPanel graphicViewPanel = (GraphicViewPanel) mainController.getView().getGraphicViewPanel();
                 graphicViewPanel.setBasicImage(img);
                 graphicViewPanel.paintComponent(graphicViewPanel.getGraphics());
             } catch (IOException e1) {
-                e1.printStackTrace();
+                logger.error("Error in the loading of the image");
             }
         }
     }
 }
 
-
+/**
+ * Acttion of showing a file chooser dialog and save the current graph in a xml file
+ */
 class SaveGraphAction extends AbstractAction{
-    public SaveGraphAction() {
+    private static final Logger logger = Logger.getLogger(FileController.class);
 
+    MainController mainController;
+    public SaveGraphAction(MainController mainController) {
+        this.mainController = mainController;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        File file;
+        JFileChooser fileChooser = new JFileChooser(new File("."));
 
+        if(fileChooser.showSaveDialog(null)== JFileChooser.APPROVE_OPTION) {
+            file = new File(fileChooser.getSelectedFile() + ".xml");
+            new Save().saveGraph(mainController.getGraph(), file);
+        }
     }
 }
