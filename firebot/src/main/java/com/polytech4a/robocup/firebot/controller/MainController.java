@@ -75,6 +75,7 @@ public class MainController {
             }
         }
         for(Edge edge: graph.getEdges()){
+
             //graphicViewPanel.getGraph().
         }
     }
