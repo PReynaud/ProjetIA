@@ -1,17 +1,17 @@
 package com.polytech4a.robocup.firebot.ui;
 
 import com.polytech4a.robocup.firebot.ui.graphic.models.*;
+import com.polytech4a.robocup.graph.model.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
 /**
  * Created by Pierre on 06/05/2015.
  */
 public class GraphicViewPanel extends JPanel {
-    private Graph graph;
+    private GraphView graph;
     private BufferedImage canvas;
     private Image basicImage;
 
@@ -22,12 +22,12 @@ public class GraphicViewPanel extends JPanel {
         this.setPreferredSize(dimension);
         this.setBackground(Color.white);
         this.setDoubleBuffered(true);
-        this.graph = new Graph();
+        this.graph = new GraphView();
 
         canvas = new BufferedImage(this.getWidth(),this.getHeight(),BufferedImage.TYPE_INT_RGB);
     }
 
-    public Graph getGraph() {
+    public GraphView getGraph() {
         return graph;
     }
 

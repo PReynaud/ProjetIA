@@ -6,35 +6,35 @@ import java.util.ArrayList;
 /**
  * Created by Pierre on 16/05/2015.
  */
-public class Graph {
-    private ArrayList<Node> nodes;
-    private ArrayList<Edge> edges;
+public class GraphView {
+    private ArrayList<NodeView> nodes;
+    private ArrayList<EdgeView> edges;
 
 
-    public Graph() {
+    public GraphView() {
         nodes = new ArrayList<>();
         edges = new ArrayList<>();
     }
 
     public void drawGraph(Graphics g){
-        for(Edge edge: edges){
+        for(EdgeView edge: edges){
             edge.drawEdge(g);
         }
-        for(Node node: nodes){
+        for(NodeView node: nodes){
             node.drawNode(g);
         }
     }
 
     //TODO rajouter sécurité pour ne pas avoir deux noeuds qui se chevauchent
     public void addNode(int x, int y){
-        this.nodes.add(new Node(x, y));
+        this.nodes.add(new NodeView(x, y));
     }
 
-    public void addEdge(Node n1, Node n2){
-        this.edges.add(new Edge(n1, n2));
+    public void addEdge(NodeView n1, NodeView n2){
+        this.edges.add(new EdgeView(n1, n2));
     }
 
-    public ArrayList<Node> getNodes() {
+    public ArrayList<NodeView> getNodes() {
         return nodes;
     }
 }

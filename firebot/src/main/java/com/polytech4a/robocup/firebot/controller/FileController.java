@@ -2,10 +2,15 @@ package com.polytech4a.robocup.firebot.controller;
 
 import com.polytech4a.robocup.firebot.ui.FilePanel;
 import com.polytech4a.robocup.firebot.ui.GraphicViewPanel;
+import com.polytech4a.robocup.graph.model.Graph;
+import com.polytech4a.robocup.graph.utils.Load;
+import com.polytech4a.robocup.graph.utils.MalformGraphException;
+import org.xml.sax.SAXException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
+import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
@@ -32,6 +37,7 @@ public class FileController {
 class LoadGraphAction extends AbstractAction{
     MainController mainController;
     public LoadGraphAction(MainController mainController){
+        this.mainController = mainController;
     }
 
     @Override
@@ -41,7 +47,20 @@ class LoadGraphAction extends AbstractAction{
 
         if(fileChooser.showOpenDialog(null)== JFileChooser.APPROVE_OPTION) {
             file = fileChooser.getSelectedFile();
-            //TODO charger le graphe
+            try {
+                Graph loadedGraph = new Load().loadGraph(file);
+                mainController.setGraph(loadedGraph);
+                mainController.transformModelGraphToView();
+            } catch (IOException e1) {
+                //TODO rajouter logs
+                e1.printStackTrace();
+            } catch (ParserConfigurationException e1) {
+                e1.printStackTrace();
+            } catch (SAXException e1) {
+                e1.printStackTrace();
+            } catch (MalformGraphException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 }

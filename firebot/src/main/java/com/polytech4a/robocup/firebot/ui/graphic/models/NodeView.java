@@ -8,7 +8,7 @@ import java.awt.*;
  *          <p/>
  *          Class for displaying the node in the graphic panel
  */
-public class Node {
+public class NodeView {
     private int x;
     private int y;
 
@@ -22,7 +22,7 @@ public class Node {
      */
     protected Color color;
 
-    public Node(int x, int y){
+    public NodeView(int x, int y){
         this.x = x;
         this.y = y;
 

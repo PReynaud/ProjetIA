@@ -5,8 +5,8 @@ import java.awt.*;
 /**
  * Created by Pierre on 16/05/2015.
  */
-public class FloodedEdge extends Edge {
-    public FloodedEdge(Node firstNode, Node secondNode) {
+public class FloodedEdgeView extends EdgeView {
+    public FloodedEdgeView(NodeView firstNode, NodeView secondNode) {
         super(firstNode, secondNode);
         this.color = Color.BLUE;
     }

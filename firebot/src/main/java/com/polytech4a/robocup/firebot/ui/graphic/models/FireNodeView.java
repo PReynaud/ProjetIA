@@ -5,9 +5,9 @@ import java.awt.*;
 /**
  * Created by Pierre on 16/05/2015.
  */
-public class FireNode extends Node{
+public class FireNodeView extends NodeView{
 
-    public FireNode(int x, int y) {
+    public FireNodeView(int x, int y) {
         super(x, y);
         this.color = Color.RED;
     }

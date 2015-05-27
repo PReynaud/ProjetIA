@@ -1,8 +1,8 @@
 package com.polytech4a.robocup.firebot.controller;
 
 import com.polytech4a.robocup.firebot.ui.GraphicViewPanel;
-import com.polytech4a.robocup.firebot.ui.graphic.models.Graph;
-import com.polytech4a.robocup.firebot.ui.graphic.models.Node;
+import com.polytech4a.robocup.firebot.ui.graphic.models.GraphView;
+import com.polytech4a.robocup.firebot.ui.graphic.models.NodeView;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -22,14 +22,14 @@ public class MouseController implements MouseListener, MouseMotionListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         GraphicViewPanel graphicViewPanel = (GraphicViewPanel) mainController.getView().getGraphicViewPanel();
-        Graph graph = graphicViewPanel.getGraph();
+        GraphView graph = graphicViewPanel.getGraph();
         if(mainController.getSelectionMode().equals(EnumSelection.ADD_NODE)){
             graph.addNode(e.getX(), e.getY());
             graphicViewPanel.paintComponent(graphicViewPanel.getGraphics());
         }
         if(mainController.getSelectionMode().equals(EnumSelection.ADD_EDGE)){
             //We verify that we click on a node
-            Node clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
+            NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
             if(clickedNode != null){
                 if(mainController.getLastClickedNode() == null){
                     mainController.setLastClickedNode(clickedNode);
@@ -79,8 +79,8 @@ public class MouseController implements MouseListener, MouseMotionListener {
         }
     }
 
-    private Node clickOnANode(List<Node> listOfNodes, int x, int y){
-        for(Node node: listOfNodes){
+    private NodeView clickOnANode(List<NodeView> listOfNodes, int x, int y){
+        for(NodeView node: listOfNodes){
             double dist = Math.sqrt(Math.pow((node.getX() - x), 2) + Math.pow((node.getY() - y), 2));
             if(dist < node.getSize()){
                 return node;
