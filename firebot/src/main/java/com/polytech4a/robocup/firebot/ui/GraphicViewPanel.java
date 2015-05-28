@@ -35,15 +35,23 @@ public class GraphicViewPanel extends JPanel {
         this.basicImage = image;
     }
 
+    /**
+     * Call the update of the graphic view
+     */
     private void updateCanvas(){
         Graphics2D g2d = canvas.createGraphics();
-        if(basicImage == null){
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2d.setPaint(Color.white);
-            g2d.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        }
-        else{
-            g2d.drawImage(basicImage, 0, 0, this.getWidth(), this.getHeight(), null);
+
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setPaint(Color.white);
+        g2d.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        if(basicImage != null){
+            if(basicImage.getHeight(null) > this.getY() || basicImage.getWidth(null) > this.getX()){
+                g2d.drawImage(basicImage, 0, 0, basicImage.getWidth(null), basicImage.getHeight(null), null);
+            }
+            else{
+                g2d.drawImage(basicImage, 0, 0, this.getWidth(), this.getHeight(), null);
+            }
         }
 
         graph.drawGraph(g2d);
