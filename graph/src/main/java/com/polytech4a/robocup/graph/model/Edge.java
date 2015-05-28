@@ -106,6 +106,10 @@ public class Edge {
         } else throw ex;
     }
 
+    public void setType(EdgeType type) {
+        getParameters().put("type", type.name());
+    }
+
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder("Edge [").append(this.getNode1()).append(";")

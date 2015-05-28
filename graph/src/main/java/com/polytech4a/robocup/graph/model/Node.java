@@ -59,6 +59,10 @@ public class Node {
         }throw new MissingParameterException("Type is missing");
     }
 
+    public void setType(NodeType type) {
+        getParameters().put("type", type.name());
+    }
+
     public double getX() throws MissingParameterException {
         try {
             return Double.valueOf(getParameters().get("x"));
