@@ -231,4 +231,18 @@ public class GraphTest {
             assertTrue(expectedEdges.get(i).equals(loadedGraph.getEdgesFromNodeWithoutParam(loadedGraph.getNode(3), EdgeType.ESCARPE).get(i)));
         }
     }
+
+    @Test
+    public void testAddNewNode() throws Exception {
+        int size = loadedGraph.getNodes().size();
+        loadedGraph.addNewNode(1.0, 6.0, NodeType.INCENDIE);
+        assertEquals(size + 1, loadedGraph.getNodes().size());
+    }
+
+    @Test
+    public void testAddNewNodeVoidList() throws Exception {
+        Graph g = new Graph(new ArrayList<>(), new ArrayList<>());
+        g.addNewNode(1.0, 6.0, NodeType.INCENDIE);
+        assertEquals(1, g.getNodes().size());
+    }
 }

@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import java.util.OptionalInt;
 import java.util.stream.Collectors;
 
 
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
  *
  * @author Antoine CARON
  * @version 1.0
- *          <p/>
+ *          <p>
  *          Simple Graph Model.
  */
 public class Graph {
@@ -64,6 +65,24 @@ public class Graph {
         } catch (NoSuchElementException e) {
             nodes.add(node);
         }
+    }
+
+    /**
+     * Adding a new node in the graph with a free id in the node list.
+     *
+     * @param x    horizontal position in double.
+     * @param y    vertical position in double.
+     * @param type type of the Node created
+     */
+    public void addNewNode(double x, double y, NodeType type) {
+        OptionalInt maxId = nodes.parallelStream().mapToInt(n -> n.getId()).max();
+        Node n;
+        if (maxId.isPresent()) {
+            n = new Node(maxId.getAsInt() + 1, x, y, type);
+        } else {
+            n = new Node(0, x, y, type);
+        }
+        nodes.add(n);
     }
 
     /**
@@ -116,7 +135,7 @@ public class Graph {
     public void removeEdge(Node node1, Node node2) {
         try {
             edges.remove(getEdge(node1, node2));
-        }catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             //The edge does not exist
         }
     }
