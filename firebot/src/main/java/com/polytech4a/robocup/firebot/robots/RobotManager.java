@@ -4,10 +4,7 @@ import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.model.Node;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -18,7 +15,7 @@ import java.util.stream.Collectors;
  *          <p/>
  *          Class representing the manager of the robot team, their task's affectation, and
  */
-public class RobotManager {
+public class RobotManager implements Runnable {
     /**
      * Team of robots managed by the manager.
      */
@@ -29,9 +26,31 @@ public class RobotManager {
      */
     private Graph graph;
 
+    /**
+     * Boolean that tells if the manager has to shut down or not. If True, manager is shutted down.
+     */
+    private boolean shutdown;
+
+    public ArrayList<Firebot> getRobotTeam() {
+        return robotTeam;
+    }
+
+    public Graph getGraph() {
+        return graph;
+    }
+
+    public void setGraph(Graph graph) {
+        this.graph = graph;
+    }
+
+    public void setShutdown(boolean shutdown) {
+        this.shutdown = shutdown;
+    }
+
     public RobotManager(ArrayList<Firebot> robotTeam, Graph graph) {
         this.robotTeam = robotTeam;
         this.graph = graph;
+        this.shutdown = false;
     }
 
     /**
@@ -60,8 +79,10 @@ public class RobotManager {
         for (Firebot f : availableRobots) {
             dic.put(f, 0.0);
         }
+        // Compute distance for each robot
         dic.keySet().parallelStream().forEach(k -> dic.put(k, k.computeDistance(destination)));
-        return Collections.min(dic.entrySet(), (o1, o2) -> o1.getValue().compareTo(o2.getValue())).getKey();
+        Optional<Map.Entry<Firebot, Double>> mapEntry = dic.entrySet().stream().filter(f -> f.getValue() >= 0).min((o1, o2) -> o1.getValue().compareTo(o2.getValue()));
+        return mapEntry.isPresent() ? mapEntry.get().getKey() : null;
     }
 
     /**
@@ -74,14 +95,32 @@ public class RobotManager {
         List<Node> destinationNodes = graph.getNodes().stream().filter(n -> n.isNodeFromType(types)).collect(Collectors.toList());
         if(destinationNodes.size() > 0) {
             for(Node n : destinationNodes) {
-                Firebot assignedBot = askDistancesToNode(availableRobots, n);
-                if(assignedBot != null) {
-                    assignedBot.setDestinationNode(n);
-                    assignedBot.setAvailability(false);
-                    availableRobots.remove(assignedBot);
+                if(!availableRobots.isEmpty()) {
+                    Firebot assignedBot = askDistancesToNode(availableRobots, n);
+                    if(assignedBot != null  && assignedBot.getDestinationNode() == null) {
+                        assignedBot.setDestinationNode(n);
+                        assignedBot.setAvailability(false);
+                        availableRobots.remove(assignedBot);
+                    }
+                } else {
+                    break;
                 }
             }
         }
     }
 
+    /**
+     * Make all the robots move to their next node.
+     */
+    public void makeStep() {
+        robotTeam.stream().forEach(r -> r.goToNextNode());
+    }
+
+    @Override
+    public void run() {
+        while(!shutdown) {
+            distributeTasks();
+            makeStep();
+        }
+    }
 }

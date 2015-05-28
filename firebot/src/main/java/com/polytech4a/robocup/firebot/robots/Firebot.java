@@ -4,6 +4,7 @@ import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.model.Node;
+import com.polytech4a.robocup.graph.model.exceptions.NotFoundTypeException;
 import com.polytech4a.robocup.graph.model.exceptions.SearchException;
 import com.polytech4a.robocup.graph.model.search.AStar;
 import com.polytech4a.robocup.graph.model.search.ISearch;
@@ -152,11 +153,9 @@ public abstract class Firebot {
      * Move this to next node depending on wayToDestination calculate.
      */
     public void goToNextNode() {
-        Queue<Node> queueNodeList = (Queue<Node>) wayToDestination.getNodes();
-        Node n = queueNodeList.poll();
-        if (n != null) {
-            currentNode = n;
-        }
+        ArrayList<Node> wayNodes = wayToDestination.getNodes();
+        if (isAvailable() && !wayNodes.isEmpty())
+            currentNode = wayNodes.remove(0);
     }
 
 }
