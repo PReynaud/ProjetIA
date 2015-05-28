@@ -16,10 +16,9 @@ import static org.junit.Assert.assertFalse;
  * @author Antoine CARON
  * @version 1.0
  */
-public class AStarTest extends SearchAlgorithmTest {
+public class AStarTest extends HeuristicCostSearchTest {
 
     @Before
-    @Override
     public void setUp() throws Exception {
         setGraph();
         this.searchAlgorithm = new AStar();
@@ -44,7 +43,7 @@ public class AStarTest extends SearchAlgorithmTest {
         restrictedNodes.add(NodeType.NORMAL);
         restrictedEdges.add(EdgeType.PLAT);
         Way path = searchAlgorithm.wayToNodeWithParam(graph, graph.getNode(2), graph.getNode(4), restrictedNodes, restrictedEdges);
-        assertEquals(0,path.getDistance(),0.001);
+        assertEquals(Double.NEGATIVE_INFINITY, path.getDistance(), 0.001);
         assertEquals(0, path.getNodes().size());
     }
 
@@ -55,7 +54,7 @@ public class AStarTest extends SearchAlgorithmTest {
         restrictedNodes.add(NodeType.NORMAL);
         restrictedEdges.add(EdgeType.PLAT);
         Way path = searchAlgorithm.wayToNodeWithParam(graph, graph.getNode(7), graph.getNode(8), restrictedNodes, restrictedEdges);
-        assertEquals(0,path.getDistance(),0.001);
+        assertEquals(Double.NEGATIVE_INFINITY, path.getDistance(), 0.001);
         assertEquals(0,path.getNodes().size());
     }
 
@@ -81,6 +80,13 @@ public class AStarTest extends SearchAlgorithmTest {
     @Test
     public void testNoWay() throws Exception {
         Way path = searchAlgorithm.wayToNodeWithParam(graph, graph.getNode(7), graph.getNode(8), null, null);
+        assertEquals(Double.NEGATIVE_INFINITY, path.getDistance(), 0.001);
+        assertEquals(0, path.getNodes().size());
+    }
+
+    @Test
+    public void testFirstNode() throws Exception {
+        Way path = searchAlgorithm.wayToNodeWithParam(graph, graph.getNode(7), graph.getNode(7), null, null);
         assertEquals(0,path.getDistance(),0.001);
         assertEquals(0, path.getNodes().size());
     }

@@ -5,7 +5,6 @@ import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.model.Node;
 import com.polytech4a.robocup.graph.model.exceptions.MissingParameterException;
-import com.polytech4a.robocup.graph.model.exceptions.NotFoundTypeException;
 import com.polytech4a.robocup.graph.model.exceptions.SearchException;
 
 import java.util.ArrayList;
@@ -71,7 +70,9 @@ public class AStar extends HeuristicCostSearch {
             openNodes.sort((s1, s2) -> Double.compare(getFitnessValue(s1), getFitnessValue(s2)));
         }
         clearAll();
-        return new Way();
+        Way result = new Way();
+        result.setDistance(Double.NEGATIVE_INFINITY);
+        return result;
     }
 
     @Override
@@ -107,7 +108,9 @@ public class AStar extends HeuristicCostSearch {
             openNodes.sort((s1, s2) -> Double.compare(getFitnessValue(s1), getFitnessValue(s2)));
         }
         clearAll();
-        return new Way();
+        Way result = new Way();
+        result.setDistance(Double.NEGATIVE_INFINITY);
+        return result;
     }
 
     @Override
@@ -117,12 +120,6 @@ public class AStar extends HeuristicCostSearch {
         } catch (MissingParameterException e) {
             throw new SearchException("AStar.getHeuristicValue : " + e.getMessage());
         }
-    }
-
-    @Override
-    protected double getCostSwitchTypes(EdgeType edgeType, NodeType nodeType) {
-        //To define with the cost passage through the node and the edge
-        return 0;
     }
 
     @Override
@@ -157,9 +154,7 @@ public class AStar extends HeuristicCostSearch {
         Node parent = parentNodes.get(node);
         Double oldCost = costs.get(node), newCost;
         try {
-            newCost = costs.get(parentNode) + getCostSwitchTypes(graph.getEdge(node, parentNode).getType(), node.getType()) + parentNode.getEuclidianSpace(node);
-        } catch (NotFoundTypeException e) {
-            throw new SearchException("AStar.updateFitness : The node " + node.toString() + " has an unhandledParameter : \n" + e.getMessage());
+            newCost = costs.get(parentNode) + parentNode.getEuclidianSpace(node);
         } catch (MissingParameterException e) {
             throw new SearchException("AStar.updateFitness : The node " + node.toString() + " has no parameter type : \n" + e.getMessage());
         }

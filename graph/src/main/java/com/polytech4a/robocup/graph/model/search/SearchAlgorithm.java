@@ -51,15 +51,6 @@ public abstract class SearchAlgorithm implements ISearch {
     public abstract Way wayToNodeWithoutParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException;
 
     /**
-     * Get the cost associate with the type a node and its incoming edge
-     *
-     * @param edgeType type of the edge
-     * @param nodeType type of the node
-     * @return cost of going to the node
-     */
-    protected abstract double getCostSwitchTypes(EdgeType edgeType, NodeType nodeType);
-
-    /**
      * Get the path from the source node to the input node
      *
      * @param node node to get the path to
@@ -67,22 +58,19 @@ public abstract class SearchAlgorithm implements ISearch {
      */
     protected Way recoverPath(Node node) {
         ArrayList<Node> result = new ArrayList<>();
+        Node currentNode = node;
         Double distance = new Double(0);
-        result.add(node);
-        Node currentNode = parentNodes.get(node);
         try {
-            distance += node.getEuclidianSpace(currentNode);
             Node temp = parentNodes.get(currentNode);
             while (temp != null) {
                 result.add(0, currentNode);
-                distance = distance + temp.getEuclidianSpace(currentNode);
-                currentNode =temp;
+                distance += temp.getEuclidianSpace(currentNode);
+                currentNode = temp;
                 temp = parentNodes.get(currentNode);
             }
         } catch (MissingParameterException e) {
             logger.trace("Euclidian Space Failed", e);
         }
-
         Way way=new Way(distance,result);
         return way;
     }
