@@ -11,7 +11,7 @@ public class GraphicControlPanel extends JPanel {
     private InterfaceButton addEdgeButton;
     private InterfaceButton addRobotButton;
     private InterfaceButton addFireButton;
-    private InterfaceButton addEscarpeEdge;
+    private InterfaceButton addSteepEdge;
 
     public GraphicControlPanel() {
         super();
@@ -20,7 +20,7 @@ public class GraphicControlPanel extends JPanel {
         addEdgeButton = new InterfaceButton("Ajouter arc");
         addRobotButton = new InterfaceButton("Ajouter robot");
         addFireButton = new InterfaceButton("Ajouter incendie");
-        addEscarpeEdge = new InterfaceButton("Ajouter arc escarpe");
+        addSteepEdge = new InterfaceButton("Ajouter arc escarpe");
 
         this.setSize(150, 500);
 
@@ -29,7 +29,7 @@ public class GraphicControlPanel extends JPanel {
         this.add(addEdgeButton);
         this.add(addRobotButton);
         this.add(addFireButton);
-        this.add(addEscarpeEdge);
+        this.add(addSteepEdge);
     }
 
     public Insets getInsets() {
@@ -54,7 +54,7 @@ public class GraphicControlPanel extends JPanel {
         return addFireButton;
     }
 
-    public InterfaceButton getAddEscarpeEdge() {
-        return addEscarpeEdge;
+    public InterfaceButton getAddSteepEdge() {
+        return addSteepEdge;
     }
 }

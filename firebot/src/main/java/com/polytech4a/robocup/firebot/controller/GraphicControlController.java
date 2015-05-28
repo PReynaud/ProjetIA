@@ -21,8 +21,8 @@ public class GraphicControlController {
         graphicControlPanel.getAddNodeButton().addAction(new AddNodeAction(mainController));
         graphicControlPanel.getAddEdgeButton().addAction(new AddEdgeAction(mainController));
         graphicControlPanel.getAddRobotButton().addAction(new AddRobotAction());
-        graphicControlPanel.getAddFireButton().addAction(new AddFireAction());
-        graphicControlPanel.getAddEscarpeEdge().addAction(new AddEdgeEscarpeAction());
+        graphicControlPanel.getAddFireButton().addAction(new AddFireAction(mainController));
+        graphicControlPanel.getAddSteepEdge().addAction(new AddSteepEdgeAction(mainController));
     }
 }
 
@@ -74,21 +74,30 @@ class AddRobotAction extends AbstractAction{
  * Action for the class that add a fire. We change the selection mode in the main controller.
  */
 class AddFireAction extends AbstractAction{
-    public AddFireAction(){}
+    MainController mainController;
+
+    public AddFireAction(MainController mainController){
+        this.mainController = mainController;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        this.mainController.setSelectionMode(EnumSelection.ADD_FIRE_NODE);
     }
 }
 
 /**
  * Action launch to add an Edge escarpé.
  */
-class AddEdgeEscarpeAction extends AbstractAction {
+class AddSteepEdgeAction extends AbstractAction {
+    private MainController mainController;
+
+    public AddSteepEdgeAction(MainController mainController) {
+        this.mainController = mainController;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        this.mainController.setSelectionMode(EnumSelection.ADD_STEEP_EDGE);
     }
 }

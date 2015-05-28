@@ -7,8 +7,8 @@ import java.awt.*;
  */
 public class FireNodeView extends NodeView{
 
-    public FireNodeView(int x, int y) {
-        super(x, y);
+    public FireNodeView(int x, int y, int id) {
+        super(x, y, id);
         this.color = Color.RED;
     }
 }

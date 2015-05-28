@@ -1,12 +1,15 @@
 package com.polytech4a.robocup.firebot.controller;
 
+import com.polytech4a.robocup.firebot.robots.RobotManager;
 import com.polytech4a.robocup.firebot.ui.GraphicViewPanel;
 import com.polytech4a.robocup.firebot.ui.MainForm;
 import com.polytech4a.robocup.firebot.ui.graphic.models.NodeView;
+import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.model.Edge;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.model.Node;
 import com.polytech4a.robocup.graph.model.exceptions.MissingParameterException;
+import com.polytech4a.robocup.graph.model.exceptions.NotFoundTypeException;
 import org.apache.log4j.Logger;
 
 import java.util.Optional;
@@ -18,8 +21,7 @@ public class MainController {
     private static final Logger logger = Logger.getLogger(MainController.class);
 
     private MainForm view;
-    private Graph model;
-    private Graph graph;
+    private RobotManager model;
 
     private FileController fileController;
     private GraphicControlController graphicControlController;
@@ -29,9 +31,9 @@ public class MainController {
     private EnumSelection selectionMode;
     private NodeView lastClickedNode;
 
-
-    public  MainController(MainForm mainForm){
+    public  MainController(MainForm mainForm, RobotManager model){
         this.view = mainForm;
+        this.model = model;
 
         this.fileController = new FileController(this);
         this.graphicControlController = new GraphicControlController(this);
@@ -49,16 +51,16 @@ public class MainController {
     public NodeView getLastClickedNode() {
         return lastClickedNode;
     }
-    public Graph getModel() {
+    public RobotManager getModel() {
         return model;
     }
     public Graph getGraph() {
-        return graph;
+        return model.getGraph();
     }
     public void setGraph(Graph graph) {
-        this.graph = graph;
+        this.model.setGraph(graph);
     }
-    public void setModel(Graph model) {
+    public void setModel(RobotManager model) {
         this.model = model;
     }
     public void setLastClickedNode(NodeView lastClickedNode) {
@@ -73,18 +75,27 @@ public class MainController {
      */
     public void transformModelGraphToView(){
         GraphicViewPanel graphicViewPanel = (GraphicViewPanel) view.getGraphicViewPanel();
-        for(Node node: graph.getNodes()){
+        for(Node node: this.model.getGraph().getNodes()){
             try {
                 graphicViewPanel.getGraph().addNode((int)node.getX(), (int)node.getY(), node.getId());
             } catch (MissingParameterException e) {
                 logger.error("Error for getting the model");
             }
         }
-        for(Edge edge: graph.getEdges()){
+        for(Edge edge: this.model.getGraph().getEdges()){
             Optional<NodeView> n1 = graphicViewPanel.getGraph().getNodes().stream().filter(o -> o.getId() == edge.getNode1()).findFirst();
             Optional<NodeView> n2 = graphicViewPanel.getGraph().getNodes().stream().filter(o -> o.getId() == edge.getNode2()).findFirst();
             if(n1.isPresent() && n2.isPresent()){
-                graphicViewPanel.getGraph().addEdge(n1.get(), n2.get());
+                try {
+                    if(edge.getType() == EdgeType.PLAT){
+                        graphicViewPanel.getGraph().addEdge(n1.get(), n2.get());
+                    }
+                    if(edge.getType() == EdgeType.ESCARPE){
+                        graphicViewPanel.getGraph().addSteepEdge(n1.get(), n2.get());
+                    }
+                } catch (NotFoundTypeException e) {
+                    logger.error("The type of the edge does not exist");
+                }
             }
             else{
                 logger.error("Error for getting the model");
@@ -93,8 +104,3 @@ public class MainController {
     }
 }
 
-enum EnumSelection {
-    NOTHING,
-    ADD_NODE,
-    ADD_EDGE
-}

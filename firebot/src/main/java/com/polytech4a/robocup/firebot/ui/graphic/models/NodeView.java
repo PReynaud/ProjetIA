@@ -24,7 +24,6 @@ public class NodeView {
     protected Color color;
 
     public NodeView(int x, int y){
-        //TODO: changer pour avoir un id automatique
         this.id = 0;
         this.x = x;
         this.y = y;

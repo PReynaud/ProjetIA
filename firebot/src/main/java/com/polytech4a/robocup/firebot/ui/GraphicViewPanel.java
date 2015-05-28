@@ -1,5 +1,6 @@
 package com.polytech4a.robocup.firebot.ui;
 
+import com.polytech4a.robocup.firebot.controller.EnumSelection;
 import com.polytech4a.robocup.firebot.ui.graphic.models.*;
 import com.polytech4a.robocup.graph.model.*;
 
@@ -72,10 +73,15 @@ public class GraphicViewPanel extends JPanel {
      * @param x2
      * @param y2
      */
-    public void paintComponentWithCustomEdge(Graphics g, int x1, int y1, int x2, int y2){
+    public void paintComponentWithCustomEdge(Graphics g, int x1, int y1, int x2, int y2, EnumSelection type){
         updateCanvas();
         Graphics2D g2d = (Graphics2D) canvas.getGraphics();
-        g2d.setPaint(Color.magenta);
+        if(type.equals(EnumSelection.ADD_STEEP_EDGE)){
+            g2d.setPaint(Color.GREEN);
+        }
+        if(type.equals(EnumSelection.ADD_EDGE)){
+            g2d.setPaint(Color.MAGENTA);
+        }
         g2d.drawLine(x1, y1, x2, y2);
 
         repaint();

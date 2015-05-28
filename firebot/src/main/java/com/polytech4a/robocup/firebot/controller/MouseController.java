@@ -3,6 +3,7 @@ package com.polytech4a.robocup.firebot.controller;
 import com.polytech4a.robocup.firebot.ui.GraphicViewPanel;
 import com.polytech4a.robocup.firebot.ui.graphic.models.GraphView;
 import com.polytech4a.robocup.firebot.ui.graphic.models.NodeView;
+import com.polytech4a.robocup.graph.enums.NodeType;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -23,12 +24,24 @@ public class MouseController implements MouseListener, MouseMotionListener {
     public void mouseClicked(MouseEvent e) {
         GraphicViewPanel graphicViewPanel = (GraphicViewPanel) mainController.getView().getGraphicViewPanel();
         GraphView graph = graphicViewPanel.getGraph();
-        if(mainController.getSelectionMode().equals(EnumSelection.ADD_NODE)){
-            //TODO ajouter au modele
-            graph.addNode(e.getX(), e.getY());
+        if(mainController.getSelectionMode().equals(EnumSelection.ADD_NODE) ||
+                mainController.getSelectionMode().equals(EnumSelection.ADD_FIRE_NODE)){
+            if(mainController.getSelectionMode().equals(EnumSelection.ADD_NODE)){
+                int id = mainController.getGraph().addNewNode(e.getX(), e.getY(), NodeType.NORMAL);
+                graph.addNode(e.getX(), e.getY(), id);
+            }
+            if(mainController.getSelectionMode().equals(EnumSelection.ADD_FIRE_NODE)){
+                NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
+                if(clickedNode != null){
+                    int id = mainController.getGraph().addNewNode(e.getX(), e.getY(), NodeType.INCENDIE);
+                    graph.addFireNode(e.getX(), e.getY(), clickedNode.getId());
+                    graph.deleteNode(clickedNode.getId());
+                }
+            }
             graphicViewPanel.paintComponent(graphicViewPanel.getGraphics());
         }
-        if(mainController.getSelectionMode().equals(EnumSelection.ADD_EDGE)){
+        if(mainController.getSelectionMode().equals(EnumSelection.ADD_EDGE) ||
+                mainController.getSelectionMode().equals(EnumSelection.ADD_STEEP_EDGE)){
             //We verify that we click on a node
             NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
             if(clickedNode != null){
@@ -37,7 +50,12 @@ public class MouseController implements MouseListener, MouseMotionListener {
                 }
                 else{
                     //TODO ajouter au modele
-                    graph.addEdge(mainController.getLastClickedNode(), clickedNode);
+                    if(mainController.getSelectionMode().equals(EnumSelection.ADD_EDGE)){
+                        graph.addEdge(mainController.getLastClickedNode(), clickedNode);
+                    }
+                    if(mainController.getSelectionMode().equals(EnumSelection.ADD_STEEP_EDGE)){
+                        graph.addSteepEdge(mainController.getLastClickedNode(), clickedNode);
+                    }
                     mainController.setLastClickedNode(null);
                 }
                 graphicViewPanel.paintComponent(graphicViewPanel.getGraphics());
@@ -72,11 +90,12 @@ public class MouseController implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if(mainController.getSelectionMode().equals(EnumSelection.ADD_EDGE)) {
+        if(mainController.getSelectionMode().equals(EnumSelection.ADD_EDGE) ||
+                mainController.getSelectionMode().equals(EnumSelection.ADD_STEEP_EDGE)) {
             if (mainController.getLastClickedNode() != null) {
                 GraphicViewPanel graphicViewPanel = (GraphicViewPanel) mainController.getView().getGraphicViewPanel();
                 graphicViewPanel.paintComponentWithCustomEdge(graphicViewPanel.getGraphics(), mainController.getLastClickedNode().getX(),
-                        mainController.getLastClickedNode().getY(), e.getX(), e.getY());
+                        mainController.getLastClickedNode().getY(), e.getX(), e.getY(), mainController.getSelectionMode());
             }
         }
     }
