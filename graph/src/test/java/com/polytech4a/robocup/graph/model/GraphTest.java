@@ -169,15 +169,15 @@ public class GraphTest {
         assertTrue(n.getId() == n3.getId());
         assertEquals(0, n3.getX(), 0.0001);
         assertEquals(0, n3.getY(), 0.0001);
-        assertEquals(NodeType.INCENDIE,n3.getType());
+        assertEquals(NodeType.INCENDIE, n3.getType());
     }
 
     @Test
     public void testUpdateEdge() throws Exception {
         Edge e = loadedGraph.getEdge(loadedGraph.getNode(0), loadedGraph.getNode(1)).clone();
-        Edge e1=new Edge(0,1,EdgeType.INONDEE);
+        Edge e1 = new Edge(0, 1, EdgeType.INONDEE);
         loadedGraph.addEdge(e1);
-        assertEquals(EdgeType.INONDEE,e1.getType());
+        assertEquals(EdgeType.INONDEE, e1.getType());
     }
 
     @Test
@@ -235,14 +235,14 @@ public class GraphTest {
     @Test
     public void testAddNewNode() throws Exception {
         int size = loadedGraph.getNodes().size();
-        loadedGraph.addNewNode(1.0, 6.0, NodeType.INCENDIE);
+        assertTrue(loadedGraph.addNewNode(1.0, 6.0, NodeType.INCENDIE) >= 0);
         assertEquals(size + 1, loadedGraph.getNodes().size());
     }
 
     @Test
     public void testAddNewNodeVoidList() throws Exception {
         Graph g = new Graph(new ArrayList<>(), new ArrayList<>());
-        g.addNewNode(1.0, 6.0, NodeType.INCENDIE);
+        assertEquals(0, g.addNewNode(1.0, 6.0, NodeType.INCENDIE));
         assertEquals(1, g.getNodes().size());
     }
 }

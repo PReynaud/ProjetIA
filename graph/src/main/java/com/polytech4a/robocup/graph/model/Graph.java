@@ -73,16 +73,20 @@ public class Graph {
      * @param x    horizontal position in double.
      * @param y    vertical position in double.
      * @param type type of the Node created
+     * @return id of the new node created.
      */
-    public void addNewNode(double x, double y, NodeType type) {
+    public int addNewNode(double x, double y, NodeType type) {
         OptionalInt maxId = nodes.parallelStream().mapToInt(n -> n.getId()).max();
         Node n;
+        int ret;
         if (maxId.isPresent()) {
-            n = new Node(maxId.getAsInt() + 1, x, y, type);
+            ret = maxId.getAsInt() + 1;
         } else {
-            n = new Node(0, x, y, type);
+            ret = 0;
         }
+        n = new Node(ret, x, y, type);
         nodes.add(n);
+        return ret;
     }
 
     /**
