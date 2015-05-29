@@ -20,7 +20,7 @@ public class GraphicControlController {
         GraphicControlPanel graphicControlPanel = (GraphicControlPanel) mainController.getView().getGraphicControlPanel();
         graphicControlPanel.getAddNodeButton().addAction(new AddNodeAction(mainController));
         graphicControlPanel.getAddEdgeButton().addAction(new AddEdgeAction(mainController));
-        graphicControlPanel.getAddRobotButton().addAction(new AddRobotAction());
+        graphicControlPanel.getAddRobotButton().addAction(new AddRobotAction(mainController));
         graphicControlPanel.getAddFireButton().addAction(new AddFireAction(mainController));
         graphicControlPanel.getAddSteepEdge().addAction(new AddSteepEdgeAction(mainController));
     }
@@ -62,11 +62,15 @@ class AddEdgeAction extends AbstractAction{
  * Action for the class that add a robot. We change the selection mode in the main controller.
  */
 class AddRobotAction extends AbstractAction{
-    public AddRobotAction(){}
+    MainController mainController;
+
+    public AddRobotAction(MainController mainController){
+        this.mainController = mainController;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        this.mainController.setSelectionMode(EnumSelection.ADD_ROBOT);
     }
 }
 
@@ -87,7 +91,7 @@ class AddFireAction extends AbstractAction{
 }
 
 /**
- * Action launch to add an Edge escarpé.
+ * Action launch to add an Edge escarpï¿½.
  */
 class AddSteepEdgeAction extends AbstractAction {
     private MainController mainController;

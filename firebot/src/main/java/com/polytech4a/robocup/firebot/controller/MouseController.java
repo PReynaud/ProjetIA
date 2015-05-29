@@ -24,6 +24,8 @@ public class MouseController implements MouseListener, MouseMotionListener {
     public void mouseClicked(MouseEvent e) {
         GraphicViewPanel graphicViewPanel = (GraphicViewPanel) mainController.getView().getGraphicViewPanel();
         GraphView graph = graphicViewPanel.getGraph();
+
+        /* Draw a node */
         if(mainController.getSelectionMode().equals(EnumSelection.ADD_NODE) ||
                 mainController.getSelectionMode().equals(EnumSelection.ADD_FIRE_NODE)){
             if(mainController.getSelectionMode().equals(EnumSelection.ADD_NODE)){
@@ -38,8 +40,9 @@ public class MouseController implements MouseListener, MouseMotionListener {
                     graph.deleteNode(clickedNode.getId());
                 }
             }
-            graphicViewPanel.paintComponent(graphicViewPanel.getGraphics());
         }
+
+        /* Draw an edge */
         if(mainController.getSelectionMode().equals(EnumSelection.ADD_EDGE) ||
                 mainController.getSelectionMode().equals(EnumSelection.ADD_STEEP_EDGE)){
             //We verify that we click on a node
@@ -58,7 +61,15 @@ public class MouseController implements MouseListener, MouseMotionListener {
                     }
                     mainController.setLastClickedNode(null);
                 }
-                graphicViewPanel.paintComponent(graphicViewPanel.getGraphics());
+            }
+        }
+
+        /* Draw a robot */
+        if(mainController.getSelectionMode().equals(EnumSelection.ADD_ROBOT)){
+            NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
+            if(clickedNode != null){
+                //TODO ajouter au modèle
+                graph.addRobot(clickedNode);
             }
         }
     }
