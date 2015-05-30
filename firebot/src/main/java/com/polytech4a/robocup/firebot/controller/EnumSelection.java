@@ -1,5 +1,8 @@
 package com.polytech4a.robocup.firebot.controller;
 
+/**
+ * Enum of the different kind of selections we can have in the view
+ */
 public enum EnumSelection {
     NOTHING,
     ADD_NODE,

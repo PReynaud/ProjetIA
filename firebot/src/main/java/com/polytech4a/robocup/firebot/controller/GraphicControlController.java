@@ -1,6 +1,8 @@
 package com.polytech4a.robocup.firebot.controller;
 
+import com.polytech4a.robocup.firebot.robots.CrossCountryFirebot;
 import com.polytech4a.robocup.firebot.ui.GraphicControlPanel;
+import com.polytech4a.robocup.graph.model.Graph;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

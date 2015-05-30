@@ -1,9 +1,13 @@
 package com.polytech4a.robocup.firebot.controller;
 
+import com.polytech4a.robocup.firebot.robots.CrossCountryFirebot;
+import com.polytech4a.robocup.firebot.robots.LeggedFirebot;
+import com.polytech4a.robocup.firebot.robots.TrackedFirebot;
 import com.polytech4a.robocup.firebot.ui.GraphicViewPanel;
 import com.polytech4a.robocup.firebot.ui.graphic.models.GraphView;
 import com.polytech4a.robocup.firebot.ui.graphic.models.NodeView;
 import com.polytech4a.robocup.graph.enums.NodeType;
+import com.polytech4a.robocup.graph.model.Graph;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -12,6 +16,7 @@ import java.util.List;
 
 /**
  * Created by Pierre on 16/05/2015.
+ * Controller of the mouse and the different actions we can do with it
  */
 public class MouseController implements MouseListener, MouseMotionListener {
     private MainController mainController;
@@ -24,6 +29,7 @@ public class MouseController implements MouseListener, MouseMotionListener {
     public void mouseClicked(MouseEvent e) {
         GraphicViewPanel graphicViewPanel = (GraphicViewPanel) mainController.getView().getGraphicViewPanel();
         GraphView graph = graphicViewPanel.getGraph();
+        Graph graphModel = this.mainController.getGraph();
 
         /* Draw a node */
         if(mainController.getSelectionMode().equals(EnumSelection.ADD_NODE) ||
@@ -67,21 +73,24 @@ public class MouseController implements MouseListener, MouseMotionListener {
         if(mainController.getSelectionMode().equals(EnumSelection.ADD_CROSS_COUNTRY_FIREBOT)){
             NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
             if(clickedNode != null){
-                //TODO ajouter au modèle
+                //TODO changer capacite
+                this.mainController.getModel().getRobotTeam().add(new CrossCountryFirebot(graphModel, 1));
                 graph.addCrossCountryFirebot(clickedNode);
             }
         }
         if(mainController.getSelectionMode().equals(EnumSelection.ADD_LEGGED_FIREBOT)){
             NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
             if(clickedNode != null){
-                //TODO ajouter au modèle
+                //TODO changer capacite
+                this.mainController.getModel().getRobotTeam().add(new LeggedFirebot(graphModel, 1));
                 graph.addLeggedFirebot(clickedNode);
             }
         }
         if(mainController.getSelectionMode().equals(EnumSelection.ADD_TRACKED_FIREBOT)){
             NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
             if(clickedNode != null){
-                //TODO ajouter au modèle
+                //TODO changer capacite
+                this.mainController.getModel().getRobotTeam().add(new TrackedFirebot(graphModel, 1));
                 graph.addTrackedFirebot(clickedNode);
             }
         }

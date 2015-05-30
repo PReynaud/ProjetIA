@@ -16,6 +16,7 @@ import java.util.Optional;
 
 /**
  * Created by Pierre on 11/05/2015.
+ * Main Controller: Have access to the view and the model
  */
 public class MainController {
     private static final Logger logger = Logger.getLogger(MainController.class);

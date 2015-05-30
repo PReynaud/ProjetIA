@@ -6,8 +6,8 @@ import java.awt.*;
  * Created by Pierre on 29/05/2015.
  */
 public class TrackedFirebotView extends FirebotView{
-    public TrackedFirebotView(int x, int y) {
-        super(x, y);
-        this.color = Color.BLACK;
+    public TrackedFirebotView(NodeView node) {
+        super(node);
+        this.color = Color.YELLOW;
     }
 }

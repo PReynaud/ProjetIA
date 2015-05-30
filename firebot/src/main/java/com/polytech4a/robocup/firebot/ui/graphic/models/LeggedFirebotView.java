@@ -6,8 +6,8 @@ import java.awt.*;
  * Created by Pierre on 29/05/2015.
  */
 public class LeggedFirebotView extends FirebotView{
-    public LeggedFirebotView(int x, int y) {
-        super(x, y);
+    public LeggedFirebotView(NodeView node) {
+        super(node);
         this.color = Color.BLUE;
     }
 }

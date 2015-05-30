@@ -21,6 +21,7 @@ import java.io.IOException;
 
 /**
  * Created by Pierre on 11/05/2015.
+ * Controller of the buttons that allow the loading and saving of files
  */
 public class FileController {
     private static final Logger logger = Logger.getLogger(FileController.class);

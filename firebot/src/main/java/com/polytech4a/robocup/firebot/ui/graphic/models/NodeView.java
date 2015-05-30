@@ -9,8 +9,18 @@ import java.awt.*;
  *          Class for displaying the node in the graphic panel
  */
 public class NodeView {
+    /**
+     * Id of the node based on the one from the model
+     */
     private int id;
+
+    /**
+     * Position where to display the node int the graphic view
+     */
     private int x;
+    /**
+     * Position where to display the node int the graphic view
+     */
     private int y;
 
     /**

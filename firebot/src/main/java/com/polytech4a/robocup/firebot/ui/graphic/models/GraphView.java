@@ -50,10 +50,10 @@ public class GraphView {
     }
 
     public void addCrossCountryFirebot(NodeView n){
-        this.robots.add(new CrossCountryFirebotView(n.getX(), n.getY()));
+        this.robots.add(new CrossCountryFirebotView(n));
     }
-    public void addLeggedFirebot(NodeView n){ this.robots.add(new LeggedFirebotView(n.getX(), n.getY()));}
-    public void addTrackedFirebot(NodeView n){ this.robots.add(new TrackedFirebotView(n.getX(), n.getY()));}
+    public void addLeggedFirebot(NodeView n){ this.robots.add(new LeggedFirebotView(n));}
+    public void addTrackedFirebot(NodeView n){ this.robots.add(new TrackedFirebotView(n));}
 
     public ArrayList<NodeView> getNodes() {
         return nodes;
