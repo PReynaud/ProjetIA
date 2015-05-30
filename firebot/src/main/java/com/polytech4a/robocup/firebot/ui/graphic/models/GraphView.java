@@ -49,9 +49,11 @@ public class GraphView {
         this.edges.add(new SteepEdgeView(n1, n2));
     }
 
-    public void addRobot(NodeView n){
-        this.robots.add(new FirebotView(n.getX(), n.getY()));
+    public void addCrossCountryFirebot(NodeView n){
+        this.robots.add(new CrossCountryFirebotView(n.getX(), n.getY()));
     }
+    public void addLeggedFirebot(NodeView n){ this.robots.add(new LeggedFirebotView(n.getX(), n.getY()));}
+    public void addTrackedFirebot(NodeView n){ this.robots.add(new TrackedFirebotView(n.getX(), n.getY()));}
 
     public ArrayList<NodeView> getNodes() {
         return nodes;

@@ -35,8 +35,7 @@ public class MouseController implements MouseListener, MouseMotionListener {
             if(mainController.getSelectionMode().equals(EnumSelection.ADD_FIRE_NODE)){
                 NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
                 if(clickedNode != null){
-                    int id = mainController.getGraph().addNewNode(e.getX(), e.getY(), NodeType.INCENDIE);
-                    graph.addFireNode(e.getX(), e.getY(), clickedNode.getId());
+                    graph.addFireNode(clickedNode.getX(), clickedNode.getY(), clickedNode.getId());
                     graph.deleteNode(clickedNode.getId());
                 }
             }
@@ -65,11 +64,25 @@ public class MouseController implements MouseListener, MouseMotionListener {
         }
 
         /* Draw a robot */
-        if(mainController.getSelectionMode().equals(EnumSelection.ADD_ROBOT)){
+        if(mainController.getSelectionMode().equals(EnumSelection.ADD_CROSS_COUNTRY_FIREBOT)){
             NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
             if(clickedNode != null){
                 //TODO ajouter au modèle
-                graph.addRobot(clickedNode);
+                graph.addCrossCountryFirebot(clickedNode);
+            }
+        }
+        if(mainController.getSelectionMode().equals(EnumSelection.ADD_LEGGED_FIREBOT)){
+            NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
+            if(clickedNode != null){
+                //TODO ajouter au modèle
+                graph.addLeggedFirebot(clickedNode);
+            }
+        }
+        if(mainController.getSelectionMode().equals(EnumSelection.ADD_TRACKED_FIREBOT)){
+            NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
+            if(clickedNode != null){
+                //TODO ajouter au modèle
+                graph.addTrackedFirebot(clickedNode);
             }
         }
     }

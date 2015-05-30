@@ -22,7 +22,6 @@ public class GraphicControlController {
         graphicControlPanel.getAddEdgeButton().addAction(new AddEdgeAction(mainController));
         graphicControlPanel.getAddRobotButton().addAction(new AddRobotAction(mainController));
         graphicControlPanel.getAddFireButton().addAction(new AddFireAction(mainController));
-        graphicControlPanel.getAddSteepEdge().addAction(new AddSteepEdgeAction(mainController));
     }
 }
 
@@ -54,7 +53,13 @@ class AddEdgeAction extends AbstractAction{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        mainController.setSelectionMode(EnumSelection.ADD_EDGE);
+        GraphicControlPanel graphicControlPanel = (GraphicControlPanel) mainController.getView().getGraphicControlPanel();
+        if(graphicControlPanel.getSelectionEdge().getSelectedIndex() == 1){
+            this.mainController.setSelectionMode(EnumSelection.ADD_STEEP_EDGE);
+        }
+        else{
+            this.mainController.setSelectionMode(EnumSelection.ADD_EDGE);
+        }
     }
 }
 
@@ -70,7 +75,16 @@ class AddRobotAction extends AbstractAction{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.mainController.setSelectionMode(EnumSelection.ADD_ROBOT);
+        GraphicControlPanel graphicControlPanel = (GraphicControlPanel) mainController.getView().getGraphicControlPanel();
+        if(graphicControlPanel.getSelectionRobot().getSelectedIndex() == 0){
+            this.mainController.setSelectionMode(EnumSelection.ADD_CROSS_COUNTRY_FIREBOT);
+        }
+        if(graphicControlPanel.getSelectionRobot().getSelectedIndex() == 1){
+            this.mainController.setSelectionMode(EnumSelection.ADD_TRACKED_FIREBOT);
+        }
+        if(graphicControlPanel.getSelectionRobot().getSelectedIndex() == 2){
+            this.mainController.setSelectionMode(EnumSelection.ADD_LEGGED_FIREBOT);
+        }
     }
 }
 
@@ -87,21 +101,5 @@ class AddFireAction extends AbstractAction{
     @Override
     public void actionPerformed(ActionEvent e) {
         this.mainController.setSelectionMode(EnumSelection.ADD_FIRE_NODE);
-    }
-}
-
-/**
- * Action launch to add an Edge escarp�.
- */
-class AddSteepEdgeAction extends AbstractAction {
-    private MainController mainController;
-
-    public AddSteepEdgeAction(MainController mainController) {
-        this.mainController = mainController;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        this.mainController.setSelectionMode(EnumSelection.ADD_STEEP_EDGE);
     }
 }

@@ -7,29 +7,39 @@ import java.awt.*;
  * Created by Pierre on 06/05/2015.
  */
 public class GraphicControlPanel extends JPanel {
+    private JComboBox selectionEdge;
+    private JComboBox selectionRobot;
+
     private InterfaceButton addNodeButton;
     private InterfaceButton addEdgeButton;
     private InterfaceButton addRobotButton;
     private InterfaceButton addFireButton;
-    private InterfaceButton addSteepEdge;
 
     public GraphicControlPanel() {
         super();
 
+        String[] tab = {"Normal", "Escarpé"};
         addNodeButton = new InterfaceButton("Ajouter noeud");
+        selectionEdge = new JComboBox(tab);
         addEdgeButton = new InterfaceButton("Ajouter arc");
+        String[] tab2 = {"Tout terrain", "Chenille", "A pattes"};
+        selectionRobot = new JComboBox(tab2);
         addRobotButton = new InterfaceButton("Ajouter robot");
         addFireButton = new InterfaceButton("Ajouter incendie");
-        addSteepEdge = new InterfaceButton("Ajouter arc escarpe");
 
         this.setSize(150, 500);
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(addNodeButton);
+        this.add(insertSeparator());
+        this.add(selectionEdge);
         this.add(addEdgeButton);
+        this.add(insertSeparator());
+
+        this.add(selectionRobot);
         this.add(addRobotButton);
+        this.add(insertSeparator());
+
         this.add(addFireButton);
-        this.add(addSteepEdge);
     }
 
     public Insets getInsets() {
@@ -54,7 +64,17 @@ public class GraphicControlPanel extends JPanel {
         return addFireButton;
     }
 
-    public InterfaceButton getAddSteepEdge() {
-        return addSteepEdge;
+    public JComboBox getSelectionEdge() {
+        return selectionEdge;
+    }
+
+    public JComboBox getSelectionRobot() {
+        return selectionRobot;
+    }
+
+    private JSeparator insertSeparator(){
+        JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
+        separator.setPreferredSize(new Dimension(10, 20));
+        return separator;
     }
 }

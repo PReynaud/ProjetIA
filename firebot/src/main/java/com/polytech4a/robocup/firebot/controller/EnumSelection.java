@@ -6,5 +6,7 @@ public enum EnumSelection {
     ADD_EDGE,
     ADD_STEEP_EDGE,
     ADD_FIRE_NODE,
-    ADD_ROBOT
+    ADD_CROSS_COUNTRY_FIREBOT,
+    ADD_TRACKED_FIREBOT,
+    ADD_LEGGED_FIREBOT
 }
