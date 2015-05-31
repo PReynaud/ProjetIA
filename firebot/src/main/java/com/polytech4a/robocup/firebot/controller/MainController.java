@@ -28,6 +28,7 @@ public class MainController {
     private GraphicControlController graphicControlController;
     private SimulationController simulationController;
     private MouseController mouseController;
+    private TimeController timeController;
 
     private EnumSelection selectionMode;
     private NodeView lastClickedNode;
@@ -40,6 +41,7 @@ public class MainController {
         this.graphicControlController = new GraphicControlController(this);
         this.simulationController = new SimulationController(this);
         this.mouseController = new MouseController(this);
+        this.timeController = new TimeController(this);
         this.view.getGraphicViewPanel().addMouseListener(this.mouseController);
         this.view.getGraphicViewPanel().addMouseMotionListener(this.mouseController);
         this.selectionMode = EnumSelection.NOTHING;
@@ -68,7 +70,9 @@ public class MainController {
         this.lastClickedNode = lastClickedNode;
     }
     public void setSelectionMode(EnumSelection newMode){this.selectionMode = newMode;}
-
+    public TimeController getTimeController() {
+        return timeController;
+    }
 
     /**
      * Transform the model in objects that can be used in the view

@@ -21,6 +21,7 @@ public class SimulationPanel extends JPanel {
 
         this.setSize(300, 150);
         this.setLocation(0, 0);
+
     }
 
     public InterfaceButton getPlayButton() {
