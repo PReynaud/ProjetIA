@@ -3,6 +3,7 @@ package com.polytech4a.robocup.firebot.robots;
 import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
+import com.polytech4a.robocup.graph.model.search.ISearch;
 
 import java.util.ArrayList;
 
@@ -16,8 +17,8 @@ import java.util.ArrayList;
  */
 public class CrossCountryFirebot extends Firebot {
 
-    public CrossCountryFirebot(Graph graph, int capacity) {
-        super(graph, capacity, constructEdgeConstraints(), new ArrayList<NodeType>());
+    public CrossCountryFirebot(Graph graph, int capacity, ISearch searchAlgorithm) {
+        super(graph, capacity, constructEdgeConstraints(), new ArrayList<NodeType>(), 1, searchAlgorithm);
     }
 
     /**

@@ -5,6 +5,8 @@ import com.polytech4a.robocup.firebot.robots.RobotManager;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.model.Node;
+import com.polytech4a.robocup.graph.model.search.AStar;
+import com.polytech4a.robocup.graph.model.search.ISearch;
 import com.polytech4a.robocup.graph.utils.Load;
 import com.polytech4a.robocup.graph.utils.MalformGraphException;
 import junit.framework.TestCase;
@@ -34,15 +36,18 @@ public class RobotManagerTest extends TestCase {
 
     private Node destinationNode;
 
+    private ISearch searchAlg;
+
     @Override
     protected void setUp() throws ParserConfigurationException, MalformGraphException, SAXException, IOException {
         File file = FileUtils.getFile("src", "test", "resources", "test.xml");
         Load l = new Load();
         graph = l.loadGraph(file);
         managerTeam = new ArrayList<>();
-        managerTeam.add(new CrossCountryFirebot(graph, 100));
-        managerTeam.add(new LeggedFirebot(graph, 200));
-        managerTeam.add(new TrackedFirebot(graph, 250));
+        searchAlg = new AStar();
+        managerTeam.add(new CrossCountryFirebot(graph, 100, searchAlg));
+        managerTeam.add(new LeggedFirebot(graph, 200, searchAlg));
+        managerTeam.add(new TrackedFirebot(graph, 250, searchAlg));
         manager = new RobotManager(managerTeam, graph);
         destinationNode = graph.getNode(3);
     }
@@ -69,7 +74,7 @@ public class RobotManagerTest extends TestCase {
             managerTeam.get(i).setCurrentNode(destinationNodes[i]);
         }
         Firebot firebot = manager.askDistancesToNode(manager.askAvailability(), destinationNode);
-        assertEquals(managerTeam.get(2), firebot);
+        assertEquals(managerTeam.get(1), firebot);
     }
 
     public void testDistributeTasks() {
@@ -82,5 +87,24 @@ public class RobotManagerTest extends TestCase {
         assertEquals(destinationNode, managerTeam.get(1).getDestinationNode());
         assertNull(managerTeam.get(0).getDestinationNode());
         assertNull(managerTeam.get(2).getDestinationNode());
+    }
+
+    public void testDistributeTasks2() throws ParserConfigurationException, MalformGraphException, SAXException, IOException {
+        File file = FileUtils.getFile("src", "test", "resources", "mapsixieme.xml");
+        Load l = new Load();
+        graph = l.loadGraph(file);
+        managerTeam = new ArrayList<>();
+        managerTeam.add(new CrossCountryFirebot(graph, 100, searchAlg));
+        managerTeam.add(new LeggedFirebot(graph, 200, searchAlg));
+        managerTeam.add(new TrackedFirebot(graph, 250, searchAlg));
+        manager = new RobotManager(managerTeam, graph);
+        Node[] currentNodes = {graph.getNode(4), graph.getNode(8), graph.getNode(7)};
+        for(int i = 0; i < managerTeam.size(); i++) {
+            managerTeam.get(i).setCurrentNode(currentNodes[i]);
+        }
+        manager.distributeTasks();
+        assertEquals(graph.getNode(1), managerTeam.get(0).getDestinationNode());
+        assertEquals(graph.getNode(3), managerTeam.get(1).getDestinationNode());
+        assertEquals(graph.getNode(2), managerTeam.get(2).getDestinationNode());
     }
 }

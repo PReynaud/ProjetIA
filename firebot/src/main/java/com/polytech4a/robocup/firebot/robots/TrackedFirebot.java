@@ -3,6 +3,7 @@ package com.polytech4a.robocup.firebot.robots;
 import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
+import com.polytech4a.robocup.graph.model.search.ISearch;
 
 import java.util.ArrayList;
 
@@ -16,9 +17,10 @@ import java.util.ArrayList;
  */
 public class TrackedFirebot extends Firebot {
 
-    public TrackedFirebot(Graph graph, int capacity) {
-        super(graph, capacity, constructEdgeConstraints(), new ArrayList<NodeType>());
+    public TrackedFirebot(Graph graph, int capacity, ISearch searchAlgorithm) {
+        super(graph, capacity, constructEdgeConstraints(), new ArrayList<NodeType>(), 2, searchAlgorithm);
     }
+
 
     /**
      * Method to construct the array list containing the type of edges where the robot can't go by.

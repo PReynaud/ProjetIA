@@ -4,6 +4,7 @@ import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.model.Node;
+import com.polytech4a.robocup.graph.model.exceptions.MissingParameterException;
 import com.polytech4a.robocup.graph.model.exceptions.NotFoundTypeException;
 import com.polytech4a.robocup.graph.model.exceptions.SearchException;
 import com.polytech4a.robocup.graph.model.search.AStar;
@@ -11,8 +12,7 @@ import com.polytech4a.robocup.graph.model.search.ISearch;
 import com.polytech4a.robocup.graph.model.search.Way;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * Created by Adrien CHAUSSENDE on 06/05/2015.
@@ -22,7 +22,7 @@ import java.util.Queue;
  *          <p/>
  *          Abstract class representing a firefighter robot.
  */
-public abstract class Firebot {
+public abstract class Firebot implements Runnable {
 
     /**
      * Logger.
@@ -74,15 +74,29 @@ public abstract class Firebot {
      */
     private ISearch searchAlgorithm;
 
-    public Firebot(Graph graph, int capacity, ArrayList<EdgeType> edgeConstraints, ArrayList<NodeType> nodeConstraints) {
+    /**
+     * Average speed of the robot.
+     */
+    private double speed;
+
+    /**
+     * Boolean that tells if the robot has to shut down or not. If True, robot is shutted down.
+     */
+    private boolean shutdown = false;
+
+    /**
+     * If the robot is in movement between to nodes, it is true. Else false.
+     */
+    private boolean inMovement = false;
+
+    public Firebot(Graph graph, int capacity, ArrayList<EdgeType> edgeConstraints, ArrayList<NodeType> nodeConstraints, double speed, ISearch searchAlgorithm) {
         this.graph = graph;
         this.capacity = capacity;
         this.edgeConstraints = edgeConstraints;
         this.nodeConstraints = nodeConstraints;
+        this.speed = speed;
+        this.searchAlgorithm = searchAlgorithm;
         this.availability = true;
-        this.edgeConstraints = edgeConstraints;
-        this.nodeConstraints = nodeConstraints;
-        this.searchAlgorithm = new AStar();
     }
 
     public Node getCurrentNode() {
@@ -111,6 +125,18 @@ public abstract class Firebot {
 
     public ArrayList<NodeType> getNodeConstraints() {
         return nodeConstraints;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public void setShutdown(boolean shutdown) {
+        this.shutdown = shutdown;
+    }
+
+    public ISearch getSearchAlgorithm() {
+        return searchAlgorithm;
     }
 
     /**
@@ -144,6 +170,7 @@ public abstract class Firebot {
                 return wayToDestination.getDistance();
             } catch (SearchException e) {
                 logger.trace("Error within algorithm execution", e);
+                return -1;
             }
         }
         return 0.0;
@@ -158,4 +185,49 @@ public abstract class Firebot {
             currentNode = wayNodes.remove(0);
     }
 
+    /**
+     * Method for robot extinguishing the fire.
+     */
+    public void extinguishFire() {
+        new Thread() {
+            public void run() {
+                long i = 0, limit = computeTime();
+                while (i < limit) {
+                    i++;
+                }
+                setAvailability(true);
+                currentNode.setType(NodeType.NORMAL);
+                Random rdm = new Random();
+                graph.getEdgesFromNode(currentNode).stream().forEach(e -> {
+                    if (rdm.nextInt(10) > 5) {
+                        e.setType(EdgeType.INONDEE);
+                    }
+                });
+            }
+        }.start();
+    }
+
+    @Override
+    public void run() {
+        while (!shutdown) {
+            try {
+                if (destinationNode != null && currentNode.equals(destinationNode) && destinationNode.getType().equals(NodeType.INCENDIE)) {
+                    extinguishFire();
+                } else if (!inMovement && !wayToDestination.getNodes().isEmpty()) {
+                    inMovement = true;
+                    new Timer("Firebot in movement").schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            goToNextNode();
+                            inMovement = false;
+                        }
+                    }, (long) (currentNode.getEuclidianSpace(wayToDestination.getNodes().get(0)) / speed * 1000));
+                }
+            } catch (NotFoundTypeException e) {
+                e.printStackTrace();
+            } catch (MissingParameterException e) {
+                logger.error("In run() from Firebot.java, can't calculate time to go to next node.", e);
+            }
+        }
+    }
 }

@@ -29,7 +29,7 @@ public class RobotManager implements Runnable {
     /**
      * Boolean that tells if the manager has to shut down or not. If True, manager is shutted down.
      */
-    private boolean shutdown;
+    private boolean shutdown = false;
 
     public ArrayList<Firebot> getRobotTeam() {
         return robotTeam;
@@ -50,7 +50,6 @@ public class RobotManager implements Runnable {
     public RobotManager(ArrayList<Firebot> robotTeam, Graph graph) {
         this.robotTeam = robotTeam;
         this.graph = graph;
-        this.shutdown = false;
     }
 
     /**
@@ -80,7 +79,7 @@ public class RobotManager implements Runnable {
             dic.put(f, 0.0);
         }
         // Compute distance for each robot
-        dic.keySet().parallelStream().forEach(k -> dic.put(k, k.computeDistance(destination)));
+        dic.keySet().stream().forEach(k -> dic.put(k, k.computeDistance(destination) / k.getSpeed()));
         Optional<Map.Entry<Firebot, Double>> mapEntry = dic.entrySet().stream().filter(f -> f.getValue() >= 0).min((o1, o2) -> o1.getValue().compareTo(o2.getValue()));
         return mapEntry.isPresent() ? mapEntry.get().getKey() : null;
     }
@@ -109,18 +108,10 @@ public class RobotManager implements Runnable {
         }
     }
 
-    /**
-     * Make all the robots move to their next node.
-     */
-    public void makeStep() {
-        robotTeam.stream().forEach(r -> r.goToNextNode());
-    }
-
     @Override
     public void run() {
         while(!shutdown) {
             distributeTasks();
-            makeStep();
         }
     }
 }

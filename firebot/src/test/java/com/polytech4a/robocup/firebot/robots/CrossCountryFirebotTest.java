@@ -1,5 +1,6 @@
 package com.polytech4a.robocup.firebot.robots;
 
+import com.polytech4a.robocup.graph.model.search.AStar;
 import com.polytech4a.robocup.graph.utils.MalformGraphException;
 import org.xml.sax.SAXException;
 
@@ -16,7 +17,7 @@ public class CrossCountryFirebotTest extends FirebotTest {
     @Override
     public void setUp() throws ParserConfigurationException, MalformGraphException, SAXException, IOException {
         super.setUp();
-        setFirebot(new CrossCountryFirebot(getGraph(), 100));
+        setFirebot(new CrossCountryFirebot(getGraph(), 100, new AStar()));
     }
 
     @Override
