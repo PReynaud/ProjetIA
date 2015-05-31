@@ -1,6 +1,7 @@
 package com.polytech4a.robocup.firebot.controller;
 
 import com.polytech4a.robocup.firebot.ui.FilePanel;
+import com.polytech4a.robocup.firebot.ui.GraphicControlPanel;
 import com.polytech4a.robocup.firebot.ui.GraphicViewPanel;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.utils.Load;
@@ -51,6 +52,9 @@ class LoadGraphAction extends AbstractAction{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        GraphicControlPanel graphicControlPanel = (GraphicControlPanel) mainController.getView().getGraphicControlPanel();
+        graphicControlPanel.resetColorOfButtons();
+
         File file;
         JFileChooser fileChooser = new JFileChooser(new File("."));
 
@@ -87,6 +91,9 @@ class LoadImageAction extends AbstractAction{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        GraphicControlPanel graphicControlPanel = (GraphicControlPanel) mainController.getView().getGraphicControlPanel();
+        graphicControlPanel.resetColorOfButtons();
+
         File file;
         JFileChooser fileChooser = new JFileChooser(new File("."));
 
@@ -133,6 +140,9 @@ class SaveGraphAction extends AbstractAction{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        GraphicControlPanel graphicControlPanel = (GraphicControlPanel) mainController.getView().getGraphicControlPanel();
+        graphicControlPanel.resetColorOfButtons();
+
         File file;
         JFileChooser fileChooser = new JFileChooser(new File("."));
 

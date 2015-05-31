@@ -33,9 +33,11 @@ class PlayAction extends AbstractAction{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        GraphicControlPanel graphicControlPanel = (GraphicControlPanel) mainController.getView().getGraphicControlPanel();
+        graphicControlPanel.resetColorOfButtons();
+
         mainController.getTimeController().setRunning(true);
         SimulationPanel simulationPanel = (SimulationPanel) mainController.getView().getSimulationPanel();
-        GraphicControlPanel graphicControlPanel = (GraphicControlPanel) mainController.getView().getGraphicControlPanel();
         FilePanel filePanel = (FilePanel) mainController.getView().getFilePanel();
 
         simulationPanel.getPlayButton().setEnabled(false);
@@ -60,9 +62,11 @@ class PauseAction extends AbstractAction{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        GraphicControlPanel graphicControlPanel = (GraphicControlPanel) mainController.getView().getGraphicControlPanel();
+        graphicControlPanel.resetColorOfButtons();
+
         mainController.getTimeController().setRunning(false);
         SimulationPanel simulationPanel = (SimulationPanel) mainController.getView().getSimulationPanel();
-        GraphicControlPanel graphicControlPanel = (GraphicControlPanel) mainController.getView().getGraphicControlPanel();
         FilePanel filePanel = (FilePanel) mainController.getView().getFilePanel();
 
         simulationPanel.getPlayButton().setEnabled(true);
@@ -87,6 +91,9 @@ class ResetAction extends AbstractAction{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        GraphicControlPanel graphicControlPanel = (GraphicControlPanel) mainController.getView().getGraphicControlPanel();
+        graphicControlPanel.resetColorOfButtons();
+
         mainController.getView().resetView();
         mainController.setLastClickedNode(null);
         mainController.setSelectionMode(EnumSelection.NOTHING);

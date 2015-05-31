@@ -56,25 +56,41 @@ public class FirebotView {
     public boolean isMoving() {
         return isMoving;
     }
-    public int getDirectionX() {
-        return directionX;
+    public NodeView getCurrentNode() {
+        return currentNode;
     }
-    public int getDirectionY() {
-        return directionY;
+    public NodeView getDestinationNode() {
+        return destinationNode;
     }
 
     public void setDirection(int x, int y){
         this.directionX = x;
         this.directionY = y;
     }
+    public void setCurrentNode(NodeView currentNode) {
+        this.currentNode = currentNode;
+    }
+    public void setDestinationNode(NodeView destinationNode) {
+        this.destinationNode = destinationNode;
+    }
+    public void setMoving(boolean isMoving) {
+        this.isMoving = isMoving;
+    }
 
     /**
-     * Draw the robot in the graphic panel with it's won color and position
+     * Draw the robot in the graphic panel with it's own color and position
      * @param g
      */
     public void draw(Graphics g){
-        Polygon polygon = new Polygon();
         g.setColor(this.color);
         g.fillPolygon(new int[]{x - 5, x + 5, x}, new int[]{y + 3, y + 3, y - 7}, 3);
+    }
+
+    /**
+     * Move the bot following it's direction
+     */
+    public void moveBot(){
+        x += directionX;
+        y += directionY;
     }
 }

@@ -28,6 +28,7 @@ public class MainController implements Observer{
 
     private FileController fileController;
     private GraphicControlController graphicControlController;
+    private GraphicViewController graphicViewController;
     private SimulationController simulationController;
     private MouseController mouseController;
     private TimeController timeController;
@@ -40,6 +41,7 @@ public class MainController implements Observer{
         this.model = model;
 
         this.fileController = new FileController(this);
+        this.graphicViewController = new GraphicViewController(this);
         this.graphicControlController = new GraphicControlController(this);
         this.simulationController = new SimulationController(this);
         this.mouseController = new MouseController(this);
@@ -74,6 +76,9 @@ public class MainController implements Observer{
     public void setSelectionMode(EnumSelection newMode){this.selectionMode = newMode;}
     public TimeController getTimeController() {
         return timeController;
+    }
+    public GraphicViewController getGraphicViewController() {
+        return graphicViewController;
     }
 
     /**

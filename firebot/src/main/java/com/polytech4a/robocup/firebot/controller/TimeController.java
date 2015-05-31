@@ -19,6 +19,7 @@ public class TimeController {
             @Override
             public void run() {
                 if(running){
+                    mainController.getGraphicViewController().animateFirebots();
                     GraphicViewPanel graphicViewPanel = (GraphicViewPanel) mainController.getView().getGraphicViewPanel();
                     graphicViewPanel.paintComponent(graphicViewPanel.getGraphics());
                 }
@@ -29,7 +30,6 @@ public class TimeController {
     public boolean isRunning() {
         return running;
     }
-
     public void setRunning(boolean running) {
         this.running = running;
     }

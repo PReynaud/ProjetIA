@@ -10,6 +10,7 @@ import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Edge;
 import com.polytech4a.robocup.graph.model.Graph;
+import com.polytech4a.robocup.graph.model.search.AStar;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -77,24 +78,24 @@ public class MouseController implements MouseListener, MouseMotionListener {
         if(mainController.getSelectionMode().equals(EnumSelection.ADD_CROSS_COUNTRY_FIREBOT)){
             NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
             if(clickedNode != null){
-                //TODO changer capacite
-                this.mainController.getModel().getRobotTeam().add(new CrossCountryFirebot(graphModel, 1));
+                //TODO changer capacite et algo de recherche
+                this.mainController.getModel().getRobotTeam().add(new CrossCountryFirebot(graphModel, 100, new AStar()));
                 graph.addCrossCountryFirebot(clickedNode);
             }
         }
         if(mainController.getSelectionMode().equals(EnumSelection.ADD_LEGGED_FIREBOT)){
             NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
             if(clickedNode != null){
-                //TODO changer capacite
-                this.mainController.getModel().getRobotTeam().add(new LeggedFirebot(graphModel, 1));
+                //TODO changer capacite et algo de recherche
+                this.mainController.getModel().getRobotTeam().add(new LeggedFirebot(graphModel, 100, new AStar()));
                 graph.addLeggedFirebot(clickedNode);
             }
         }
         if(mainController.getSelectionMode().equals(EnumSelection.ADD_TRACKED_FIREBOT)){
             NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
             if(clickedNode != null){
-                //TODO changer capacite
-                this.mainController.getModel().getRobotTeam().add(new TrackedFirebot(graphModel, 1));
+                //TODO changer capacite et algo de recherche
+                this.mainController.getModel().getRobotTeam().add(new TrackedFirebot(graphModel, 100, new AStar()));
                 graph.addTrackedFirebot(clickedNode);
             }
         }

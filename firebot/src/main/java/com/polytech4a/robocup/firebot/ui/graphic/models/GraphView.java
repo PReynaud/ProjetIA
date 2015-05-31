@@ -58,4 +58,12 @@ public class GraphView {
     public ArrayList<NodeView> getNodes() {
         return nodes;
     }
+
+    public ArrayList<EdgeView> getEdges() {
+        return edges;
+    }
+
+    public ArrayList<FirebotView> getRobots() {
+        return robots;
+    }
 }
