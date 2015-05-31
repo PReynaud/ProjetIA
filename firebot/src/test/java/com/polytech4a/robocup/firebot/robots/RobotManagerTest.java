@@ -1,8 +1,5 @@
 package com.polytech4a.robocup.firebot.robots;
 
-import com.polytech4a.robocup.firebot.robots.Firebot;
-import com.polytech4a.robocup.firebot.robots.RobotManager;
-import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.model.Node;
 import com.polytech4a.robocup.graph.model.search.AStar;
@@ -11,8 +8,6 @@ import com.polytech4a.robocup.graph.utils.Load;
 import com.polytech4a.robocup.graph.utils.MalformGraphException;
 import junit.framework.TestCase;
 import org.apache.commons.io.FileUtils;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -107,4 +102,5 @@ public class RobotManagerTest extends TestCase {
         assertEquals(graph.getNode(3), managerTeam.get(1).getDestinationNode());
         assertEquals(graph.getNode(2), managerTeam.get(2).getDestinationNode());
     }
+
 }

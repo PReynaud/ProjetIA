@@ -1,8 +1,11 @@
 package com.polytech4a.robocup.firebot.robots;
 
 import com.polytech4a.robocup.firebot.robots.Firebot;
+import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.model.Node;
+import com.polytech4a.robocup.graph.model.exceptions.MissingParameterException;
+import com.polytech4a.robocup.graph.model.exceptions.NotFoundTypeException;
 import com.polytech4a.robocup.graph.utils.Load;
 import com.polytech4a.robocup.graph.utils.MalformGraphException;
 import junit.framework.TestCase;
@@ -78,4 +81,16 @@ public abstract class FirebotTest extends TestCase {
     public abstract void testComputeTime();
 
     public abstract void testComputeDistance();
+
+    public void testRun() {
+        currentNode = graph.getNode(2);
+        destinationNode = graph.getNode(7);
+    }
+
+    public void testExtinguishFire() throws NotFoundTypeException, MissingParameterException {
+        currentNode = graph.getNode(7);
+        getFirebot().setCurrentNode(currentNode);
+        getFirebot().extinguishFire();
+        assertEquals(NodeType.NORMAL, getFirebot().getCurrentNode().getType());
+    }
 }

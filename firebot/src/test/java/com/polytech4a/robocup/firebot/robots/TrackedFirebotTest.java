@@ -6,6 +6,8 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by Adrien CHAUSSENDE on 11/05/2015.
@@ -32,4 +34,20 @@ public class TrackedFirebotTest extends FirebotTest {
         assertEquals(13.99, getFirebot().computeDistance(getGraph().getNode(6)), 0.001);
     }
 
+    @Override
+    public void testRun() {
+        super.testRun();
+        getFirebot().setCurrentNode(getCurrentNode());
+        getFirebot().setDestinationNode(getDestinationNode());
+        getFirebot().computeDistance(getDestinationNode());
+        //Test movement
+        new Timer("Schedule shutdown").schedule(new TimerTask() {
+            @Override
+            public void run() {
+                getFirebot().setShutdown(true);
+            }
+        }, 5000);
+        getFirebot().run();
+        assertEquals(getGraph().getNode(3), getFirebot().getCurrentNode());
+    }
 }

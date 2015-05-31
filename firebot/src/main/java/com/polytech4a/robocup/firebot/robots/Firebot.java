@@ -192,17 +192,19 @@ public abstract class Firebot implements Runnable {
         new Thread() {
             public void run() {
                 long i = 0, limit = computeTime();
-                while (i < limit) {
-                    i++;
-                }
-                setAvailability(true);
-                currentNode.setType(NodeType.NORMAL);
-                Random rdm = new Random();
-                graph.getEdgesFromNode(currentNode).stream().forEach(e -> {
-                    if (rdm.nextInt(10) > 5) {
-                        e.setType(EdgeType.INONDEE);
+                new Timer("Extinguishing fire ...").schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        setAvailability(true);
+                        currentNode.setType(NodeType.NORMAL);
+                        Random rdm = new Random();
+                        graph.getEdgesFromNode(currentNode).stream().forEach(e -> {
+                            if (rdm.nextInt(10) > 5) {
+                                e.setType(EdgeType.INONDEE);
+                            }
+                        });
                     }
-                });
+                }, limit);
             }
         }.start();
     }
