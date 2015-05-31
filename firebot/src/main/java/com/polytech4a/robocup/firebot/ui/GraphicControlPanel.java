@@ -74,7 +74,14 @@ public class GraphicControlPanel extends JPanel {
 
     private JSeparator insertSeparator(){
         JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
-        separator.setPreferredSize(new Dimension(10, 20));
+        separator.setPreferredSize(new Dimension(20, 0));
         return separator;
+    }
+
+    public void resetColorOfButtons(){
+        this.addEdgeButton.setBackground(null);
+        this.addFireButton.setBackground(null);
+        this.addNodeButton.setBackground(null);
+        this.addRobotButton.setBackground(null);
     }
 }

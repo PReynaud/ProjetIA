@@ -8,16 +8,16 @@ import javax.swing.*;
 public class SimulationPanel extends JPanel {
     private InterfaceButton playButton;
     private InterfaceButton pauseButton;
-    private InterfaceButton stopButton;
+    private InterfaceButton resetButton;
 
     public SimulationPanel(){
         playButton = new InterfaceButton("Lancer");
         pauseButton = new InterfaceButton("Pause");
-        stopButton = new InterfaceButton("Stop");
+        resetButton = new InterfaceButton("Reset");
 
         this.add(playButton);
         this.add(pauseButton);
-        this.add(stopButton);
+        this.add(resetButton);
 
         this.setSize(300, 150);
         this.setLocation(0, 0);
@@ -32,7 +32,7 @@ public class SimulationPanel extends JPanel {
         return pauseButton;
     }
 
-    public InterfaceButton getStopButton() {
-        return stopButton;
+    public InterfaceButton getResetButton() {
+        return resetButton;
     }
 }

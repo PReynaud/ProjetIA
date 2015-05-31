@@ -43,7 +43,7 @@ public class MainForm extends JFrame{
         mainPanel.add(filePanel, BorderLayout.NORTH);
         mainPanel.add(simulationPanel, BorderLayout.NORTH);
         mainPanel.add(graphicViewPanel, BorderLayout.NORTH);
-        mainPanel.add(graphicControlPanel, BorderLayout.EAST);
+        mainPanel.add(graphicControlPanel, BorderLayout.SOUTH);
         this.add(mainPanel);
     }
 
@@ -61,5 +61,12 @@ public class MainForm extends JFrame{
 
     public JPanel getGraphicViewPanel() {
         return graphicViewPanel;
+    }
+
+    public void resetView(){
+        GraphicViewPanel graphicViewPanel1 = (GraphicViewPanel) this.graphicViewPanel;
+        graphicViewPanel1.resetGraphicView();
+        GraphicControlPanel graphicControlPanel1 = (GraphicControlPanel) this.graphicControlPanel;
+        graphicControlPanel1.resetColorOfButtons();
     }
 }

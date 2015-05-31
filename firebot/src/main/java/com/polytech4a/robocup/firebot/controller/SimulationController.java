@@ -3,7 +3,6 @@ package com.polytech4a.robocup.firebot.controller;
 import com.polytech4a.robocup.firebot.ui.FilePanel;
 import com.polytech4a.robocup.firebot.ui.GraphicControlPanel;
 import com.polytech4a.robocup.firebot.ui.SimulationPanel;
-import sun.swing.FilePane;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -21,8 +20,7 @@ public class SimulationController {
         simulationPanel.getPlayButton().addAction(new PlayAction(mainController));
         simulationPanel.getPauseButton().addAction(new PauseAction(mainController));
         simulationPanel.getPauseButton().setEnabled(false);
-        simulationPanel.getStopButton().addAction(new StopAction(mainController));
-        simulationPanel.getStopButton().setEnabled(false);
+        simulationPanel.getResetButton().addAction(new ResetAction(mainController));
     }
 }
 
@@ -42,7 +40,7 @@ class PlayAction extends AbstractAction{
 
         simulationPanel.getPlayButton().setEnabled(false);
         simulationPanel.getPauseButton().setEnabled(true);
-        simulationPanel.getStopButton().setEnabled(true);
+        simulationPanel.getResetButton().setEnabled(false);
 
         graphicControlPanel.getAddEdgeButton().setEnabled(false);
         graphicControlPanel.getAddNodeButton().setEnabled(false);
@@ -69,7 +67,7 @@ class PauseAction extends AbstractAction{
 
         simulationPanel.getPlayButton().setEnabled(true);
         simulationPanel.getPauseButton().setEnabled(false);
-        simulationPanel.getStopButton().setEnabled(false);
+        simulationPanel.getResetButton().setEnabled(true);
 
         graphicControlPanel.getAddEdgeButton().setEnabled(true);
         graphicControlPanel.getAddNodeButton().setEnabled(true);
@@ -80,15 +78,19 @@ class PauseAction extends AbstractAction{
     }
 }
 
-class StopAction extends AbstractAction{
+class ResetAction extends AbstractAction{
     MainController mainController;
 
-    public StopAction(MainController mainController) {
+    public ResetAction(MainController mainController) {
         this.mainController = mainController;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        mainController.getView().resetView();
+        mainController.setLastClickedNode(null);
+        mainController.setSelectionMode(EnumSelection.NOTHING);
 
+        //TODO reset le modèle
     }
 }

@@ -87,4 +87,10 @@ public class GraphicViewPanel extends JPanel {
         repaint();
         g.drawImage(canvas, 0, 0, null);
     }
+
+    public void resetGraphicView(){
+        this.basicImage = null;
+        this.graph = new GraphView();
+        paintComponent(this.getGraphics());
+    }
 }

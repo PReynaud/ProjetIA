@@ -6,7 +6,9 @@ import com.polytech4a.robocup.firebot.robots.TrackedFirebot;
 import com.polytech4a.robocup.firebot.ui.GraphicViewPanel;
 import com.polytech4a.robocup.firebot.ui.graphic.models.GraphView;
 import com.polytech4a.robocup.firebot.ui.graphic.models.NodeView;
+import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.enums.NodeType;
+import com.polytech4a.robocup.graph.model.Edge;
 import com.polytech4a.robocup.graph.model.Graph;
 
 import java.awt.event.MouseEvent;
@@ -41,8 +43,9 @@ public class MouseController implements MouseListener, MouseMotionListener {
             if(mainController.getSelectionMode().equals(EnumSelection.ADD_FIRE_NODE)){
                 NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
                 if(clickedNode != null){
-                    graph.addFireNode(clickedNode.getX(), clickedNode.getY(), clickedNode.getId());
+                    int id = clickedNode.getId();
                     graph.deleteNode(clickedNode.getId());
+                    graph.addFireNode(clickedNode.getX(), clickedNode.getY(), id);
                 }
             }
         }
@@ -57,11 +60,12 @@ public class MouseController implements MouseListener, MouseMotionListener {
                     mainController.setLastClickedNode(clickedNode);
                 }
                 else{
-                    //TODO ajouter au modele
                     if(mainController.getSelectionMode().equals(EnumSelection.ADD_EDGE)){
+                        mainController.getGraph().addEdge(new Edge(mainController.getLastClickedNode().getId(), clickedNode.getId(), EdgeType.PLAT));
                         graph.addEdge(mainController.getLastClickedNode(), clickedNode);
                     }
                     if(mainController.getSelectionMode().equals(EnumSelection.ADD_STEEP_EDGE)){
+                        mainController.getGraph().addEdge(new Edge(mainController.getLastClickedNode().getId(), clickedNode.getId(), EdgeType.ESCARPE));
                         graph.addSteepEdge(mainController.getLastClickedNode(), clickedNode);
                     }
                     mainController.setLastClickedNode(null);
