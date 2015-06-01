@@ -1,5 +1,6 @@
 package com.polytech4a.robocup.firebot.observers;
 
+import com.polytech4a.robocup.firebot.robots.Firebot;
 import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Edge;
@@ -34,21 +35,21 @@ public class Observable {
         observers.clear();
     }
 
-    public void fireUpdateEdgeType(Edge edge, EdgeType type) {
+    synchronized public void fireUpdateEdgeType(Edge edge, EdgeType type) {
         for(ControllerObserver observer : observers) {
             observer.updateEdgeType(edge, type);
         }
     }
 
-    public void fireUpdateNodeType(Node node, NodeType type) {
+    synchronized public void fireUpdateNodeType(Node node, NodeType type) {
         for(ControllerObserver observer : observers) {
             observer.updateNodeType(node, type);
         }
     }
 
-    public void fireUpdateRobotMovement(Node currentNode, Node nextNode, long time) {
+    public void fireUpdateRobotMovement(Firebot firebot, Node currentNode, Node nextNode, long time) {
         for(ControllerObserver observer : observers) {
-            observer.updateRobotMovement(currentNode, nextNode, time);
+            observer.updateRobotMovement(firebot, currentNode, nextNode, time);
         }
     }
 }

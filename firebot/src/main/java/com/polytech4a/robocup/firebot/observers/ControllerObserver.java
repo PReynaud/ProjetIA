@@ -1,5 +1,6 @@
 package com.polytech4a.robocup.firebot.observers;
 
+import com.polytech4a.robocup.firebot.robots.Firebot;
 import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Edge;
@@ -17,5 +18,5 @@ public interface ControllerObserver {
 
     public void updateNodeType(Node node, NodeType type);
 
-    public void updateRobotMovement(Node currentNode, Node nextNode, long time);
+    public void updateRobotMovement(Firebot firebot, Node currentNode, Node nextNode, long time);
 }
