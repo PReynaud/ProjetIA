@@ -6,7 +6,7 @@ package com.polytech4a.robocup.graph.utils;
  * @author Antoine CARON
  * @version 1.0
  */
-public class MalformGraphException extends Exception {
+public final class MalformGraphException extends Exception {
     public MalformGraphException(String message) {
         super(message);
     }

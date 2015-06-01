@@ -20,7 +20,7 @@ import java.util.HashMap;
  *          <p>
  *          Load Class for loading graph from XML File.
  */
-public class Load {
+public final class Load {
 
     /**
      * Load function for loading a graph from a XML file.
@@ -31,7 +31,7 @@ public class Load {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public Graph loadGraph(File file) throws IOException, ParserConfigurationException, SAXException, MalformGraphException {
+    public static Graph loadGraph(File file) throws IOException, ParserConfigurationException, SAXException, MalformGraphException {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.parse(file);

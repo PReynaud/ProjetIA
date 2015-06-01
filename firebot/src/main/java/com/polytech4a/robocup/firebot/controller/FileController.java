@@ -16,7 +16,6 @@ import javax.swing.filechooser.FileFilter;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -61,7 +60,7 @@ class LoadGraphAction extends AbstractAction{
         if(fileChooser.showOpenDialog(null)== JFileChooser.APPROVE_OPTION) {
             file = fileChooser.getSelectedFile();
             try {
-                Graph loadedGraph = new Load().loadGraph(file);
+                Graph loadedGraph = Load.loadGraph(file);
                 mainController.setGraph(loadedGraph);
                 mainController.transformModelGraphToView();
             } catch (IOException e1) {
@@ -148,7 +147,7 @@ class SaveGraphAction extends AbstractAction{
 
         if(fileChooser.showSaveDialog(null)== JFileChooser.APPROVE_OPTION) {
             file = new File(fileChooser.getSelectedFile() + ".xml");
-            new Save().saveGraph(mainController.getGraph(), file);
+            Save.saveGraph(mainController.getGraph(), file);
         }
     }
 }

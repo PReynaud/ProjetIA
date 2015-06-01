@@ -26,7 +26,7 @@ import java.util.Map;
  * @author Antoine CARON
  * @version 1.0
  */
-public class Save {
+public final class Save {
     /**
      * Logger.
      */
@@ -38,7 +38,7 @@ public class Save {
      * @param graph graph to save.
      * @param file  Fie into save.
      */
-    public void saveGraph(Graph graph, File file) {
+    public static void saveGraph(Graph graph, File file) {
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -78,7 +78,7 @@ public class Save {
      * @param element Element of the document.
      * @param doc     Document.
      */
-    private void printParameters(Map<String, String> map, Element element, Document doc) {
+    private static void printParameters(Map<String, String> map, Element element, Document doc) {
         for (String param : map.keySet()) {
             Attr attr = doc.createAttribute(param);
             attr.setValue(map.get(param));
