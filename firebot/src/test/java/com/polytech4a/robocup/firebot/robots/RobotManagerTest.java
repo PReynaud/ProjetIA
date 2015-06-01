@@ -40,9 +40,9 @@ public class RobotManagerTest extends TestCase {
         graph = l.loadGraph(file);
         managerTeam = new ArrayList<>();
         searchAlg = new AStar();
-        managerTeam.add(new CrossCountryFirebot(graph, 100, searchAlg));
-        managerTeam.add(new LeggedFirebot(graph, 200, searchAlg));
-        managerTeam.add(new TrackedFirebot(graph, 250, searchAlg));
+        managerTeam.add(new CrossCountryFirebot(1, graph, 100, searchAlg));
+        managerTeam.add(new LeggedFirebot(2, graph, 200, searchAlg));
+        managerTeam.add(new TrackedFirebot(3, graph, 250, searchAlg));
         manager = new RobotManager(managerTeam, graph);
         destinationNode = graph.getNode(3);
     }
@@ -89,9 +89,9 @@ public class RobotManagerTest extends TestCase {
         Load l = new Load();
         graph = l.loadGraph(file);
         managerTeam = new ArrayList<>();
-        managerTeam.add(new CrossCountryFirebot(graph, 100, searchAlg));
-        managerTeam.add(new LeggedFirebot(graph, 200, searchAlg));
-        managerTeam.add(new TrackedFirebot(graph, 250, searchAlg));
+        managerTeam.add(new CrossCountryFirebot(1, graph, 100, searchAlg));
+        managerTeam.add(new LeggedFirebot(2, graph, 200, searchAlg));
+        managerTeam.add(new TrackedFirebot(3, graph, 250, searchAlg));
         manager = new RobotManager(managerTeam, graph);
         Node[] currentNodes = {graph.getNode(4), graph.getNode(8), graph.getNode(7)};
         for(int i = 0; i < managerTeam.size(); i++) {

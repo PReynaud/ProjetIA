@@ -1,5 +1,6 @@
 package com.polytech4a.robocup.firebot.robots;
 
+import com.polytech4a.robocup.firebot.observers.Observable;
 import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
@@ -7,12 +8,15 @@ import com.polytech4a.robocup.graph.model.Node;
 import com.polytech4a.robocup.graph.model.exceptions.MissingParameterException;
 import com.polytech4a.robocup.graph.model.exceptions.NotFoundTypeException;
 import com.polytech4a.robocup.graph.model.exceptions.SearchException;
-import com.polytech4a.robocup.graph.model.search.AStar;
 import com.polytech4a.robocup.graph.model.search.ISearch;
 import com.polytech4a.robocup.graph.model.search.Way;
 import org.apache.log4j.Logger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 /**
  * Created by Adrien CHAUSSENDE on 06/05/2015.
@@ -23,6 +27,11 @@ import java.util.*;
  *          Abstract class representing a firefighter robot.
  */
 public abstract class Firebot extends Observable implements Runnable {
+
+    /**
+     * Identifier of the Firebot.
+     */
+    public int id;
 
     /**
      * Logger.
@@ -89,7 +98,8 @@ public abstract class Firebot extends Observable implements Runnable {
      */
     private boolean inMovement = false;
 
-    public Firebot(Graph graph, int capacity, ArrayList<EdgeType> edgeConstraints, ArrayList<NodeType> nodeConstraints, double speed, ISearch searchAlgorithm) {
+    public Firebot(int id, Graph graph, int capacity, ArrayList<EdgeType> edgeConstraints, ArrayList<NodeType> nodeConstraints, double speed, ISearch searchAlgorithm) {
+        this.id = id;
         this.graph = graph;
         this.capacity = capacity;
         this.edgeConstraints = edgeConstraints;
@@ -97,6 +107,10 @@ public abstract class Firebot extends Observable implements Runnable {
         this.speed = speed;
         this.searchAlgorithm = searchAlgorithm;
         this.availability = true;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public Node getCurrentNode() {

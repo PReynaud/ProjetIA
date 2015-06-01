@@ -17,8 +17,8 @@ import java.util.ArrayList;
  */
 public class TrackedFirebot extends Firebot {
 
-    public TrackedFirebot(Graph graph, int capacity, ISearch searchAlgorithm) {
-        super(graph, capacity, constructEdgeConstraints(), new ArrayList<NodeType>(), 2, searchAlgorithm);
+    public TrackedFirebot(int id, Graph graph, int capacity, ISearch searchAlgorithm) {
+        super(id, graph, capacity, constructEdgeConstraints(), new ArrayList<NodeType>(), 2, searchAlgorithm);
     }
 
 

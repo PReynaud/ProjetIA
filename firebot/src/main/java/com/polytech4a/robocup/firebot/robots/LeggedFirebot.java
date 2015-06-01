@@ -17,8 +17,8 @@ import java.util.ArrayList;
  */
 public class LeggedFirebot extends Firebot {
 
-    public LeggedFirebot(Graph graph, int capacity, ISearch searchAlgorithm) {
-        super(graph, capacity, constructEdgeConstraints(), new ArrayList<NodeType>(), 3, searchAlgorithm);
+    public LeggedFirebot(int id, Graph graph, int capacity, ISearch searchAlgorithm) {
+        super(id, graph, capacity, constructEdgeConstraints(), new ArrayList<NodeType>(), 3, searchAlgorithm);
     }
 
     /**
