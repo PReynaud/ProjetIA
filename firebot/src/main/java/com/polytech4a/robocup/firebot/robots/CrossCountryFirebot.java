@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class CrossCountryFirebot extends Firebot {
 
     public CrossCountryFirebot(int id, Graph graph, int capacity, ISearch searchAlgorithm) {
-        super(id, graph, capacity, constructEdgeConstraints(), new ArrayList<NodeType>(), 1, searchAlgorithm);
+        super(id, graph, capacity, constructEdgeConstraints(), new ArrayList<NodeType>(), 5, searchAlgorithm);
     }
 
     /**

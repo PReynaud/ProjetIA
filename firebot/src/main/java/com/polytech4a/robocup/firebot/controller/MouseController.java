@@ -10,6 +10,7 @@ import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Edge;
 import com.polytech4a.robocup.graph.model.Graph;
+import com.polytech4a.robocup.graph.model.Node;
 import com.polytech4a.robocup.graph.model.search.AStar;
 
 import java.awt.event.MouseEvent;
@@ -77,8 +78,11 @@ public class MouseController implements MouseListener, MouseMotionListener {
         /* Draw a robot */
         if(mainController.getSelectionMode().equals(EnumSelection.ADD_CROSS_COUNTRY_FIREBOT)){
             NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
+            Node clickedNodeModel = mainController.getModel().getGraph().getNode(clickedNode.getId());
+
             if(clickedNode != null){
                 CrossCountryFirebot newBot = new CrossCountryFirebot(mainController.getModel().generateId(), graphModel, 100, new AStar());
+                newBot.setCurrentNode(clickedNodeModel);
                 newBot.addControllerObserver(mainController);
                 this.mainController.getModel().getRobotTeam().add(newBot);
                 graph.addCrossCountryFirebot(clickedNode);

@@ -3,6 +3,7 @@ package com.polytech4a.robocup.firebot.robots;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.model.Node;
+import org.apache.log4j.Logger;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -16,6 +17,8 @@ import java.util.stream.Collectors;
  *          Class representing the manager of the robot team, their task's affectation, and
  */
 public class RobotManager implements Runnable {
+    private static final Logger logger = Logger.getLogger(RobotManager.class);
+
     /**
      * Team of robots managed by the manager.
      */
@@ -132,6 +135,7 @@ public class RobotManager implements Runnable {
 
     @Override
     public void run() {
+        logger.info("Manager is running");
         while(!shutdown) {
             distributeTasks();
         }

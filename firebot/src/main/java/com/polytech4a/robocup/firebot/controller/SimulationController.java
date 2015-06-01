@@ -39,6 +39,8 @@ class PlayAction extends AbstractAction{
         mainController.getTimeController().setRunning(true);
         SimulationPanel simulationPanel = (SimulationPanel) mainController.getView().getSimulationPanel();
         FilePanel filePanel = (FilePanel) mainController.getView().getFilePanel();
+        new Thread(mainController.getModel()).start();
+        mainController.getModel().getRobotTeam().stream().forEach(o -> new Thread(o).start());
 
         simulationPanel.getPlayButton().setEnabled(false);
         simulationPanel.getPauseButton().setEnabled(true);

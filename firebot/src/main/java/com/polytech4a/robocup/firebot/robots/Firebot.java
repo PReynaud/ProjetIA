@@ -207,7 +207,7 @@ public abstract class Firebot extends com.polytech4a.robocup.firebot.observers.O
      */
     public void goToNextNode() {
         ArrayList<Node> wayNodes = wayToDestination.getNodes();
-        if (isAvailable() && !wayNodes.isEmpty())
+        if (!isAvailable() && !wayNodes.isEmpty())
             currentNode = wayNodes.remove(0);
     }
 
@@ -237,19 +237,24 @@ public abstract class Firebot extends com.polytech4a.robocup.firebot.observers.O
 
     @Override
     public void run() {
+        logger.info("Model: Robot " + getId() + " is running");
         while (!shutdown) {
             try {
                 if (destinationNode != null && currentNode.equals(destinationNode) && destinationNode.getType().equals(NodeType.INCENDIE)) {
                     extinguishFire();
                 } else if (!inMovement && !wayToDestination.getNodes().isEmpty()) {
                     inMovement = true;
+                    long time = (long) (currentNode.getEuclidianSpace(wayToDestination.getNodes().get(0)) / speed * 1000);
+
+                    fireUpdateRobotMovement(this, currentNode, wayToDestination.getNodes().get(0), time);
+
                     new Timer("Firebot in movement").schedule(new TimerTask() {
                         @Override
                         public void run() {
                             goToNextNode();
                             inMovement = false;
                         }
-                    }, (long) (currentNode.getEuclidianSpace(wayToDestination.getNodes().get(0)) / speed * 1000));
+                    }, time);
                 }
             } catch (NotFoundTypeException e) {
                 e.printStackTrace();

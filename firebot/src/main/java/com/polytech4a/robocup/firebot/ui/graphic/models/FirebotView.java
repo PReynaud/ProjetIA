@@ -7,6 +7,8 @@ import java.awt.*;
  * Class that allow the displaying of the robots in the graphic view
  */
 public class FirebotView {
+    private int id;
+
     /**
      * Position of the robot in the graphic panel
      */
@@ -47,11 +49,25 @@ public class FirebotView {
         this.color = Color.GREEN;
     }
 
+    public FirebotView(int id, NodeView node){
+        this.id = id;
+        this.x = node.getX();
+        this.y = node.getY();
+        this.currentNode = node;
+        this.isMoving = false;
+        this.directionX = 0;
+        this.directionY = 0;
+        this.color = Color.GREEN;
+    }
+
     public int getX() {
         return x;
     }
     public int getY() {
         return y;
+    }
+    public int getId() {
+        return id;
     }
     public boolean isMoving() {
         return isMoving;
@@ -69,6 +85,8 @@ public class FirebotView {
     }
     public void setCurrentNode(NodeView currentNode) {
         this.currentNode = currentNode;
+        this.x = currentNode.getX();
+        this.y = currentNode.getY();
     }
     public void setDestinationNode(NodeView destinationNode) {
         this.destinationNode = destinationNode;

@@ -5,10 +5,7 @@ import com.polytech4a.robocup.firebot.robots.Firebot;
 import com.polytech4a.robocup.firebot.robots.RobotManager;
 import com.polytech4a.robocup.firebot.ui.GraphicViewPanel;
 import com.polytech4a.robocup.firebot.ui.MainForm;
-import com.polytech4a.robocup.firebot.ui.graphic.models.EdgeView;
-import com.polytech4a.robocup.firebot.ui.graphic.models.FloodedEdgeView;
-import com.polytech4a.robocup.firebot.ui.graphic.models.NodeView;
-import com.polytech4a.robocup.firebot.ui.graphic.models.SteepEdgeView;
+import com.polytech4a.robocup.firebot.ui.graphic.models.*;
 import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Edge;
@@ -18,10 +15,7 @@ import com.polytech4a.robocup.graph.model.exceptions.MissingParameterException;
 import com.polytech4a.robocup.graph.model.exceptions.NotFoundTypeException;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Created by Pierre on 11/05/2015.
@@ -43,7 +37,7 @@ public class MainController implements ControllerObserver {
     private EnumSelection selectionMode;
     private NodeView lastClickedNode;
 
-    public  MainController(MainForm mainForm, RobotManager model){
+    public MainController(MainForm mainForm, RobotManager model) {
         this.view = mainForm;
         this.model = model;
 
@@ -61,29 +55,43 @@ public class MainController implements ControllerObserver {
     public MainForm getView() {
         return view;
     }
-    public EnumSelection getSelectionMode() {return selectionMode;}
+
+    public EnumSelection getSelectionMode() {
+        return selectionMode;
+    }
+
     public NodeView getLastClickedNode() {
         return lastClickedNode;
     }
+
     public RobotManager getModel() {
         return model;
     }
+
     public Graph getGraph() {
         return model.getGraph();
     }
+
     public void setGraph(Graph graph) {
         this.model.setGraph(graph);
     }
+
     public void setModel(RobotManager model) {
         this.model = model;
     }
+
     public void setLastClickedNode(NodeView lastClickedNode) {
         this.lastClickedNode = lastClickedNode;
     }
-    public void setSelectionMode(EnumSelection newMode){this.selectionMode = newMode;}
+
+    public void setSelectionMode(EnumSelection newMode) {
+        this.selectionMode = newMode;
+    }
+
     public TimeController getTimeController() {
         return timeController;
     }
+
     public GraphicViewController getGraphicViewController() {
         return graphicViewController;
     }
@@ -92,31 +100,37 @@ public class MainController implements ControllerObserver {
      * Transform the model in objects that can be used in the view
      * Call when we have to load a graph from a file
      */
-    public void transformModelGraphToView(){
+    public void transformModelGraphToView() {
         GraphicViewPanel graphicViewPanel = (GraphicViewPanel) view.getGraphicViewPanel();
-        for(Node node: this.model.getGraph().getNodes()){
+        for (Node node : this.model.getGraph().getNodes()) {
             try {
-                graphicViewPanel.getGraph().addNode((int)node.getX(), (int)node.getY(), node.getId());
+                if (node.getType().equals(NodeType.INCENDIE)) {
+                    graphicViewPanel.getGraph().addFireNode((int) node.getX(), (int) node.getY(), node.getId());
+                }
+                if (node.getType().equals(NodeType.NORMAL)) {
+                    graphicViewPanel.getGraph().addNode((int) node.getX(), (int) node.getY(), node.getId());
+                }
             } catch (MissingParameterException e) {
                 logger.error("Error for getting the model");
+            } catch (NotFoundTypeException e) {
+                e.printStackTrace();
             }
         }
-        for(Edge edge: this.model.getGraph().getEdges()){
+        for (Edge edge : this.model.getGraph().getEdges()) {
             Optional<NodeView> n1 = graphicViewPanel.getGraph().getNodes().stream().filter(o -> o.getId() == edge.getNode1()).findFirst();
             Optional<NodeView> n2 = graphicViewPanel.getGraph().getNodes().stream().filter(o -> o.getId() == edge.getNode2()).findFirst();
-            if(n1.isPresent() && n2.isPresent()){
+            if (n1.isPresent() && n2.isPresent()) {
                 try {
-                    if(edge.getType() == EdgeType.PLAT){
+                    if (edge.getType() == EdgeType.PLAT) {
                         graphicViewPanel.getGraph().addEdge(n1.get(), n2.get());
                     }
-                    if(edge.getType() == EdgeType.ESCARPE){
+                    if (edge.getType() == EdgeType.ESCARPE) {
                         graphicViewPanel.getGraph().addSteepEdge(n1.get(), n2.get());
                     }
                 } catch (NotFoundTypeException e) {
                     logger.error("The type of the edge does not exist");
                 }
-            }
-            else{
+            } else {
                 logger.error("Error for getting the model");
             }
         }
@@ -130,20 +144,20 @@ public class MainController implements ControllerObserver {
         NodeView n1 = nodesList.stream().filter(o -> o.getId() == edge.getNode1()).findFirst().get();
         NodeView n2 = nodesList.stream().filter(o -> o.getId() == edge.getNode2()).findFirst().get();
 
-        EdgeView edgeView =  edgesList
+        EdgeView edgeView = edgesList
                 .stream()
                 .filter(o -> o.getNode1().getId() == edge.getNode1() && o.getNode2().getId() == edge.getNode2())
                 .findFirst()
                 .get();
 
         EdgeView newEdge = null;
-        if(type.equals(EdgeType.PLAT)){
+        if (type.equals(EdgeType.PLAT)) {
             newEdge = new EdgeView(n1, n2);
         }
-        if(type.equals(EdgeType.ESCARPE)){
+        if (type.equals(EdgeType.ESCARPE)) {
             newEdge = new SteepEdgeView(n1, n2);
         }
-        if(type.equals(EdgeType.INONDEE)){
+        if (type.equals(EdgeType.INONDEE)) {
             newEdge = new FloodedEdgeView(n1, n2);
         }
 
@@ -153,11 +167,46 @@ public class MainController implements ControllerObserver {
 
     @Override
     public void updateNodeType(Node node, NodeType type) {
-
+        ArrayList<EdgeView> edgesList = ((GraphicViewPanel) getView().getGraphicViewPanel()).getGraph().getEdges();
+        ArrayList<NodeView> nodesList = ((GraphicViewPanel) getView().getGraphicViewPanel()).getGraph().getNodes();
     }
 
     @Override
     public void updateRobotMovement(Firebot firebot, Node currentNode, Node nextNode, long time) {
+        logger.info("View: Robot " + firebot.getId() + " is moving");
+        ArrayList<FirebotView> robotsList = ((GraphicViewPanel) getView().getGraphicViewPanel()).getGraph().getRobots();
+        ArrayList<NodeView> nodesList = ((GraphicViewPanel) getView().getGraphicViewPanel()).getGraph().getNodes();
+
+
+        FirebotView firebotView = robotsList.stream().filter(o -> o.getId() == firebot.getId()).findFirst().get();
+        NodeView nextNodeView = nodesList.stream().filter(o -> o.getId() == nextNode.getId()).findFirst().get();
+
+
+        firebotView.setMoving(true);
+        firebotView.setDestinationNode(nextNodeView);
+
+        try {
+            double distanceX = Math.abs(nextNode.getX() - currentNode.getX());
+            double distanceY = Math.abs(nextNode.getY() - currentNode.getY());
+
+            firebotView.setDirection((int) distanceX, (int) distanceY);
+
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    logger.info("View: Robot " + firebot.getId() + " Move to " + nextNodeView.getX() + " " + nextNodeView.getY());
+                    firebotView.setMoving(false);
+                    firebotView.setCurrentNode(nextNodeView);
+                    firebotView.setDestinationNode(null);
+                    firebotView.setDirection(0, 0);
+                    ((GraphicViewPanel) view.getGraphicViewPanel()).paintComponent(view.getGraphicViewPanel().getGraphics());
+                }
+            }, time);
+        } catch (MissingParameterException e) {
+            //TODO gérer exception
+            e.printStackTrace();
+        }
 
     }
 }
