@@ -78,24 +78,27 @@ public class MouseController implements MouseListener, MouseMotionListener {
         if(mainController.getSelectionMode().equals(EnumSelection.ADD_CROSS_COUNTRY_FIREBOT)){
             NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
             if(clickedNode != null){
-                //TODO changer capacite et algo de recherche
-                this.mainController.getModel().getRobotTeam().add(new CrossCountryFirebot(graphModel, 100, new AStar()));
+                CrossCountryFirebot newBot = new CrossCountryFirebot(graphModel, 100, new AStar());
+                newBot.addObserver(mainController);
+                this.mainController.getModel().getRobotTeam().add(newBot);
                 graph.addCrossCountryFirebot(clickedNode);
             }
         }
         if(mainController.getSelectionMode().equals(EnumSelection.ADD_LEGGED_FIREBOT)){
             NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
             if(clickedNode != null){
-                //TODO changer capacite et algo de recherche
-                this.mainController.getModel().getRobotTeam().add(new LeggedFirebot(graphModel, 100, new AStar()));
+                LeggedFirebot newBot = new LeggedFirebot(graphModel, 100, new AStar());
+                newBot.addObserver(mainController);
+                this.mainController.getModel().getRobotTeam().add(newBot);
                 graph.addLeggedFirebot(clickedNode);
             }
         }
         if(mainController.getSelectionMode().equals(EnumSelection.ADD_TRACKED_FIREBOT)){
             NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
             if(clickedNode != null){
-                //TODO changer capacite et algo de recherche
-                this.mainController.getModel().getRobotTeam().add(new TrackedFirebot(graphModel, 100, new AStar()));
+                TrackedFirebot newBot = new TrackedFirebot(graphModel, 100, new AStar());
+                newBot.addObserver(mainController);
+                this.mainController.getModel().getRobotTeam().add(newBot);
                 graph.addTrackedFirebot(clickedNode);
             }
         }

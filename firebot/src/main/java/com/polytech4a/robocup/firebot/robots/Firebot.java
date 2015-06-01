@@ -22,7 +22,7 @@ import java.util.*;
  *          <p/>
  *          Abstract class representing a firefighter robot.
  */
-public abstract class Firebot implements Runnable {
+public abstract class Firebot extends Observable implements Runnable {
 
     /**
      * Logger.
