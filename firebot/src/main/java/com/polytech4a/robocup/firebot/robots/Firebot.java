@@ -191,6 +191,18 @@ public abstract class Firebot extends com.polytech4a.robocup.firebot.observers.O
     }
 
     /**
+     * Resets all the values of the firebot in a delete purpose.
+     */
+    public void reset() {
+        shutdown = true;
+        graph = null;
+        currentNode = null;
+        destinationNode = null;
+        wayToDestination = null;
+        availability = false;
+    }
+
+    /**
      * Move this to next node depending on wayToDestination calculate.
      */
     public void goToNextNode() {
@@ -246,4 +258,5 @@ public abstract class Firebot extends com.polytech4a.robocup.firebot.observers.O
             }
         }
     }
+
 }

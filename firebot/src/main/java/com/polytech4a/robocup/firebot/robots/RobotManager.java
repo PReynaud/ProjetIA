@@ -85,6 +85,28 @@ public class RobotManager implements Runnable {
     }
 
     /**
+     * Method to properly generate integer identifier for a robot.
+     * @return Integer
+     */
+    public int generateId() {
+        if(robotTeam.isEmpty())
+            return 0;
+        return robotTeam.stream().mapToInt(f -> f.getId()).max().getAsInt() + 1;
+    }
+
+    /**
+     * Resets all the values of the manager in a delete purpose.
+     */
+    public void reset() {
+        shutdown = true;
+        for(Firebot f : robotTeam) {
+            f.reset();
+        }
+        robotTeam = null;
+        graph = null;
+    }
+
+    /**
      * Main protocole function. Entry point of the protocole.
      */
     public void distributeTasks() {
@@ -114,4 +136,5 @@ public class RobotManager implements Runnable {
             distributeTasks();
         }
     }
+
 }
