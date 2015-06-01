@@ -70,6 +70,54 @@ public class GraphicViewController {
         }
     }
 
+    public void animateFirebot(Firebot bot){
+        GraphicViewPanel graphicViewPanel = (GraphicViewPanel) mainController.getView().getGraphicViewPanel();
+        GraphView graphView = graphicViewPanel.getGraph();
+
+        /*if(bot.getDestinationNode() != null){
+            try {
+                int x = (int)bot.getCurrentNode().getX();
+                int y = (int)bot.getCurrentNode().getY();
+                FirebotView botView = robotList
+                        .stream()
+                        .filter(o -> o.getCurrentNode().getX() == x && o.getCurrentNode().getY() == y)
+                        .findFirst()
+                        .get();
+
+                if(botView.isMoving()){
+                    if(isOnNode(botView.getDestinationNode(), botView.getX(), botView.getY())){
+                        botView.setCurrentNode(botView.getDestinationNode());
+                        botView.setMoving(false);
+                        botView.setDestinationNode(null);
+                        botView.setDirection(0, 0);
+                    }
+                    else{
+                        botView.moveBot();
+                    }
+                }
+                else {
+                    botView.setDestinationNode(graphView.getNodes()
+                            .stream()
+                            .filter(o -> o.getId() == bot.getDestinationNode().getId())
+                            .findFirst()
+                            .get());
+                    //TODO calculer le vecteur de déplacement en x et y (le stocker après?)
+                    int movingX = 0;
+                    int movingY = 0;
+
+                    botView.setDirection(movingX, movingY);
+                    botView.setMoving(true);
+
+                    botView.moveBot();
+                }
+
+            } catch (MissingParameterException e) {
+                //TODO gérer exception
+                e.printStackTrace();
+            }
+        }    */
+    }
+
     private boolean isOnNode(NodeView node, int x, int y){
         double dist = Math.sqrt(Math.pow((node.getX() - x), 2) + Math.pow((node.getY() - y), 2));
         return dist < node.getSize();

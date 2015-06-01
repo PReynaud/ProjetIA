@@ -1,5 +1,7 @@
 package com.polytech4a.robocup.firebot.ui.graphic.models;
 
+import com.polytech4a.robocup.firebot.controller.EnumSelection;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -17,6 +19,16 @@ public class GraphView {
         nodes = new ArrayList<>();
         edges = new ArrayList<>();
         robots = new ArrayList<>();
+    }
+
+    public ArrayList<NodeView> getNodes() {
+        return nodes;
+    }
+    public ArrayList<EdgeView> getEdges() {
+        return edges;
+    }
+    public ArrayList<FirebotView> getRobots() {
+        return robots;
     }
 
     public void drawGraph(Graphics g){
@@ -55,15 +67,4 @@ public class GraphView {
     public void addLeggedFirebot(NodeView n){ this.robots.add(new LeggedFirebotView(n));}
     public void addTrackedFirebot(NodeView n){ this.robots.add(new TrackedFirebotView(n));}
 
-    public ArrayList<NodeView> getNodes() {
-        return nodes;
-    }
-
-    public ArrayList<EdgeView> getEdges() {
-        return edges;
-    }
-
-    public ArrayList<FirebotView> getRobots() {
-        return robots;
-    }
 }

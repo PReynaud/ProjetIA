@@ -7,7 +7,6 @@ import com.polytech4a.robocup.graph.model.Node;
 import com.polytech4a.robocup.graph.model.exceptions.MissingParameterException;
 import com.polytech4a.robocup.graph.model.exceptions.NotFoundTypeException;
 import com.polytech4a.robocup.graph.model.exceptions.SearchException;
-import com.polytech4a.robocup.graph.model.search.AStar;
 import com.polytech4a.robocup.graph.model.search.ISearch;
 import com.polytech4a.robocup.graph.model.search.Way;
 import org.apache.log4j.Logger;
@@ -22,7 +21,7 @@ import java.util.*;
  *          <p/>
  *          Abstract class representing a firefighter robot.
  */
-public abstract class Firebot extends Observable implements Runnable {
+public abstract class Firebot extends com.polytech4a.robocup.firebot.observers.Observable implements Runnable {
 
     /**
      * Logger.

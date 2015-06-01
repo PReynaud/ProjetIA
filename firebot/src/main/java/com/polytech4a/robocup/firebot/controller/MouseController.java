@@ -79,7 +79,7 @@ public class MouseController implements MouseListener, MouseMotionListener {
             NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
             if(clickedNode != null){
                 CrossCountryFirebot newBot = new CrossCountryFirebot(graphModel, 100, new AStar());
-                newBot.addObserver(mainController);
+                newBot.addControllerObserver(mainController);
                 this.mainController.getModel().getRobotTeam().add(newBot);
                 graph.addCrossCountryFirebot(clickedNode);
             }
@@ -88,7 +88,7 @@ public class MouseController implements MouseListener, MouseMotionListener {
             NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
             if(clickedNode != null){
                 LeggedFirebot newBot = new LeggedFirebot(graphModel, 100, new AStar());
-                newBot.addObserver(mainController);
+                newBot.addControllerObserver(mainController);
                 this.mainController.getModel().getRobotTeam().add(newBot);
                 graph.addLeggedFirebot(clickedNode);
             }
@@ -97,7 +97,7 @@ public class MouseController implements MouseListener, MouseMotionListener {
             NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
             if(clickedNode != null){
                 TrackedFirebot newBot = new TrackedFirebot(graphModel, 100, new AStar());
-                newBot.addObserver(mainController);
+                newBot.addControllerObserver(mainController);
                 this.mainController.getModel().getRobotTeam().add(newBot);
                 graph.addTrackedFirebot(clickedNode);
             }

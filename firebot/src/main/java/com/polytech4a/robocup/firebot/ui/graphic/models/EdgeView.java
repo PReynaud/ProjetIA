@@ -17,6 +17,14 @@ public class EdgeView {
         this.color = Color.MAGENTA;
     }
 
+    public NodeView getNode1() {
+        return node1;
+    }
+
+    public NodeView getNode2() {
+        return node2;
+    }
+
     public void drawEdge(Graphics g){
         g.setColor(this.color);
         g.drawLine(node1.getX(), node1.getY(), node2.getX(), node2.getY());
