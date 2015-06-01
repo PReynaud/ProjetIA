@@ -28,7 +28,7 @@ public class TimeController {
                     graphicViewPanel.paintComponent(graphicViewPanel.getGraphics());
                 }
             }
-        }, 200, 200);
+        }, 500, 500);
     }
 
     public boolean isRunning() {

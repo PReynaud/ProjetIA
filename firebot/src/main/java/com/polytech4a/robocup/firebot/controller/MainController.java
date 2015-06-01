@@ -176,11 +176,11 @@ public class MainController implements ControllerObserver {
         nodesList.remove(nodeToDelete);
 
         try {
-            if(type.equals(NodeType.NORMAL)){
-                nodesList.add(new NodeView((int)node.getX(), (int)node.getY(), node.getId()));
+            if (type.equals(NodeType.NORMAL)) {
+                nodesList.add(new NodeView((int) node.getX(), (int) node.getY(), node.getId()));
             }
-            if(type.equals(NodeType.INCENDIE)){
-                nodesList.add(new FireNodeView((int)node.getX(), (int)node.getY(), node.getId()));
+            if (type.equals(NodeType.INCENDIE)) {
+                nodesList.add(new FireNodeView((int) node.getX(), (int) node.getY(), node.getId()));
             }
         } catch (MissingParameterException e) {
             e.printStackTrace();
@@ -202,28 +202,21 @@ public class MainController implements ControllerObserver {
         firebotView.setMoving(true);
         firebotView.setDestinationNode(nextNodeView);
 
-        try {
-            double distanceX = currentNode.getX() - nextNode.getX();
-            double distanceY = currentNode.getY() - nextNode.getY();
+        firebotView.setTime(time);
 
-            firebotView.setDirection(- (int) (distanceX / (time / 200)), - (int) (distanceY / (time / 200)));
-
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    logger.info("View: Robot " + firebot.getId() + " Move to " + nextNodeView.getX() + " " + nextNodeView.getY());
-                    firebotView.setMoving(false);
-                    firebotView.setCurrentNode(nextNodeView);
-                    firebotView.setDestinationNode(null);
-                    firebotView.setDirection(0, 0);
-                    ((GraphicViewPanel) view.getGraphicViewPanel()).paintComponent(view.getGraphicViewPanel().getGraphics());
-                }
-            }, time);
-        } catch (MissingParameterException e) {
-            //TODO gérer exception
-            e.printStackTrace();
-        }
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                logger.info("View: Robot " + firebot.getId() + " Move to " + nextNodeView.getX() + " " + nextNodeView.getY());
+                firebotView.setMoving(false);
+                firebotView.setCurrentNode(nextNodeView);
+                firebotView.setDestinationNode(null);
+                firebotView.setDirection(0, 0);
+                firebotView.setTime(0);
+                ((GraphicViewPanel) view.getGraphicViewPanel()).paintComponent(view.getGraphicViewPanel().getGraphics());
+            }
+        }, time);
 
     }
 }

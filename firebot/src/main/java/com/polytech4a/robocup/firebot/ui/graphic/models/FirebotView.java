@@ -38,6 +38,7 @@ public class FirebotView {
 
     private NodeView currentNode;
     private NodeView destinationNode;
+    private long time;
 
     public FirebotView(int id, NodeView node){
         this.id = id;
@@ -84,6 +85,9 @@ public class FirebotView {
     public void setMoving(boolean isMoving) {
         this.isMoving = isMoving;
     }
+    public void setTime(long time) {
+        this.time = time;
+    }
 
     /**
      * Draw the robot in the graphic panel with it's own color and position
@@ -98,7 +102,15 @@ public class FirebotView {
      * Move the bot following it's direction
      */
     public void moveBot(){
+        double distanceX = x - destinationNode.getX();
+        double distanceY = y - destinationNode.getY();
+
+        directionX = - (int) (distanceX / (time / 500));
+        directionY = - (int) (distanceY / (time / 500));
+
         x += directionX;
         y += directionY;
+
+        time -= 500;
     }
 }
