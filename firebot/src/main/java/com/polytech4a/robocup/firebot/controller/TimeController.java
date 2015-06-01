@@ -1,5 +1,6 @@
 package com.polytech4a.robocup.firebot.controller;
 
+import com.polytech4a.robocup.firebot.ui.GraphicViewPanel;
 import org.apache.log4j.Logger;
 
 import java.util.Timer;
@@ -22,12 +23,12 @@ public class TimeController {
             public void run() {
                 if(running){
                     logger.debug("View: regular update for moving the bots");
-                    /*mainController.getGraphicViewController().animateFirebots();
+                    mainController.getGraphicViewController().animateFirebots();
                     GraphicViewPanel graphicViewPanel = (GraphicViewPanel) mainController.getView().getGraphicViewPanel();
-                    graphicViewPanel.paintComponent(graphicViewPanel.getGraphics());*/
+                    graphicViewPanel.paintComponent(graphicViewPanel.getGraphics());
                 }
             }
-        }, 500, 500);
+        }, 200, 200);
     }
 
     public boolean isRunning() {

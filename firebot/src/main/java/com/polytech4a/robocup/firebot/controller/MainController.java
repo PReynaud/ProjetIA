@@ -203,10 +203,10 @@ public class MainController implements ControllerObserver {
         firebotView.setDestinationNode(nextNodeView);
 
         try {
-            double distanceX = Math.abs(nextNode.getX() - currentNode.getX());
-            double distanceY = Math.abs(nextNode.getY() - currentNode.getY());
+            double distanceX = currentNode.getX() - nextNode.getX();
+            double distanceY = currentNode.getY() - nextNode.getY();
 
-            firebotView.setDirection((int) distanceX, (int) distanceY);
+            firebotView.setDirection(- (int) (distanceX / (time / 200)), - (int) (distanceY / (time / 200)));
 
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {

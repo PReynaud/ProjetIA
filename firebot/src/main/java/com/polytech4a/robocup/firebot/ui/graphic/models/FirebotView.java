@@ -39,16 +39,6 @@ public class FirebotView {
     private NodeView currentNode;
     private NodeView destinationNode;
 
-    public FirebotView(NodeView node) {
-        this.x = node.getX();
-        this.y = node.getY();
-        this.currentNode = node;
-        this.isMoving = false;
-        this.directionX = 0;
-        this.directionY = 0;
-        this.color = Color.GREEN;
-    }
-
     public FirebotView(int id, NodeView node){
         this.id = id;
         this.x = node.getX();
