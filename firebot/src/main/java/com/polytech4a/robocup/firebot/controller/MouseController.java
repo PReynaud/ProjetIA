@@ -85,7 +85,7 @@ public class MouseController implements MouseListener, MouseMotionListener {
                 newBot.setCurrentNode(clickedNodeModel);
                 newBot.addControllerObserver(mainController);
                 this.mainController.getModel().getRobotTeam().add(newBot);
-                graph.addCrossCountryFirebot(clickedNode);
+                graph.addCrossCountryFirebot(clickedNode, newBot.getId());
             }
         }
         if(mainController.getSelectionMode().equals(EnumSelection.ADD_LEGGED_FIREBOT)){
@@ -94,7 +94,7 @@ public class MouseController implements MouseListener, MouseMotionListener {
                 LeggedFirebot newBot = new LeggedFirebot(mainController.getModel().generateId(), graphModel, 100, new AStar());
                 newBot.addControllerObserver(mainController);
                 this.mainController.getModel().getRobotTeam().add(newBot);
-                graph.addLeggedFirebot(clickedNode);
+                graph.addLeggedFirebot(clickedNode, newBot.getId());
             }
         }
         if(mainController.getSelectionMode().equals(EnumSelection.ADD_TRACKED_FIREBOT)){
@@ -103,7 +103,7 @@ public class MouseController implements MouseListener, MouseMotionListener {
                 TrackedFirebot newBot = new TrackedFirebot(mainController.getModel().generateId(), graphModel, 100, new AStar());
                 newBot.addControllerObserver(mainController);
                 this.mainController.getModel().getRobotTeam().add(newBot);
-                graph.addTrackedFirebot(clickedNode);
+                graph.addTrackedFirebot(clickedNode, newBot.getId());
             }
         }
     }

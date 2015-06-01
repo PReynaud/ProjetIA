@@ -61,10 +61,10 @@ public class GraphView {
         this.edges.add(new SteepEdgeView(n1, n2));
     }
 
-    public void addCrossCountryFirebot(NodeView n){
-        this.robots.add(new CrossCountryFirebotView(n));
+    public void addCrossCountryFirebot(NodeView n, int id){
+        this.robots.add(new CrossCountryFirebotView(n, id));
     }
-    public void addLeggedFirebot(NodeView n){ this.robots.add(new LeggedFirebotView(n));}
-    public void addTrackedFirebot(NodeView n){ this.robots.add(new TrackedFirebotView(n));}
+    public void addLeggedFirebot(NodeView n, int id){ this.robots.add(new LeggedFirebotView(n, id));}
+    public void addTrackedFirebot(NodeView n, int id){ this.robots.add(new TrackedFirebotView(n, id));}
 
 }

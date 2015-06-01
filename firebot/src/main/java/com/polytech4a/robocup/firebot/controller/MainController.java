@@ -138,6 +138,7 @@ public class MainController implements ControllerObserver {
 
     @Override
     public void updateEdgeType(Edge edge, EdgeType type) {
+        logger.info("View: update an edge");
         ArrayList<EdgeView> edgesList = ((GraphicViewPanel) getView().getGraphicViewPanel()).getGraph().getEdges();
         ArrayList<NodeView> nodesList = ((GraphicViewPanel) getView().getGraphicViewPanel()).getGraph().getNodes();
 
@@ -167,8 +168,24 @@ public class MainController implements ControllerObserver {
 
     @Override
     public void updateNodeType(Node node, NodeType type) {
+        logger.info("View: update node " + node.getId());
         ArrayList<EdgeView> edgesList = ((GraphicViewPanel) getView().getGraphicViewPanel()).getGraph().getEdges();
         ArrayList<NodeView> nodesList = ((GraphicViewPanel) getView().getGraphicViewPanel()).getGraph().getNodes();
+
+        NodeView nodeToDelete = nodesList.stream().filter(o -> o.getId() == node.getId()).findFirst().get();
+        nodesList.remove(nodeToDelete);
+
+        try {
+            if(type.equals(NodeType.NORMAL)){
+                nodesList.add(new NodeView((int)node.getX(), (int)node.getY(), node.getId()));
+            }
+            if(type.equals(NodeType.INCENDIE)){
+                nodesList.add(new FireNodeView((int)node.getX(), (int)node.getY(), node.getId()));
+            }
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
