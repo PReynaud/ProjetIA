@@ -19,8 +19,7 @@ public class LoadTest {
     @Test
     public void testLoadGraph() throws Exception {
         File file = FileUtils.getFile("src", "test", "resources", "mapsixieme.xml");
-        Load l = new Load();
-        Graph g = l.loadGraph(file);
+        Graph g = Load.loadGraph(file);
         TestCase.assertEquals(26, g.getNodes().size());
         TestCase.assertEquals(39, g.getEdges().size());
     }
@@ -28,21 +27,18 @@ public class LoadTest {
     @Test(expected = MalformGraphException.class)
     public void testFailOnNodeId() throws Exception {
         File file = FileUtils.getFile("src", "test", "resources", "mapsixiemefailnode.xml");
-        Load l = new Load();
-        Graph g = l.loadGraph(file);
+        Graph g = Load.loadGraph(file);
     }
 
     @Test(expected = MalformGraphException.class)
     public void testFailOnEdgeId() throws Exception {
         File file = FileUtils.getFile("src", "test", "resources", "mapsixiemefailedge.xml");
-        Load l = new Load();
-        Graph g = l.loadGraph(file);
+        Graph g = Load.loadGraph(file);
     }
 
     @Test(expected = SAXException.class)
     public void testFailOnXml() throws Exception {
         File file = FileUtils.getFile("src", "test", "resources", "mapsixiemeMalformeXml.xml");
-        Load l = new Load();
-        Graph g = l.loadGraph(file);
+        Graph g = Load.loadGraph(file);
     }
 }

@@ -24,11 +24,9 @@ public class SaveTest {
     @Test
     public void testSaveGraph() throws Exception {
         File file = temp.newFile("temp.xml");
-        Save s = new Save();
         File fileLoaded = FileUtils.getFile("src", "test", "resources", "mapsixieme.xml");
-        Load l = new Load();
-        Graph g = l.loadGraph(fileLoaded);
-        s.saveGraph(g, file);
+        Graph g = Load.loadGraph(fileLoaded);
+        Save.saveGraph(g, file);
         assertTrue(FileUtils.readFileToByteArray(file).length > 0);
     }
 }
