@@ -20,7 +20,7 @@ public class LeggedFirebotTest extends FirebotTest {
     @Override
     public void setUp() throws ParserConfigurationException, MalformGraphException, SAXException, IOException {
         super.setUp();
-        setFirebot(new LeggedFirebot(getGraph(), 100, new AStar()));
+        setFirebot(new LeggedFirebot(1, getGraph(), 100, new AStar()));
     }
 
     @Override

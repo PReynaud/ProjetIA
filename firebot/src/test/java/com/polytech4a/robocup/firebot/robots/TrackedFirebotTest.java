@@ -20,7 +20,7 @@ public class TrackedFirebotTest extends FirebotTest {
     @Override
     public void setUp() throws ParserConfigurationException, MalformGraphException, SAXException, IOException {
         super.setUp();
-        setFirebot(new TrackedFirebot(getGraph(), 100, new AStar()));
+        setFirebot(new TrackedFirebot(1, getGraph(), 100, new AStar()));
     }
 
     @Override
