@@ -139,8 +139,8 @@ public class MainController implements ControllerObserver {
     @Override
     public void updateEdgeType(Edge edge, EdgeType type) {
         logger.info("View: update an edge");
-        ArrayList<EdgeView> edgesList = ((GraphicViewPanel) getView().getGraphicViewPanel()).getGraph().getEdges();
-        ArrayList<NodeView> nodesList = ((GraphicViewPanel) getView().getGraphicViewPanel()).getGraph().getNodes();
+        List<EdgeView> edgesList = ((GraphicViewPanel) getView().getGraphicViewPanel()).getGraph().getEdges();
+        List<NodeView> nodesList = ((GraphicViewPanel) getView().getGraphicViewPanel()).getGraph().getNodes();
 
         NodeView n1 = nodesList.stream().filter(o -> o.getId() == edge.getNode1()).findFirst().get();
         NodeView n2 = nodesList.stream().filter(o -> o.getId() == edge.getNode2()).findFirst().get();
@@ -169,8 +169,8 @@ public class MainController implements ControllerObserver {
     @Override
     public void updateNodeType(Node node, NodeType type) {
         logger.info("View: update node " + node.getId());
-        ArrayList<EdgeView> edgesList = ((GraphicViewPanel) getView().getGraphicViewPanel()).getGraph().getEdges();
-        ArrayList<NodeView> nodesList = ((GraphicViewPanel) getView().getGraphicViewPanel()).getGraph().getNodes();
+        List<EdgeView> edgesList = ((GraphicViewPanel) getView().getGraphicViewPanel()).getGraph().getEdges();
+        List<NodeView> nodesList = ((GraphicViewPanel) getView().getGraphicViewPanel()).getGraph().getNodes();
 
         NodeView nodeToDelete = nodesList.stream().filter(o -> o.getId() == node.getId()).findFirst().get();
         nodesList.remove(nodeToDelete);
@@ -191,8 +191,8 @@ public class MainController implements ControllerObserver {
     @Override
     public void updateRobotMovement(Firebot firebot, Node currentNode, Node nextNode, long time) {
         logger.info("View: Robot " + firebot.getId() + " is moving to " + nextNode.getId());
-        ArrayList<FirebotView> robotsList = ((GraphicViewPanel) getView().getGraphicViewPanel()).getGraph().getRobots();
-        ArrayList<NodeView> nodesList = ((GraphicViewPanel) getView().getGraphicViewPanel()).getGraph().getNodes();
+        List<FirebotView> robotsList = ((GraphicViewPanel) getView().getGraphicViewPanel()).getGraph().getRobots();
+        List<NodeView> nodesList = ((GraphicViewPanel) getView().getGraphicViewPanel()).getGraph().getNodes();
 
 
         FirebotView firebotView = robotsList.stream().filter(o -> o.getId() == firebot.getId()).findFirst().get();

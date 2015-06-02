@@ -7,6 +7,7 @@ import com.polytech4a.robocup.firebot.ui.graphic.models.GraphView;
 import com.polytech4a.robocup.firebot.ui.graphic.models.NodeView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Pierre on 31/05/2015.
@@ -20,7 +21,7 @@ public class GraphicViewController {
 
     public void animateFirebots() {
         GraphicViewPanel graphicViewPanel = (GraphicViewPanel) mainController.getView().getGraphicViewPanel();
-        ArrayList<FirebotView> robotList = graphicViewPanel.getGraph().getRobots();
+        List<FirebotView> robotList = graphicViewPanel.getGraph().getRobots();
         GraphView graphView = graphicViewPanel.getGraph();
 
         for (Firebot bot : mainController.getModel().getRobotTeam()) {

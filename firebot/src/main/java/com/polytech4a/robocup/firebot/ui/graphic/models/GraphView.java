@@ -1,38 +1,60 @@
 package com.polytech4a.robocup.firebot.ui.graphic.models;
 
 import com.polytech4a.robocup.firebot.controller.EnumSelection;
+import com.polytech4a.robocup.graph.model.Edge;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by Pierre on 16/05/2015.
  */
 public class GraphView {
-    private ArrayList<NodeView> nodes;
-    private ArrayList<EdgeView> edges;
-    private ArrayList<FirebotView> robots;
+    private CopyOnWriteArrayList<NodeView> nodes;
+    private CopyOnWriteArrayList<EdgeView> edges;
+    private CopyOnWriteArrayList<FirebotView> robots;
 
 
     public GraphView() {
-        nodes = new ArrayList<>();
-        edges = new ArrayList<>();
-        robots = new ArrayList<>();
+        nodes = new CopyOnWriteArrayList<>();
+        edges = new CopyOnWriteArrayList<>();
+        robots = new CopyOnWriteArrayList<>();
     }
 
-    public ArrayList<NodeView> getNodes() {
+    public CopyOnWriteArrayList<NodeView> getNodes() {
         return nodes;
     }
-    public ArrayList<EdgeView> getEdges() {
+    public CopyOnWriteArrayList<EdgeView> getEdges() {
         return edges;
     }
-    public ArrayList<FirebotView> getRobots() {
+    public CopyOnWriteArrayList<FirebotView> getRobots() {
         return robots;
     }
 
     public void drawGraph(Graphics g){
-        for(EdgeView edge: edges){
+        Iterator<EdgeView> iter1 = edges.iterator();
+
+        while(iter1.hasNext()){
+            EdgeView edge = iter1.next();
+            edge.drawEdge(g);
+        }
+
+        Iterator<NodeView> iter2 = nodes.iterator();
+        while(iter2.hasNext()){
+            NodeView node = iter2.next();
+            node.drawNode(g);
+        }
+
+        Iterator<FirebotView> iter3 = robots.iterator();
+        while(iter3.hasNext()){
+            FirebotView bot = iter3.next();
+            bot.draw(g);
+        }
+
+        /*for(EdgeView edge: edges){
             edge.drawEdge(g);
         }
         for(NodeView node: nodes){
@@ -40,7 +62,7 @@ public class GraphView {
         }
         for(FirebotView robot: robots){
             robot.draw(g);
-        }
+        }*/
     }
 
     public void addNode(int x, int y, int id){
