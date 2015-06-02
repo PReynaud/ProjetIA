@@ -1,11 +1,14 @@
 package com.polytech4a.robocup.firebot.controller;
 
+import com.polytech4a.robocup.firebot.robots.RobotManager;
 import com.polytech4a.robocup.firebot.ui.FilePanel;
 import com.polytech4a.robocup.firebot.ui.GraphicControlPanel;
 import com.polytech4a.robocup.firebot.ui.SimulationPanel;
+import com.polytech4a.robocup.graph.model.Graph;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 /**
  * Created by Pierre on 11/05/2015.
@@ -100,6 +103,7 @@ class ResetAction extends AbstractAction{
         mainController.setLastClickedNode(null);
         mainController.setSelectionMode(EnumSelection.NOTHING);
 
-        //TODO reset le modèle
+        mainController.getModel().reset();
+        mainController.setModel(new RobotManager(new ArrayList<>(), new Graph()));
     }
 }

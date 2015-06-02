@@ -22,7 +22,6 @@ public class GraphicViewController {
     public void animateFirebots() {
         GraphicViewPanel graphicViewPanel = (GraphicViewPanel) mainController.getView().getGraphicViewPanel();
         List<FirebotView> robotList = graphicViewPanel.getGraph().getRobots();
-        GraphView graphView = graphicViewPanel.getGraph();
 
         for (Firebot bot : mainController.getModel().getRobotTeam()) {
             if (bot.getDestinationNode() != null) {
@@ -34,20 +33,6 @@ public class GraphicViewController {
 
                 if (botView.isMoving()) {
                     botView.moveBot();
-                } else {
-                    /*botView.setDestinationNode(graphView.getNodes()
-                            .stream()
-                            .filter(o -> o.getId() == bot.getDestinationNode().getId())
-                            .findFirst()
-                            .get());
-                    //TODO calculer le vecteur de déplacement en x et y (le stocker après?)
-                    int movingX = 0;
-                    int movingY = 0;
-
-                    botView.setDirection(movingX, movingY);
-                    botView.setMoving(true);
-
-                    botView.moveBot();*/
                 }
             }
         }
