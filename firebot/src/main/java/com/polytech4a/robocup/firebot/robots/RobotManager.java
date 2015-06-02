@@ -145,6 +145,7 @@ public class RobotManager implements Runnable, ManagerObserver {
         logger.info("Manager is running");
         while (!shutdown) {
             distributeTasks();
+
         }
     }
 

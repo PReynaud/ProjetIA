@@ -231,9 +231,25 @@ public abstract class Firebot extends Observable implements Runnable {
      * Method for robot extinguishing the fire.
      */
     public void extinguishFire() {
-        long i = 0, limit = computeTime();
-        Firebot self = this;
-        new Timer("Extinguishing fire ...").schedule(new TimerTask() {
+        try {
+            long i = 0, limit = computeTime();
+            this.wait(limit);
+            currentNode.setType(NodeType.NORMAL);
+            fireUpdateNodeType(currentNode, NodeType.NORMAL);
+            Random rdm = new Random();
+            graph.getEdgesFromNode(currentNode).stream().forEach(e -> {
+                if (rdm.nextInt(10) > 5) {
+                    e.setType(EdgeType.INONDEE);
+                    fireUpdateEdgeType(e, EdgeType.INONDEE);
+                }
+            });
+            wayToDestination.getNodes().clear();
+            fireUpdateActivity(this);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+/*        new Timer("Extinguishing fire ...").schedule(new TimerTask() {
             @Override
             public void run() {
                 currentNode.setType(NodeType.NORMAL);
@@ -248,37 +264,38 @@ public abstract class Firebot extends Observable implements Runnable {
                 wayToDestination.getNodes().clear();
                 fireUpdateActivity(self);
             }
-        }, limit);
+        }, limit);*/
     }
 
     @Override
     public void run() {
         logger.info("Model: Robot " + getId() + " is running");
-        while (!shutdown) {
-            try {
-                if (destinationNode != null && currentNode.equals(destinationNode) && currentNode.getType().equals(NodeType.INCENDIE) && !extinguishingFire) {
-                    extinguishingFire = true;
-                    extinguishFire();
-                } else if (ableToMove && !inMovement && destinationNode != null && !wayToDestination.getNodes().isEmpty()) {
-                    inMovement = true;
-                    long time = (long) (currentNode.getEuclidianSpace(wayToDestination.getNodes().get(0)) / speed * 1000);
-                    fireUpdateRobotMovement(this, currentNode, wayToDestination.getNodes().get(0), time);
-                    new Timer("Firebot in movement").schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            goToNextNode();
-                            inMovement = false;
-                        }
-                    }, time);
-                } else if (destinationNode != null && currentNode.equals(destinationNode) && currentNode.getType().equals(NodeType.NORMAL)) {
-                    availability = true;
+        synchronized (this) {
+            while (!shutdown) {
+                try {
+                    if (destinationNode != null && currentNode.equals(destinationNode) && currentNode.getType().equals(NodeType.INCENDIE) && !extinguishingFire) {
+                        extinguishingFire = true;
+                        extinguishFire();
+                    } else if (ableToMove && !inMovement && destinationNode != null && !wayToDestination.getNodes().isEmpty()) {
+                        inMovement = true;
+                        long time = (long) (currentNode.getEuclidianSpace(wayToDestination.getNodes().get(0)) / speed * 1000);
+                        fireUpdateRobotMovement(this, currentNode, wayToDestination.getNodes().get(0), time);
+                        this.wait(time);
+                        goToNextNode();
+                        inMovement = false;
+                    } else if (destinationNode != null && currentNode.equals(destinationNode) && currentNode.getType().equals(NodeType.NORMAL)) {
+                        availability = true;
+                    }
+                } catch (NotFoundTypeException e) {
+                    e.printStackTrace();
+                } catch (MissingParameterException e) {
+                    logger.error("In run() from Firebot.java, can't calculate time to go to next node.", e);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            } catch (NotFoundTypeException e) {
-                e.printStackTrace();
-            } catch (MissingParameterException e) {
-                logger.error("In run() from Firebot.java, can't calculate time to go to next node.", e);
             }
         }
+
     }
 
 }
