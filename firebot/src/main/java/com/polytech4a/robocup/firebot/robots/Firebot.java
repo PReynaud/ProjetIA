@@ -234,6 +234,7 @@ public abstract class Firebot extends com.polytech4a.robocup.firebot.observers.O
                     }
                 });
                 availability = true;
+                extinguishingFire = false;
             }
         }, limit);
     }

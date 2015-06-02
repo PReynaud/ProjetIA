@@ -121,7 +121,7 @@ public class RobotManager implements Runnable {
             for(Node n : destinationNodes) {
                 if(!availableRobots.isEmpty()) {
                     Firebot assignedBot = askDistancesToNode(availableRobots, n);
-                    if(assignedBot != null  && assignedBot.getDestinationNode() == null) {
+                    if (assignedBot != null) {
                         assignedBot.setDestinationNode(n);
                         assignedBot.setAvailability(false);
                         availableRobots.remove(assignedBot);
