@@ -15,5 +15,5 @@ public interface ManagerObserver {
     /**
      * Update firebot informations when he completes its task.
      */
-    public void updateActivity(Firebot firebot);
+    void updateActivity(Firebot firebot);
 }

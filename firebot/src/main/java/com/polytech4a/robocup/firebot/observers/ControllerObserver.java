@@ -17,12 +17,28 @@ import com.polytech4a.robocup.graph.model.Node;
 public interface ControllerObserver {
 
     /**
-     * @param edge
-     * @param type
+     * Fire update type on a Edge.
+     *
+     * @param edge Edge updated.
+     * @param type New type of the edge.
      */
-    public void updateEdgeType(Edge edge, EdgeType type);
+    void updateEdgeType(Edge edge, EdgeType type);
 
-    public void updateNodeType(Node node, NodeType type);
+    /**
+     * Fire update type on a Edge.
+     *
+     * @param node Node updated.
+     * @param type New type of the node.
+     */
+    void updateNodeType(Node node, NodeType type);
 
-    public void updateRobotMovement(Firebot firebot, Node currentNode, Node nextNode, long time);
+    /**
+     * Fire update a robot movement.
+     *
+     * @param firebot robot which moves.
+     * @param currentNode current node of the robot.
+     * @param nextNode next node into move.
+     * @param time time to make the movement.
+     */
+    void updateRobotMovement(Firebot firebot, Node currentNode, Node nextNode, long time);
 }
