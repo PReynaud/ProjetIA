@@ -130,6 +130,7 @@ public class RobotManager implements Runnable, ManagerObserver {
                         assignedBot.setAbleToMove(true);
                         availableRobots.remove(assignedBot);
                         assignedNodes.add(n);
+                        logger.info("Robot " + assignedBot.getId() + " want to extinguish fire " + n.getId());
                         assignedBot.setShutdown(false);
                         new Thread(assignedBot).start();
                     }
@@ -145,7 +146,6 @@ public class RobotManager implements Runnable, ManagerObserver {
         logger.info("Manager is running");
         while (!shutdown) {
             distributeTasks();
-
         }
     }
 
