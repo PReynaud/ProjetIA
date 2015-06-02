@@ -1,5 +1,6 @@
 package com.polytech4a.robocup.firebot.robots;
 
+import com.polytech4a.robocup.firebot.observers.Observable;
 import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
@@ -9,7 +10,6 @@ import com.polytech4a.robocup.graph.model.exceptions.NotFoundTypeException;
 import com.polytech4a.robocup.graph.model.exceptions.SearchException;
 import com.polytech4a.robocup.graph.model.search.ISearch;
 import com.polytech4a.robocup.graph.model.search.Way;
-import com.polytech4a.robocup.firebot.observers.Observable;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -29,15 +29,13 @@ import java.util.TimerTask;
 public abstract class Firebot extends Observable implements Runnable {
 
     /**
-     * Identifier of the Firebot.
-     */
-    public int id;
-
-    /**
      * Logger.
      */
     private static final Logger logger = Logger.getLogger(Firebot.class);
-
+    /**
+     * Identifier of the Firebot.
+     */
+    public int id;
     /**
      * Current graph of the situation.
      */
@@ -247,6 +245,7 @@ public abstract class Firebot extends Observable implements Runnable {
                         fireUpdateEdgeType(e, EdgeType.INONDEE);
                     }
                 });
+                wayToDestination.getNodes().clear();
                 fireUpdateActivity(self);
             }
         }, limit);
