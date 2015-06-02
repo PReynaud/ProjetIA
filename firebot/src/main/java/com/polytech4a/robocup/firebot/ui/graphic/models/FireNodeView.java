@@ -4,8 +4,10 @@ import java.awt.*;
 
 /**
  * Created by Pierre on 16/05/2015.
+ * <p/>
+ * View of a Node in Fire.
  */
-public class FireNodeView extends NodeView{
+public class FireNodeView extends NodeView {
 
     public FireNodeView(int x, int y, int id) {
         super(x, y, id);
