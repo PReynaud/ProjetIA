@@ -40,6 +40,8 @@ public class RobotManager implements Runnable, ManagerObserver {
         this.graph = graph;
     }
 
+    private ArrayList<Node> assignedNodes = new ArrayList<>();
+
     public ArrayList<Firebot> getRobotTeam() {
         return robotTeam;
     }
@@ -118,7 +120,7 @@ public class RobotManager implements Runnable, ManagerObserver {
         ArrayList<Firebot> availableRobots = askAvailability();
         ArrayList<NodeType> types = new ArrayList<>();
         types.add(NodeType.INCENDIE);
-        List<Node> destinationNodes = graph.getNodes().stream().filter(n -> n.isNodeFromType(types)).collect(Collectors.toList());
+        List<Node> destinationNodes = graph.getNodes().stream().filter(n -> n.isNodeFromType(types) && !assignedNodes.contains(n)).collect(Collectors.toList());
         if (destinationNodes.size() > 0) {
             for (Node n : destinationNodes) {
                 if (!availableRobots.isEmpty()) {
@@ -128,6 +130,8 @@ public class RobotManager implements Runnable, ManagerObserver {
                         assignedBot.setAvailability(false);
                         assignedBot.setAbleToMove(true);
                         availableRobots.remove(assignedBot);
+                        assignedNodes.add(n);
+                        assignedBot.setShutdown(false);
                         new Thread(assignedBot).start();
                     }
                 } else {
@@ -147,6 +151,12 @@ public class RobotManager implements Runnable, ManagerObserver {
 
     @Override
     public void updateActivity(Firebot firebot) {
+        logger.info("Shutdown robot " + firebot.getId());
+        firebot.setShutdown(true);
+        assignedNodes.remove(firebot.getCurrentNode());
         firebot.setAbleToMove(false);
+        firebot.setDestinationNode(null);
+        firebot.setExtinguishingFire(false);
+        firebot.setAvailability(true);
     }
 }

@@ -167,6 +167,10 @@ public abstract class Firebot extends Observable implements Runnable {
         this.ableToMove = ableToMove;
     }
 
+    public void setExtinguishingFire(boolean extinguishingFire) {
+        this.extinguishingFire = extinguishingFire;
+    }
+
     /**
      * Method to compute time needed for the robot to extinguish the fire.
      *
@@ -243,8 +247,6 @@ public abstract class Firebot extends Observable implements Runnable {
                         fireUpdateEdgeType(e, EdgeType.INONDEE);
                     }
                 });
-                availability = true;
-                extinguishingFire = false;
                 fireUpdateActivity(self);
             }
         }, limit);
@@ -269,6 +271,8 @@ public abstract class Firebot extends Observable implements Runnable {
                             inMovement = false;
                         }
                     }, time);
+                } else if (destinationNode != null && currentNode.equals(destinationNode) && currentNode.getType().equals(NodeType.NORMAL)) {
+                    availability = true;
                 }
             } catch (NotFoundTypeException e) {
                 e.printStackTrace();
