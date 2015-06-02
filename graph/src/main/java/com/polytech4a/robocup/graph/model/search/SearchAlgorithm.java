@@ -9,6 +9,7 @@ import com.polytech4a.robocup.graph.model.exceptions.SearchException;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -23,12 +24,12 @@ public abstract class SearchAlgorithm implements ISearch {
     /**
      * Nodes covered by the algorithm so far
      */
-    protected ArrayList<Node> coveredNodes;
+    protected Collection<Node> coveredNodes;
 
     /**
      * Node still to process
      */
-    protected ArrayList<Node> openNodes;
+    protected Collection<Node> openNodes;
 
     /**
      * Associate a node to its parent
@@ -40,8 +41,6 @@ public abstract class SearchAlgorithm implements ISearch {
      * Constructor for the search algorithm
      */
     public SearchAlgorithm() {
-        this.openNodes = new ArrayList<>();
-        this.coveredNodes = new ArrayList<>();
         this.parentNodes = new HashMap<>();
     }
 

@@ -7,6 +7,7 @@ import com.polytech4a.robocup.graph.model.Node;
 import com.polytech4a.robocup.graph.model.exceptions.SearchException;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Created by Antoine CARON on 27/05/2015.
@@ -19,6 +20,8 @@ public final class Dijkstra extends SearchAlgorithm {
 
     public Dijkstra() {
         super();
+        this.openNodes = new LinkedList<>();
+        this.coveredNodes = new LinkedList<>();
     }
 
     @Override
@@ -26,7 +29,7 @@ public final class Dijkstra extends SearchAlgorithm {
         openNodes.add(begin);
 
         while (!openNodes.isEmpty()) {
-            Node n = openNodes.remove(0);
+            Node n = ((LinkedList<Node>) openNodes).poll();
             coveredNodes.add(n);
             if (n.equals(end)) {
                 Way way = recoverPath(n);
@@ -52,7 +55,7 @@ public final class Dijkstra extends SearchAlgorithm {
         openNodes.add(begin);
 
         while (!openNodes.isEmpty()) {
-            Node n = openNodes.remove(0);
+            Node n = ((LinkedList<Node>) openNodes).poll();
             coveredNodes.add(n);
             if (n.equals(end)) {
                 Way way = recoverPath(n);

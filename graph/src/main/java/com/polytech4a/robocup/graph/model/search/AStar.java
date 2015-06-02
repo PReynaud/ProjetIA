@@ -7,8 +7,7 @@ import com.polytech4a.robocup.graph.model.Node;
 import com.polytech4a.robocup.graph.model.exceptions.MissingParameterException;
 import com.polytech4a.robocup.graph.model.exceptions.SearchException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * @author Dimitri on 16/05/2015.
@@ -33,6 +32,8 @@ public class AStar extends HeuristicCostSearch {
      */
     public AStar() {
         super();
+        this.openNodes = new LinkedList<>();
+        this.coveredNodes = new LinkedList<>();
         this.fitness = new HashMap<>();
         this.costs = new HashMap<>();
     }
@@ -49,7 +50,7 @@ public class AStar extends HeuristicCostSearch {
         }
 
         while (!this.openNodes.isEmpty()) {
-            Node currentNode = openNodes.remove(0);
+            Node currentNode = ((LinkedList<Node>) openNodes).poll();
 
             //End test
             if (currentNode.equals(end)) {
@@ -65,9 +66,8 @@ public class AStar extends HeuristicCostSearch {
                     updateFitness(node, currentNode, end, graph);
                 }
             }
-
             //Sort new openList
-            openNodes.sort((s1, s2) -> Double.compare(getFitnessValue(s1), getFitnessValue(s2)));
+            Collections.sort((List<Node>) openNodes, (o1, o2) -> Double.compare(getFitnessValue((Node) o1), getFitnessValue((Node) o2)));
         }
         clearAll();
         Way result = new Way();
@@ -87,7 +87,7 @@ public class AStar extends HeuristicCostSearch {
         }
 
         while (!this.openNodes.isEmpty()) {
-            Node currentNode = openNodes.remove(0);
+            Node currentNode = ((LinkedList<Node>) openNodes).poll();
 
             //End test
             if (currentNode.equals(end)) {
@@ -105,7 +105,7 @@ public class AStar extends HeuristicCostSearch {
             }
 
             //Sort new openList
-            openNodes.sort((s1, s2) -> Double.compare(getFitnessValue(s1), getFitnessValue(s2)));
+            Collections.sort((List<Node>) openNodes, (o1, o2) -> Double.compare(getFitnessValue(o1), getFitnessValue(o2)));
         }
         clearAll();
         Way result = new Way();
