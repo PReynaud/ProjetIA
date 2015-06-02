@@ -50,6 +50,6 @@ public class LeggedFirebotTest extends FirebotTest {
             }
         }, 5000);
         getFirebot().run();
-        assertEquals(getGraph().getNode(6), getFirebot().getCurrentNode());
+        assertEquals(getGraph().getNode(2), getFirebot().getCurrentNode());
     }
 }

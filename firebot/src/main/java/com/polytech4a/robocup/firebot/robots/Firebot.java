@@ -98,6 +98,11 @@ public abstract class Firebot extends com.polytech4a.robocup.firebot.observers.O
      */
     private boolean inMovement = false;
 
+    /**
+     * If the robot extinguishes the fire, it is true. Else false.
+     */
+    private boolean extinguishingFire = false;
+
     public Firebot(int id, Graph graph, int capacity, ArrayList<EdgeType> edgeConstraints, ArrayList<NodeType> nodeConstraints, double speed, ISearch searchAlgorithm) {
         this.id = id;
         this.graph = graph;
@@ -215,24 +220,22 @@ public abstract class Firebot extends com.polytech4a.robocup.firebot.observers.O
      * Method for robot extinguishing the fire.
      */
     public void extinguishFire() {
-        new Thread() {
+        long i = 0, limit = computeTime();
+        new Timer("Extinguishing fire ...").schedule(new TimerTask() {
+            @Override
             public void run() {
-                long i = 0, limit = computeTime();
-                new Timer("Extinguishing fire ...").schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        setAvailability(true);
-                        currentNode.setType(NodeType.NORMAL);
-                        Random rdm = new Random();
-                        graph.getEdgesFromNode(currentNode).stream().forEach(e -> {
-                            if (rdm.nextInt(10) > 5) {
-                                e.setType(EdgeType.INONDEE);
-                            }
-                        });
+                currentNode.setType(NodeType.NORMAL);
+                fireUpdateNodeType(currentNode, NodeType.NORMAL);
+                Random rdm = new Random();
+                graph.getEdgesFromNode(currentNode).stream().forEach(e -> {
+                    if (rdm.nextInt(10) > 5) {
+                        e.setType(EdgeType.INONDEE);
+                        fireUpdateEdgeType(e, EdgeType.INONDEE);
                     }
-                }, limit);
+                });
+                availability = true;
             }
-        }.start();
+        }, limit);
     }
 
     @Override
@@ -240,14 +243,13 @@ public abstract class Firebot extends com.polytech4a.robocup.firebot.observers.O
         logger.info("Model: Robot " + getId() + " is running");
         while (!shutdown) {
             try {
-                if (destinationNode != null && currentNode.equals(destinationNode) && destinationNode.getType().equals(NodeType.INCENDIE)) {
+                if (destinationNode != null && currentNode.equals(destinationNode) && destinationNode.getType().equals(NodeType.INCENDIE) && !extinguishingFire) {
+                    extinguishingFire = true;
                     extinguishFire();
                 } else if (!inMovement && !wayToDestination.getNodes().isEmpty()) {
                     inMovement = true;
                     long time = (long) (currentNode.getEuclidianSpace(wayToDestination.getNodes().get(0)) / speed * 1000);
-
                     fireUpdateRobotMovement(this, currentNode, wayToDestination.getNodes().get(0), time);
-
                     new Timer("Firebot in movement").schedule(new TimerTask() {
                         @Override
                         public void run() {
