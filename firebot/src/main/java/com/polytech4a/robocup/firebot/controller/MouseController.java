@@ -47,8 +47,8 @@ public class MouseController implements MouseListener, MouseMotionListener {
             case ADD_FIRE_NODE:
                 NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
                 if (clickedNode != null) {
-                    //TODO ajouter au modèle
                     id = clickedNode.getId();
+                    mainController.getModel().getGraph().getNode(id).setType(NodeType.INCENDIE);
                     graph.deleteNode(clickedNode.getId());
                     graph.addFireNode(clickedNode.getX(), clickedNode.getY(), id);
                 }
