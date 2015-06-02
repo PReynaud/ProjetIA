@@ -34,13 +34,12 @@ public class RobotManager implements Runnable, ManagerObserver {
      * Boolean that tells if the manager has to shut down or not. If True, manager is shutted down.
      */
     private boolean shutdown = false;
+    private ArrayList<Node> assignedNodes = new ArrayList<>();
 
     public RobotManager(ArrayList<Firebot> robotTeam, Graph graph) {
         this.robotTeam = robotTeam;
         this.graph = graph;
     }
-
-    private ArrayList<Node> assignedNodes = new ArrayList<>();
 
     public ArrayList<Firebot> getRobotTeam() {
         return robotTeam;
@@ -120,7 +119,7 @@ public class RobotManager implements Runnable, ManagerObserver {
         ArrayList<Firebot> availableRobots = askAvailability();
         ArrayList<NodeType> types = new ArrayList<>();
         types.add(NodeType.INCENDIE);
-        List<Node> destinationNodes = graph.getNodes().stream().filter(n -> n.isNodeFromType(types) && !assignedNodes.contains(n)).collect(Collectors.toList());
+        List<Node> destinationNodes = graph.getNodes().stream().filter(n -> n.isNodeFromType(types) && assignedNodes.stream().allMatch(np -> !np.equals(n))).collect(Collectors.toList());
         if (destinationNodes.size() > 0) {
             for (Node n : destinationNodes) {
                 if (!availableRobots.isEmpty()) {
