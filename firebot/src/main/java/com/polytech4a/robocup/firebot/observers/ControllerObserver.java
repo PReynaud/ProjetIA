@@ -11,9 +11,15 @@ import com.polytech4a.robocup.graph.model.Node;
  *
  * @author Adrien CHAUSSENDE
  * @version 1.0
+ *          <p/>
+ *          Type of view Controller that can be notified by observable of the model.
  */
 public interface ControllerObserver {
 
+    /**
+     * @param edge
+     * @param type
+     */
     public void updateEdgeType(Edge edge, EdgeType type);
 
     public void updateNodeType(Node node, NodeType type);

@@ -14,42 +14,64 @@ import java.util.List;
  *
  * @author Adrien CHAUSSENDE
  * @version 1.0
+ *          <p/>
+ *          Observable of Robocup model.
  */
 public class Observable {
 
-    private List<ControllerObserver> observers;
+    private List<ControllerObserver> controllerObservers;
+
+    private List<ManagerObserver> managerObservers;
 
     public Observable() {
-        this.observers = new LinkedList<>();
+        this.controllerObservers = new LinkedList<>();
     }
 
     public void addControllerObserver(ControllerObserver observer) {
-        observers.add(observer);
+        controllerObservers.add(observer);
     }
 
     public void removeControllerObserver(ControllerObserver observer) {
-        observers.remove(observer);
+        controllerObservers.remove(observer);
     }
 
     public void removeControllerObservers() {
-        observers.clear();
+        controllerObservers.clear();
+    }
+
+    public void addManagerObserver(ManagerObserver observer) {
+        managerObservers.add(observer);
+    }
+
+    public void removeManagerObserver(ManagerObserver observer) {
+        managerObservers.remove(observer);
+    }
+
+    public void removeManagerObservers() {
+        managerObservers.clear();
     }
 
     synchronized public void fireUpdateEdgeType(Edge edge, EdgeType type) {
-        for(ControllerObserver observer : observers) {
+        for (ControllerObserver observer : controllerObservers) {
             observer.updateEdgeType(edge, type);
         }
     }
 
     synchronized public void fireUpdateNodeType(Node node, NodeType type) {
-        for(ControllerObserver observer : observers) {
+        for (ControllerObserver observer : controllerObservers) {
             observer.updateNodeType(node, type);
         }
     }
 
     public void fireUpdateRobotMovement(Firebot firebot, Node currentNode, Node nextNode, long time) {
-        for(ControllerObserver observer : observers) {
+        for (ControllerObserver observer : controllerObservers) {
             observer.updateRobotMovement(firebot, currentNode, nextNode, time);
+        }
+    }
+
+    public void fireUpdateActivity(Firebot firebot) {
+        for (ManagerObserver observer : managerObservers) {
+            observer.updateActivity(firebot);
         }
     }
 }
