@@ -26,6 +26,7 @@ public final class Dijkstra extends SearchAlgorithm {
 
     @Override
     public Way wayToNodeWithParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException {
+        Graph clonedGraph = graph.clone();
         openNodes.add(begin);
 
         while (!openNodes.isEmpty()) {
@@ -36,7 +37,7 @@ public final class Dijkstra extends SearchAlgorithm {
                 clearAll();
                 return way;
             }
-            ArrayList<Node> neighbours = graph.getNeighboursFromNodeWithParam(n, nodeTypes, edgeTypes);
+            ArrayList<Node> neighbours = clonedGraph.getNeighboursFromNodeWithParam(n, nodeTypes, edgeTypes);
             for (Node nei : neighbours) {
                 if (!coveredNodes.contains(nei)) {
                     openNodes.add(nei);
@@ -52,6 +53,7 @@ public final class Dijkstra extends SearchAlgorithm {
 
     @Override
     public Way wayToNodeWithoutParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException {
+        Graph clonedGraph = graph.clone();
         openNodes.add(begin);
 
         while (!openNodes.isEmpty()) {
@@ -62,7 +64,7 @@ public final class Dijkstra extends SearchAlgorithm {
                 clearAll();
                 return way;
             }
-            ArrayList<Node> neighbours = graph.getNeighboursFromNodeWithoutParam(n, nodeTypes, edgeTypes);
+            ArrayList<Node> neighbours = clonedGraph.getNeighboursFromNodeWithoutParam(n, nodeTypes, edgeTypes);
             for (Node nei : neighbours) {
                 if (!coveredNodes.contains(nei)) {
                     openNodes.add(nei);

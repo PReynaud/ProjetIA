@@ -325,7 +325,7 @@ public class Graph {
     }
 
     @Override
-    protected Graph clone() {
+    public Graph clone() {
         ArrayList<Node> clonedNodes = new ArrayList<>();
         ArrayList<Edge> clonedEdges = new ArrayList<>();
 

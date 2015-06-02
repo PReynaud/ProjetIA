@@ -41,6 +41,7 @@ public class AStar extends HeuristicCostSearch {
     @Override
     public Way wayToNodeWithParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException {
         //Initialisation
+        Graph clonedGraph = graph.clone();
         openNodes.add(begin);
         costs.put(begin, 0.0);
         try {
@@ -61,9 +62,9 @@ public class AStar extends HeuristicCostSearch {
             coveredNodes.add(currentNode);
 
             //Get the neighbours, update Costs, Fitness and Parents
-            for (Node node : graph.getNeighboursFromNodeWithParam(currentNode, nodeTypes, edgeTypes)) {
+            for (Node node : clonedGraph.getNeighboursFromNodeWithParam(currentNode, nodeTypes, edgeTypes)) {
                 if (!coveredNodes.contains(node)) {
-                    updateFitness(node, currentNode, end, graph);
+                    updateFitness(node, currentNode, end, clonedGraph);
                 }
             }
             //Sort new openList
@@ -78,6 +79,7 @@ public class AStar extends HeuristicCostSearch {
     @Override
     public Way wayToNodeWithoutParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException {
         //Initialisation
+        Graph clonedGraph = graph.clone();
         openNodes.add(begin);
         costs.put(begin, 0.0);
         try {
@@ -98,9 +100,9 @@ public class AStar extends HeuristicCostSearch {
             coveredNodes.add(currentNode);
 
             //Get the neighbours, update Costs, Fitness and Parents
-            for (Node node : graph.getNeighboursFromNodeWithoutParam(currentNode, nodeTypes, edgeTypes)) {
+            for (Node node : clonedGraph.getNeighboursFromNodeWithoutParam(currentNode, nodeTypes, edgeTypes)) {
                 if (!coveredNodes.contains(node)) {
-                    updateFitness(node, currentNode, end, graph);
+                    updateFitness(node, currentNode, end, clonedGraph);
                 }
             }
 
