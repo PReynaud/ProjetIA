@@ -35,6 +35,11 @@ public class RobotManager implements Runnable, ManagerObserver {
      */
     private boolean shutdown = false;
 
+    public RobotManager(ArrayList<Firebot> robotTeam, Graph graph) {
+        this.robotTeam = robotTeam;
+        this.graph = graph;
+    }
+
     public ArrayList<Firebot> getRobotTeam() {
         return robotTeam;
     }
@@ -49,11 +54,6 @@ public class RobotManager implements Runnable, ManagerObserver {
 
     public void setShutdown(boolean shutdown) {
         this.shutdown = shutdown;
-    }
-
-    public RobotManager(ArrayList<Firebot> robotTeam, Graph graph) {
-        this.robotTeam = robotTeam;
-        this.graph = graph;
     }
 
     /**
@@ -128,6 +128,7 @@ public class RobotManager implements Runnable, ManagerObserver {
                         assignedBot.setAvailability(false);
                         assignedBot.setAbleToMove(true);
                         availableRobots.remove(assignedBot);
+                        new Thread(assignedBot).start();
                     }
                 } else {
                     break;
