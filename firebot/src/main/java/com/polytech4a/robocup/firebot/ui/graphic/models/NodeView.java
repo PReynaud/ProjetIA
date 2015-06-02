@@ -73,7 +73,10 @@ public class NodeView {
      */
     public void drawNode(Graphics g){
         g.setColor(this.color);
-        g.fillOval(x-(size/2), y-(size/2), size, size);
+        g.fillOval(x - (size / 2), y - (size / 2), size, size);
+        g.setColor(Color.BLACK);
+        //TODO à effacer
+        g.drawString(Integer.toString(id), x - 5 , y + 2);
     }
 
 }

@@ -78,9 +78,9 @@ public class MouseController implements MouseListener, MouseMotionListener {
         /* Draw a robot */
         if(mainController.getSelectionMode().equals(EnumSelection.ADD_CROSS_COUNTRY_FIREBOT)){
             NodeView clickedNode = clickOnANode(graph.getNodes(), e.getX(), e.getY());
-            Node clickedNodeModel = mainController.getModel().getGraph().getNode(clickedNode.getId());
 
             if(clickedNode != null){
+                Node clickedNodeModel = mainController.getModel().getGraph().getNode(clickedNode.getId());
                 CrossCountryFirebot newBot = new CrossCountryFirebot(mainController.getModel().generateId(), graphModel, 100, new AStar());
                 newBot.setCurrentNode(clickedNodeModel);
                 newBot.addControllerObserver(mainController);

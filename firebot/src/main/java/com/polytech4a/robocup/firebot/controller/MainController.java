@@ -190,7 +190,7 @@ public class MainController implements ControllerObserver {
 
     @Override
     public void updateRobotMovement(Firebot firebot, Node currentNode, Node nextNode, long time) {
-        logger.info("View: Robot " + firebot.getId() + " is moving");
+        logger.info("View: Robot " + firebot.getId() + " is moving to " + nextNode.getId());
         ArrayList<FirebotView> robotsList = ((GraphicViewPanel) getView().getGraphicViewPanel()).getGraph().getRobots();
         ArrayList<NodeView> nodesList = ((GraphicViewPanel) getView().getGraphicViewPanel()).getGraph().getNodes();
 
