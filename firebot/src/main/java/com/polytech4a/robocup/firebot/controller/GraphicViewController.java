@@ -3,10 +3,7 @@ package com.polytech4a.robocup.firebot.controller;
 import com.polytech4a.robocup.firebot.robots.Firebot;
 import com.polytech4a.robocup.firebot.ui.GraphicViewPanel;
 import com.polytech4a.robocup.firebot.ui.graphic.models.FirebotView;
-import com.polytech4a.robocup.firebot.ui.graphic.models.GraphView;
-import com.polytech4a.robocup.firebot.ui.graphic.models.NodeView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,10 +33,5 @@ public class GraphicViewController {
                 }
             }
         }
-    }
-
-    private boolean isOnNode(NodeView node, int x, int y) {
-        double dist = Math.sqrt(Math.pow((node.getX() - x), 2) + Math.pow((node.getY() - y), 2));
-        return dist < node.getSize();
     }
 }
