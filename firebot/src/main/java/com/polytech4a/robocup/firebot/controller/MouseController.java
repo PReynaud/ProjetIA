@@ -114,6 +114,7 @@ public class MouseController implements MouseListener, MouseMotionListener {
             Node clickedNodeModel = mainController.getModel().getGraph().getNode(clickedNode.getId());
             firebot.setCurrentNode(clickedNodeModel);
             firebot.addControllerObserver(mainController);
+            firebot.addManagerObserver(mainController.getModel());
             this.mainController.getModel().getRobotTeam().add(firebot);
         }
         return clickedNode;

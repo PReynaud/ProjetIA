@@ -1,5 +1,6 @@
 package com.polytech4a.robocup.firebot.robots;
 
+import com.polytech4a.robocup.firebot.observers.ManagerObserver;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.model.Node;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
  *          <p/>
  *          Class representing the manager of the robot team, their task's affectation, and
  */
-public class RobotManager implements Runnable {
+public class RobotManager implements Runnable, ManagerObserver {
     private static final Logger logger = Logger.getLogger(RobotManager.class);
 
     /**
@@ -73,7 +74,7 @@ public class RobotManager implements Runnable {
      * Asks to each robot the distance separating them from destination. Returns the closest robot.
      *
      * @param availableRobots List of Firebots that are available.
-     * @param destination Destination node.
+     * @param destination     Destination node.
      * @return Closest robot from the node.
      */
     public Firebot askDistancesToNode(ArrayList<Firebot> availableRobots, Node destination) {
@@ -89,10 +90,11 @@ public class RobotManager implements Runnable {
 
     /**
      * Method to properly generate integer identifier for a robot.
+     *
      * @return Integer
      */
     public int generateId() {
-        if(robotTeam.isEmpty())
+        if (robotTeam.isEmpty())
             return 0;
         return robotTeam.stream().mapToInt(f -> f.getId()).max().getAsInt() + 1;
     }
@@ -102,7 +104,7 @@ public class RobotManager implements Runnable {
      */
     public void reset() {
         shutdown = true;
-        for(Firebot f : robotTeam) {
+        for (Firebot f : robotTeam) {
             f.reset();
         }
         robotTeam = null;
@@ -117,13 +119,14 @@ public class RobotManager implements Runnable {
         ArrayList<NodeType> types = new ArrayList<>();
         types.add(NodeType.INCENDIE);
         List<Node> destinationNodes = graph.getNodes().stream().filter(n -> n.isNodeFromType(types)).collect(Collectors.toList());
-        if(destinationNodes.size() > 0) {
-            for(Node n : destinationNodes) {
-                if(!availableRobots.isEmpty()) {
+        if (destinationNodes.size() > 0) {
+            for (Node n : destinationNodes) {
+                if (!availableRobots.isEmpty()) {
                     Firebot assignedBot = askDistancesToNode(availableRobots, n);
                     if (assignedBot != null) {
                         assignedBot.setDestinationNode(n);
                         assignedBot.setAvailability(false);
+                        assignedBot.setAbleToMove(true);
                         availableRobots.remove(assignedBot);
                     }
                 } else {
@@ -136,9 +139,13 @@ public class RobotManager implements Runnable {
     @Override
     public void run() {
         logger.info("Manager is running");
-        while(!shutdown) {
+        while (!shutdown) {
             distributeTasks();
         }
     }
 
+    @Override
+    public void updateActivity(Firebot firebot) {
+        firebot.setAbleToMove(false);
+    }
 }

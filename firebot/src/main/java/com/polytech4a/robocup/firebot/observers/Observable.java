@@ -25,6 +25,7 @@ public class Observable {
 
     public Observable() {
         this.controllerObservers = new LinkedList<>();
+        this.managerObservers = new LinkedList<>();
     }
 
     public void addControllerObserver(ControllerObserver observer) {

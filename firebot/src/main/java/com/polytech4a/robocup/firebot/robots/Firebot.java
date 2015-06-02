@@ -1,6 +1,5 @@
 package com.polytech4a.robocup.firebot.robots;
 
-import com.polytech4a.robocup.firebot.observers.Observable;
 import com.polytech4a.robocup.graph.enums.EdgeType;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
@@ -10,6 +9,7 @@ import com.polytech4a.robocup.graph.model.exceptions.NotFoundTypeException;
 import com.polytech4a.robocup.graph.model.exceptions.SearchException;
 import com.polytech4a.robocup.graph.model.search.ISearch;
 import com.polytech4a.robocup.graph.model.search.Way;
+import com.polytech4a.robocup.firebot.observers.Observable;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import java.util.TimerTask;
  *          <p/>
  *          Abstract class representing a firefighter robot.
  */
-public abstract class Firebot extends com.polytech4a.robocup.firebot.observers.Observable implements Runnable {
+public abstract class Firebot extends Observable implements Runnable {
 
     /**
      * Identifier of the Firebot.
@@ -103,6 +103,11 @@ public abstract class Firebot extends com.polytech4a.robocup.firebot.observers.O
      */
     private boolean extinguishingFire = false;
 
+    /**
+     * If the robot is authorized to move, it is true. Else false.
+     */
+    private boolean ableToMove = false;
+
     public Firebot(int id, Graph graph, int capacity, ArrayList<EdgeType> edgeConstraints, ArrayList<NodeType> nodeConstraints, double speed, ISearch searchAlgorithm) {
         this.id = id;
         this.graph = graph;
@@ -156,6 +161,10 @@ public abstract class Firebot extends com.polytech4a.robocup.firebot.observers.O
 
     public ISearch getSearchAlgorithm() {
         return searchAlgorithm;
+    }
+
+    public void setAbleToMove(boolean ableToMove) {
+        this.ableToMove = ableToMove;
     }
 
     /**
@@ -221,6 +230,7 @@ public abstract class Firebot extends com.polytech4a.robocup.firebot.observers.O
      */
     public void extinguishFire() {
         long i = 0, limit = computeTime();
+        Firebot self = this;
         new Timer("Extinguishing fire ...").schedule(new TimerTask() {
             @Override
             public void run() {
@@ -235,6 +245,7 @@ public abstract class Firebot extends com.polytech4a.robocup.firebot.observers.O
                 });
                 availability = true;
                 extinguishingFire = false;
+                fireUpdateActivity(self);
             }
         }, limit);
     }
@@ -244,10 +255,10 @@ public abstract class Firebot extends com.polytech4a.robocup.firebot.observers.O
         logger.info("Model: Robot " + getId() + " is running");
         while (!shutdown) {
             try {
-                if (destinationNode != null && currentNode.equals(destinationNode) && destinationNode.getType().equals(NodeType.INCENDIE) && !extinguishingFire) {
+                if (destinationNode != null && currentNode.equals(destinationNode) && currentNode.getType().equals(NodeType.INCENDIE) && !extinguishingFire) {
                     extinguishingFire = true;
                     extinguishFire();
-                } else if (!inMovement && !wayToDestination.getNodes().isEmpty()) {
+                } else if (ableToMove && !inMovement && destinationNode != null && !wayToDestination.getNodes().isEmpty()) {
                     inMovement = true;
                     long time = (long) (currentNode.getEuclidianSpace(wayToDestination.getNodes().get(0)) / speed * 1000);
                     fireUpdateRobotMovement(this, currentNode, wayToDestination.getNodes().get(0), time);
