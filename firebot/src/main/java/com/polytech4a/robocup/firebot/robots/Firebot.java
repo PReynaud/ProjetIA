@@ -234,7 +234,7 @@ public abstract class Firebot extends Observable implements Runnable {
         try {
             long i = 0, limit = computeTime();
             this.wait(limit);
-            currentNode.setType(NodeType.NORMAL);
+            graph.getNode(currentNode.getId()).setType(NodeType.NORMAL);
             fireUpdateNodeType(currentNode, NodeType.NORMAL);
             Random rdm = new Random();
             graph.getEdgesFromNode(currentNode).stream().forEach(e -> {
