@@ -34,6 +34,10 @@ public class RobotManager implements Runnable, ManagerObserver {
      * Boolean that tells if the manager has to shut down or not. If True, manager is shutted down.
      */
     private boolean shutdown = false;
+
+    /**
+     * Nodes that are already assigned by the manager to its team.
+     */
     private ArrayList<Node> assignedNodes = new ArrayList<>();
 
     public RobotManager(ArrayList<Firebot> robotTeam, Graph graph) {

@@ -14,8 +14,6 @@ import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 /**
@@ -248,23 +246,6 @@ public abstract class Firebot extends Observable implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-/*        new Timer("Extinguishing fire ...").schedule(new TimerTask() {
-            @Override
-            public void run() {
-                currentNode.setType(NodeType.NORMAL);
-                fireUpdateNodeType(currentNode, NodeType.NORMAL);
-                Random rdm = new Random();
-                graph.getEdgesFromNode(currentNode).stream().forEach(e -> {
-                    if (rdm.nextInt(10) > 5) {
-                        e.setType(EdgeType.INONDEE);
-                        fireUpdateEdgeType(e, EdgeType.INONDEE);
-                    }
-                });
-                wayToDestination.getNodes().clear();
-                fireUpdateActivity(self);
-            }
-        }, limit);*/
     }
 
     @Override
