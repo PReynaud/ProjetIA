@@ -1,6 +1,5 @@
 package com.polytech4a.robocup.firebot.robots;
 
-import com.polytech4a.robocup.firebot.robots.Firebot;
 import com.polytech4a.robocup.graph.enums.NodeType;
 import com.polytech4a.robocup.graph.model.Graph;
 import com.polytech4a.robocup.graph.model.Node;
@@ -87,10 +86,12 @@ public abstract class FirebotTest extends TestCase {
         destinationNode = graph.getNode(7);
     }
 
-    public void testExtinguishFire() throws NotFoundTypeException, MissingParameterException {
-        currentNode = graph.getNode(7);
-        getFirebot().setCurrentNode(currentNode);
-        getFirebot().extinguishFire();
-        assertEquals(NodeType.NORMAL, getFirebot().getCurrentNode().getType());
+    public synchronized void testExtinguishFire() throws NotFoundTypeException, MissingParameterException {
+        synchronized (getFirebot()) {
+            currentNode = graph.getNode(7);
+            getFirebot().setCurrentNode(currentNode);
+            getFirebot().extinguishFire();
+            assertEquals(NodeType.NORMAL, getFirebot().getCurrentNode().getType());
+        }
     }
 }
