@@ -8,9 +8,7 @@ import com.polytech4a.robocup.graph.model.exceptions.MissingParameterException;
 import com.polytech4a.robocup.graph.model.exceptions.SearchException;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * @author Dimitri on 16/05/2015.
@@ -45,9 +43,13 @@ public abstract class SearchAlgorithm implements ISearch {
     }
 
 
-    public abstract Way wayToNodeWithParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException;
+    public Way wayToNodeWithParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException{
+        return findBestWay(graph,begin,end,nodeTypes,edgeTypes,true);
+    }
 
-    public abstract Way wayToNodeWithoutParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException;
+    public Way wayToNodeWithoutParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException{
+        return findBestWay(graph,begin,end,nodeTypes,edgeTypes,false);
+    }
 
     /**
      * Get the path from the source node to the input node
@@ -75,11 +77,97 @@ public abstract class SearchAlgorithm implements ISearch {
     }
 
     /**
-     * Clear all the array attributes of the search
+     * Clear all the attributes of the search
      */
     protected void clearAll() {
         openNodes.clear();
         coveredNodes.clear();
         parentNodes.clear();
+    }
+
+    /**
+     * Test if currentNode is the target Node and return
+     * the Way to access it.
+     * @param currentNode actual Node
+     * @param end target Node
+     * @return the way from the begin node to the target or empty Way
+     */
+    protected Way endTest(Node currentNode, Node end){
+        if (currentNode.equals(end)) {
+            Way resultPath = recoverPath(currentNode);
+            clearAll();
+            return resultPath;
+        }
+        return null;
+    }
+
+    /**
+     * Initialize the search in adding the first node to openNodes
+     * @param begin first Node of the search
+     * @throws SearchException
+     */
+    protected void initialisation(Node begin) throws SearchException {
+        openNodes.add(begin);
+    }
+
+    /**
+     * Return the next node in openNode to process
+     * @return node to process
+     */
+    protected abstract Node getNextNode();
+
+    /**
+     * Function that add the current node to the openNodes and
+     * update its parent.
+     * @param parent parent Node
+     * @param neighbour neighbour Node
+     * @throws SearchException
+     */
+    protected void processNeighbour(Node parent, Node neighbour) throws SearchException {
+        parentNodes.put(neighbour, parent);
+        openNodes.add(neighbour);
+    }
+
+    /**
+     * Search the way from the node begin to the node end matching the parameters
+     *
+     * @param graph     graph of the search
+     * @param begin     start node
+     * @param end       objective node
+     * @param nodeTypes parameters for the nodes
+     * @param edgeTypes parameters for the edges
+     * @param whiteList boolean that tells if the parameters are used as
+     *                  whiteList (true) or blackList (false)
+     * @return the way found or empty way
+     */
+    protected Way findBestWay (Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes, boolean whiteList) throws SearchException {
+        Graph clonedGraph = graph.clone();
+        initialisation(begin);
+        while (!this.openNodes.isEmpty()) {
+            Node currentNode = getNextNode();
+            Way result = endTest(currentNode, end);
+            if (!(result ==null)){
+                return result;
+            }
+            coveredNodes.add(currentNode);
+
+            if (whiteList){
+                for (Node node : clonedGraph.getNeighboursFromNodeWithParam(currentNode, nodeTypes, edgeTypes)) {
+                    if (!coveredNodes.contains(node)) {
+                        processNeighbour(currentNode,node);
+                    }
+                }
+            }else{
+                for (Node node : clonedGraph.getNeighboursFromNodeWithoutParam(currentNode, nodeTypes, edgeTypes)) {
+                    if (!coveredNodes.contains(node)) {
+                        processNeighbour(currentNode,node);
+                    }
+                }
+            }
+        }
+        clearAll();
+        Way result = new Way();
+        result.setDistance(Double.NEGATIVE_INFINITY);
+        return result;
     }
 }

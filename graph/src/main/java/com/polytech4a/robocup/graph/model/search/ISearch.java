@@ -23,7 +23,7 @@ public interface ISearch {
      * @param end       objective node
      * @param nodeTypes parameters for the nodes
      * @param edgeTypes parameters for the edges
-     * @return the way found or null
+     * @return the way found or empty way
      */
     Way wayToNodeWithParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException;
 
@@ -35,7 +35,7 @@ public interface ISearch {
      * @param end       objective node
      * @param nodeTypes parameters for the nodes
      * @param edgeTypes parameters for the edges
-     * @return the way found or null
+     * @return the way found or empty way
      */
     Way wayToNodeWithoutParam(Graph graph, Node begin, Node end, ArrayList<NodeType> nodeTypes, ArrayList<EdgeType> edgeTypes) throws SearchException;
 }
